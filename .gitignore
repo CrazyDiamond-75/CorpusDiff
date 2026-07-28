@@ -25,11 +25,4 @@
 *.tdo
 *.synctex.gz
 
-*.drawio.bkp
 *.pdf
-
-.vscode
-.venv
-
-*.tsv
-*.pkl

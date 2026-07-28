@@ -1,0 +1,99 @@
+% DOCUMENT CLASS %
+\documentclass[a4paper, 12pt, oneside, ngerman, twocolumn]{article}   % for A4 Paper, 12pt fontsize.
+\setlength{\columnsep}{1cm}
+
+% PACKAGES%
+\usepackage{amsfonts}   % For a basic mathfont (many will be replaced by stix)
+\usepackage{amsmath}    % For basic math symbols
+%\usepackage{bbm}        % For \mathbbm (better version of \mathbb)
+\usepackage{mathrsfs}   % For \mathscr
+\usepackage{hyperref}   % For footnotes
+\usepackage{csquotes}   % For \textquote{}
+\usepackage{IEEEtrantools}  % For better alignments
+\usepackage{tikz}   % For a macro
+\usepackage{listings} % For code
+\usepackage{xcolor}   % For ... code
+\usepackage[babel, stretch=40]{microtype}
+\usepackage{enumitem}
+\usepackage[left=1.5cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[color=gray]{todonotes}
+\usepackage{epigraph}   % For epigraphs
+\usepackage{fancyhdr} % For headers and footers
+
+% To control how (section) titles look.
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalfont\Large\scshape\bfseries}
+{\thesection}
+{1em}
+{}
+
+% Language
+\usepackage[ngerman]{babel}
+
+% If needed
+\usepackage[nohyperlinks,smaller]{acronym}
+
+% For tests
+\usepackage{lipsum}
+
+%%% FONT CONFIGURATION %%%
+\usepackage{fontspec}
+
+% Updated version of Crimson Text
+\setmainfont{Cochineal}
+\setmonofont{Cascadia Code}[Scale=0.8]
+\usepackage[cochineal]{newtxmath} % To use Cochineal as a Math Font
+%%%
+
+% APA7 correct citing
+\usepackage[style=apa, backend=biber]{biblatex}
+\addbibresource{citations.bib}
+
+% MAKE DESCRIPTION ENVIRONMENTS HAVE ITALICIZED ITEMS %
+\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textit{#1}}
+
+% SETS %
+\newcommand*{\R}{\mathbb R}    % Set of real numbers
+\newcommand*{\N}{\mathbb N}    % Set of natural numbers
+\newcommand*{\Z}{\mathbb Z}    % Set of integers
+\newcommand*{\Q}{\mathbb Q}    % Set of rational numbers
+
+% BASIC CONFIGURATION %
+\pagestyle{plain}
+\allowdisplaybreaks
+
+% CODE %
+\definecolor{codepurple}{HTML}{7f0055}
+\definecolor{comment}{RGB}{0,128,0}
+\definecolor{number}{RGB}{9,136,90}
+\definecolor{string}{RGB}{163,21,21}
+
+% Things that are the same in all styles
+\lstdefinestyle{basic}{
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    frame=leftline,
+    keepspaces=true,
+    numbers=left,
+    firstnumber=1,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    commentstyle=\itshape\color{comment},
+    stringstyle=\color{string},
+    keywordstyle=\bfseries\color{codepurple},
+    texcl=true,
+    mathescape=true
+}
+
+\lstdefinestyle{pseudo}{
+    style=basic,
+    language=python,
+    morekeywords={do, od, for, if, fi, then, else, to, def, in, forall, exists, while, accept, reject},
+}
+
+\lstset{style=pseudo}
