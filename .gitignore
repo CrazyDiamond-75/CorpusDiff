@@ -26,3 +26,10 @@
 *.synctex.gz
 
 *.pdf
+
+# The dataset(s)
+*.tsv
+*.pkl
+
+# Python environment
+.venv
