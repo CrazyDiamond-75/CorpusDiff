@@ -1,17 +1,18 @@
 import pandas as pd
 
-df = pd.read_table('ndy_utf8.tsv', sep='\t')
+df = pd.read_table("ndy_utf8.tsv", sep="\t")
 
-sdf = df[['publishedAt', 'authorName', 'Text']]
+sdf = df[["publishedAt", "authorName", "Text"]]
 
 # Send to GC
 del df
 
 print("CREATED DF")
 
-sdf['publishedAt'] = sdf['publishedAt'].apply(lambda x : x[:10])
-sdf['publishedAt'] = pd.to_datetime(sdf['publishedAt'], format='%Y-%m-%d')
-sdf.sort_values(by='publishedAt', inplace=True)
+sdf["publishedAt"] = sdf["publishedAt"].apply(lambda x: x[:10])
+sdf["publishedAt"] = pd.to_datetime(sdf["publishedAt"], format="%Y-%m-%d")
+sdf["Text"] = sdf["Text"].map(lambda x: str(x))  # Force convert to string
+sdf.sort_values(by="publishedAt", inplace=True)
 
 print("SORTED SDF")
 

@@ -1,55 +1,68 @@
 import re
+import os
+import numpy as np
 import pandas as pd
-import spacy
+from tqdm.auto import tqdm
+from concurrent.futures import ThreadPoolExecutor
 
-# For spacy
-nlp: spacy.Language
+# Configure tqdm to use pandas
+tqdm.pandas(desc="Processing")
+
+
+# Version of df.map which splits df into chunks for each core to take.
+def parallel_map(df, func, workers=None):
+    workers = workers or os.cpu_count()
+    print(f"USING {workers} WORKERS")
+    # split by integer positions so we can take Series slices (preserves .map)
+    indices = np.array_split(np.arange(len(df)), workers)
+
+    def apply_idx(idx):
+        return df.iloc[idx].progress_map(func)
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(apply_idx, indices))
+
+    return pd.concat(results)
+
 
 def do(funcs, x):
     for f in funcs:
         f(x)
 
-def preprocess(text):
-    text = text.lower()
-    #text = re.sub(r"http\S+", " ", text)
-    #text = re.sub(r"[^\w\s]", " ", text)
-    #text = re.sub(r"\s+", " ", text).strip()
-    
-    #return [w.lemma_ for w in nlp(text)]
-    #return [t.lemma_ if t.lemma_ != '--' else t.text for t in nlp(text)]
-    return [t.lemma_ for t in nlp(text) if t.lemma_ != '--']
-    #return nlp(text)
+
+def nothing(_):
+    pass
+
 
 word_counts = {}
+
+
 def count_words(line):
     global word_counts
     # Use a tokenizer to tokenize text.
-    for word in preprocess(line):
-        #print(word)
+    for word in line:
+        # print(word)
         if word not in word_counts:
             word_counts[word] = 1
         else:
             word_counts[word] += 1
 
+
 def main():
-    global nlp
+    print("LOADING DATASET")
+    df = pd.read_pickle("ndy_utf8_lemma.pkl")
+    print("LOADING DATASET COMPLETE")
 
-    # German, core model, trained on news, small model (fastest).
-    # Do `python -m spacy download de_core_web_sm` before running
-    nlp = spacy.load("de_core_news_sm")
+    # print(df)
 
-    print("LOADING DATASET", end="")
-    df = pd.read_pickle('ndy_utf8_small.pkl')
-    print("\rLOADING COMPLETE")
+    print("STARTING MAP")
 
-    #for i, row in df.iterrows():
-    
-    df['Text'].map(lambda x: do([count_words], x))
-    print(word_counts.keys().sorted(key = lambda x : -word_counts[x]))
-
-    print(df)
+    parallel_map(df["Text"], count_words, 1)  # 1 Worker because of collisions
+    # print(word_counts)
+    words = list(word_counts.keys())
+    words.sort(key=lambda x: -word_counts[x])
+    print(words[:50])
 
 
 if __name__ == "__main__":
     main()
-
