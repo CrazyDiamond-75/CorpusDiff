@@ -34,3 +34,6 @@
 # Python environment
 .venv
 __pycache__
+
+# Hugging Face Access Token
+HFTOKEN.py
