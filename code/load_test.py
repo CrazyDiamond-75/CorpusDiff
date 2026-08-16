@@ -1,6 +1,7 @@
 import pandas as pd
+import sys
 
-df = pd.read_pickle('ndy_utf8_small.pkl')
+df = pd.read_pickle(sys.argv[1])
 
 print(df.dtypes)
 print(df)
