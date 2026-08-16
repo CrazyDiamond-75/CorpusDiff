@@ -30,6 +30,7 @@
 # The dataset(s)
 *.tsv
 *.pkl
+*.tar.xz
 
 # Python environment
 .venv
