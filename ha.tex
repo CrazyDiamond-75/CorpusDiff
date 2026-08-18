@@ -1,6 +1,6 @@
 \input{preamble}
 
-\title{Wertewandel in Digitaler Kinder- und Jugendkultur \\ \small Lehrforschungsprojekt Medienpädagogik}
+\title{Wertewandel in Digitaler Kinder- und Jugendkultur \\ \large Lehrforschungsprojekt Medienpädagogik}
 \date{22. September 2026}
 \author{Henri Heyden \\%
     \small stu240825 \\%
@@ -15,12 +15,12 @@
     \section*{Abstract}
     In diesem Lehrforschungsprojekt wird die digitale Jugend- und Kinderkultur auf Basis von YouTube Kommentaren im Zeitraum 2008 bis 2018 analysiert.
     Dafür wird der Sprachkorpus NottDeuYTSch verwendet, der 3 Millionen Kommentare von hauptsächlich Jugendlichen in diesem Zeitraum beinhaltet.
-    Die Analyse wurde quantitativ durchgeführt, indem verschiedene Algorithmen entworfen werden, welche Worthäufigkeiten zählen, Wortpolarität messen, sowie Wort- und Kultur Trends identifizieren.
-    \dots
+    Die Analyse wurde quantitativ durchgeführt, indem verschiedene Algorithmen entworfen wurden, welche Worthäufigkeiten zählen, Wortpolarität messen, sowie Wort- und Kultur Trends identifizieren.
+    Letzteres wurde realisiert indem zunächst ein KI Modell verwendet wurde, um vektorielle Einbettungen der Kommentare zu generieren, welche dann durch Clustering und Dimensionreduktion verarbeitet wurden.
 
     \subsection*{Schlüsselwörter}
     \scshape
-    Kinderkultur, Jugendkultur, Mikrokultur, Werte, Praktiken, Wertewandel, Progressivität, Polarität, Jugendsprache, NottDeuYTSch, YouTube, Python, Pandas, Spacy.
+    Kinderkultur, Jugendkultur, Mikrokultur, Werte, Praktiken, Wertewandel, Progressivität, Polarität, Jugendsprache, NottDeuYTSch, YouTube, Python, Pandas, Spacy, Embedding, Clustering, Roberta.
 
     \tableofcontents
 \end{titlepage}
@@ -40,13 +40,14 @@ Die Medienpädagogik beschäftigt sich dementsprechend viel mit Medienpraktiken 
 Darüber hinaus werden Kind-Medien Interaktionen aus verschiedenen Blickwinkeln betrachtet.
 Sie werden nicht nur im Zuge der \emph{Enkulturation} verwendet, bei der eine gewollte \emph{Erwachsenenkultur} angelernt wird.
 Stattdessen erschaffen Kind-Medien Interaktionen außerdem sogenannte unabhängige \emph{Mikrokulturen}, die innerhalb der ihrer digitalen Räume praktiziert werden.
+\textcite{Sch21} beschreibt dieses Phänomenen als \emph{soziomaterielle Figurationen}, die sich innerhalb der Medienpraktiken offenbaren.
 Schließlich prägen diese Mikrokulturen die Erwachsenenkultur, da letztendlich Kinder mit Erwachsenen interagieren und aufwachsen.
 Die moderne Pädagogik beobachtet somit in Kind-Medien Interaktionen also nicht nur eine hierarchische Lehrer zu Kind Beziehung, sondern einen flexiblen Austausch innerhalb und zwischen Generationen.
 
 Kind-Medien Interaktionen lassen sich unter anderem direkt in ihren digitalen Räumen beobachten, um auf die Werte und Normen ihrer Mikrokulturen und dementsprechend einen Teil der digitalen Kinderkultur zu schließen.
 Das Ziel dieser Arbeit ist es, genau diesen Schritt zu vollziehen -- eine Analyse der digitalen Kinderkultur und ihrer Werte auf Anhand von Nutzerinhalten eines digitalen Raumes.
 
-\section{Methode}
+\section{Methoden und Zugänge}
 Wie bereits erläutert, kann eine Kultur- bzw. Werteanalyse der digitalen Jugendkultur durchgeführt werden, indem man Inhalte, die von Jugendlichen im Internet geteilt werden, beobachtet und analysiert.
 Eine andere Methode wäre auch, die Inhalte, welche Jugendliche und Kinder im Internet sehen, direkt zu analysieren.
 Dies funktioniere, da die Interaktionen der Nutzer, also \emph{Likes}, \emph{Dislikes}, oder Kommentare, definieren, wie sie sich mit dem Inhalt auseinandersetzen -- stimmt der Nutzer den Inhalten/Werten eines Posts zu, oder kritisiert er/sie ihn; welche Posts mit welchen Inhalten/Werten werden öfter angesehen als andere?
@@ -54,18 +55,25 @@ Eine solche Analyse ist beispielweise nötig, wenn es um Plattformen geht, bei d
 So ist es zum Beispiel der Fall bei \emph{Youtube Kids}, wo die Anzahl an Likes und Dislikes unter einem Video nicht öffentlich einsehbar ist, und Nutzer nicht kommentieren können.
 
 Eine weitere Debatte ist die Art der datengestützten Analyse -- wird sie quantitativ oder qualitativ vollzogen?
-Hierbei offenbart sich ein methodologischer Nachteil der qualitativen Analyse von Inhalten:
+Hierbei offenbart sich ein methodologischer Nachteil der direkten qualitativen Analyse von Inhalten:
 Werden nur einzelne Posts und Kommentare analysiert, kann zwar für sie festgestellt werden, welche Werte sie vertreten, wie sie bei der Jugend ankommen, oder ob sie pädagogisch wertvoll sind, jedoch existiert ein Risiko, dass jene Inhalte eine unfaire Stichprobe repräsentieren, die nicht für das Gesamtbild sprechen.
 Rein wissenschaftlich gesehen, könnte der Pädagoge oder die Pädagogin sogar unterbewusst Inhalte wählen, sodass seine/ihre persönliche Wertvorstellung der Kinderkultur die Analyse färbt.
-Somit komme ich zu dem Schluss, dass für eine Analyse der digitalen Kinderkultur es eindeutig wichtig ist, ein breites Bild von Nutzerinhalten anzuschauen.
+Für eine Analyse der digitalen Kinderkultur ist es wichtig, ein breites Bild von Nutzerinhalten anzuschauen.
+
+Ein Nachteil der quantitativen Analyse ist es, dass sie nicht direkt menschlich ausgeführt werden kann.
+Wenn ein breiter Überblick der digitalen Kinderkultur gesucht wird, ist es nötig sehr viele Daten auszuwerten -- was somit nur hauptsächlich maschinell möglich ist.
+Das erschwert sich dazu, dass viele digitale Plattformen heutzutage so funktionieren, dass es nur langsam möglich ist direkt Nutzerinhalte von ihrer Plattform herunterzuladen.
+Die maschinelle Auswertung von Text, in diesem Fall eine Extraktion von Werten, ist zudem nicht leicht zu implementieren -- ein Computer kann zwar leicht die Syntax einer Sprache erkennen, jedoch ist es schwerer als für den Sprecher ihre Semantik zu deuten.
 
 Ein Medium, welches von vielen Kindern und Jugendlichen weltweit verwendet wird, ist die digitale Videohosting Plattform \emph{YouTube}.
-Nutzer können dort unter den meisten Inhalten, u.a. Videos und andere Kommentare, eigene Kommentare hinzufügen.
+Nutzer können dort unter den meisten Inhalten, u.a. Videos, eigene Kommentare hinzufügen.
 Somit ermöglicht YouTube verschiedene Kind-Medien Interaktionen, insbesondere einen Austausch von Kinderkulturen, sowie die Praktizierung von digitalen Kinderkulturen und Mikrokulturen.
-Daraus lässt sich schließen, dass YouTube Kommentare sich verwenden lassen, um digitale Kinderkulturen zu analysieren.
 
 \subsection{NottDeuYTSch}
-NottDeuYTSch \autocite{Cot18} ist eine Sammlung von 3 Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
+NottDeuYTSch \autocite{Cot18, Cot23} ist eine Sammlung von 3 Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
+Dieses Korpus wurde selektiv gesammelt, um ein repräsentatives Gesamtbild der deutschen Jugendlichen YouTube Sprache darzustellen.
+Da jeder Kommentar zeitlich indiziert wurde, können Sprach- und Wertewandel durch den Kontrast im Laufe der Zeit dargestellt werden.
+NottDeuYTSch eignet sich somit also hervorragend als Datenquelle, um die digitale YouTube Kinderkultur im Wandel zwischen 2008 und 2018 zu analysieren.
 
 \printbibliography
 \end{document}
