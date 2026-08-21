@@ -14,7 +14,8 @@
 
     \section*{Abstract}
     In diesem Lehrforschungsprojekt wird die digitale Jugend- und Kinderkultur auf Basis von YouTube Kommentaren im Zeitraum 2008 bis 2018 analysiert.
-    Dafür wird der Sprachkorpus NottDeuYTSch verwendet, der 3 Millionen Kommentare von hauptsächlich Jugendlichen in diesem Zeitraum beinhaltet.
+    Dafür wird das Sprachkorpus \emph{NottDeuYTSch} verwendet, das 3 Millionen Kommentare von hauptsächlich Jugendlichen in diesem Zeitraum beinhaltet.
+
     Die Analyse wurde quantitativ durchgeführt, indem verschiedene Algorithmen entworfen wurden, welche Worthäufigkeiten zählen, Wortpolarität messen, sowie Wort- und Kultur Trends identifizieren.
     Letzteres wurde realisiert indem zunächst ein KI Modell verwendet wurde, um vektorielle Einbettungen der Kommentare zu generieren, welche dann durch Clustering und Dimensionreduktion verarbeitet wurden.
 
@@ -70,10 +71,31 @@ Nutzer können dort unter den meisten Inhalten, u.a. Videos, eigene Kommentare h
 Somit ermöglicht YouTube verschiedene Kind-Medien Interaktionen, insbesondere einen Austausch von Kinderkulturen, sowie die Praktizierung von digitalen Kinderkulturen und Mikrokulturen.
 
 \subsection{NottDeuYTSch}
-NottDeuYTSch \autocite{Cot18, Cot23} ist eine Sammlung von 3 Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
-Dieses Korpus wurde selektiv gesammelt, um ein repräsentatives Gesamtbild der deutschen Jugendlichen YouTube Sprache darzustellen.
+\emph{NottDeuYTSch} \autocite{Cot18, Cot23} ist eine Sammlung von drei Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
+Die Daten wurden selektiv gesammelt, um sowohl ein repräsentatives Gesamtbild der deutschen Jugendlichen YouTube Sprache darzustellen, als auch um ein Korpus zu erstellen, der vergleichbar mit anderen sei \autocite{Cot23}.
+
 Da jeder Kommentar zeitlich indiziert wurde, können Sprach- und Wertewandel durch den Kontrast im Laufe der Zeit dargestellt werden.
 NottDeuYTSch eignet sich somit also hervorragend als Datenquelle, um die digitale YouTube Kinderkultur im Wandel zwischen 2008 und 2018 zu analysieren.
+
+\subsection{RoBERTa}
+\emph{Cross English and German RoBERTa} \autocite{May20, RG19} ist ein Transformer KI Modell, welches verwendet werden kann, um aus englischem und deutschem Text vektorielle Einbettungen zu generieren.
+Die generierten Vektoren können mittels Winkeldistanz abgeglichen werden, um eine semantische Nähe zwischen Texten zu finden.
+Somit kann die Bedeutung eines Textes maschinell herausgefunden werden, indem zu verschiedenen Texten verglichen wird, bei denen eine Semantik bereits definiert ist.
+Der Vorteil dieses RoBERTa Modells ist es, dass wie erwähnt sowohl englischer und deutscher Text eingebettet und verglichen werden kann -- und das mit hoher Genauigkeit \autocite{RG19}.
+
+Für diese Arbeit ist ein Transformer Modell wie RoBERTa sehr nützlich, da die händische Auswertung eines großen Datensatzes wie NottDeuYTSch nahezu unmöglich ist, vollständig zu vollziehen, oder ungenau wäre, wenn man sich auf eine evaluierbare Teilmenge beziehen würde.
+
+\subsection{Qbias}
+\emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Zeitschriftartikel als entweder politisch \emph{links}, \emph{gemäßigt}, und \emph{rechts} einstuft.
+Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
+Da die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube Jugend-Sprache gleicht, sollte es jedoch nicht sich alleine auf diesen Datensatz bezogen werden für eine Analyse.
+
+% \subsection{Aksenov Et. Al.}
+% Deutsche Alternative zu Qbias, leider kein Link irgendwo, der Datensatz ist aus "Copyright-Gründen" nicht einsehbar.
+
+\subsection{PoliTweets}
+\textcite{Bie22} präsentiert \emph{PoliTweets} -- einen Datensatz aus zehntausenden deutschen Posts der Social Media Plattform \emph{X}, ehemals \emph{Twitter}.
+Einzelne \emph{Tweets} wurden dabei mit verschiedenen Labels ausgezeichnet, die eine politische Gesinnung zu einem bestimmten Thema darlegen.
 
 \printbibliography
 \end{document}
