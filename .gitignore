@@ -29,6 +29,7 @@
 
 # The dataset(s)
 *.tsv
+*.csv
 *.pkl
 *.tar.xz
 
