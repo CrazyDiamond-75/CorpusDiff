@@ -39,3 +39,6 @@ __pycache__
 
 # Hugging Face Access Token
 HFTOKEN.py
+
+# Generated plots
+politweets/
