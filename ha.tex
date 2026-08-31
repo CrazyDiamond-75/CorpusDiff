@@ -21,7 +21,7 @@
 
     \subsection*{Schlüsselwörter}
     \scshape
-    Kinderkultur, Jugendkultur, Mikrokultur, Werte, Praktiken, Wertewandel, Progressivität, Polarität, Jugendsprache, NottDeuYTSch, YouTube, Python, Pandas, Spacy, Embedding, Clustering, Roberta.
+    Kinderkultur, Wertewandel, NottDeuYTSch, RoBERTa, PoliTweets
 
     \tableofcontents
 \end{titlepage}
@@ -79,16 +79,11 @@ NottDeuYTSch eignet sich somit also hervorragend als Datenquelle, um die digital
 
 \subsection{RoBERTa}
 \emph{Cross English and German RoBERTa} \autocite{May20, RG19} ist ein Transformer KI Modell, welches verwendet werden kann, um aus englischem und deutschem Text vektorielle Einbettungen zu generieren.
-Die generierten Vektoren können mittels Winkeldistanz abgeglichen werden, um eine semantische Nähe zwischen Texten zu finden.
+Die generierten 768-dimensionalen Vektoren können mittels Winkeldistanz abgeglichen werden, um eine semantische Nähe zwischen Texten zu finden.
 Somit kann die Bedeutung eines Textes maschinell herausgefunden werden, indem zu verschiedenen Texten verglichen wird, bei denen eine Semantik bereits definiert ist.
 Der Vorteil dieses RoBERTa Modells ist es, dass wie erwähnt sowohl englischer und deutscher Text eingebettet und verglichen werden kann -- und das mit hoher Genauigkeit \autocite{RG19}.
 
 Für diese Arbeit ist ein Transformer Modell wie RoBERTa sehr nützlich, da die händische Auswertung eines großen Datensatzes wie NottDeuYTSch nahezu unmöglich ist, vollständig zu vollziehen, oder ungenau wäre, wenn man sich auf eine evaluierbare Teilmenge beziehen würde.
-
-\subsection{Qbias}
-\emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Zeitschriftartikel als entweder politisch \emph{links}, \emph{gemäßigt}, und \emph{rechts} einstuft.
-Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
-Da die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube Jugend-Sprache gleicht, sollte es jedoch nicht sich alleine auf diesen Datensatz bezogen werden für eine Analyse.
 
 % \subsection{Aksenov Et. Al.}
 % Deutsche Alternative zu Qbias, leider kein Link irgendwo, der Datensatz ist aus "Copyright-Gründen" nicht einsehbar.
@@ -96,6 +91,78 @@ Da die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube Ju
 \subsection{PoliTweets}
 \textcite{Bie22} präsentiert \emph{PoliTweets} -- einen Datensatz aus zehntausenden deutschen Posts der Social Media Plattform \emph{X}, ehemals \emph{Twitter}.
 Einzelne \emph{Tweets} wurden dabei mit verschiedenen Labels ausgezeichnet, die eine politische Gesinnung zu einem bestimmten Thema darlegen.
+
+PoliTweets eignet sich aus vielen Gründen sehr gut für diese Arbeit.
+Erst mal, da es aus nur aus deutschsprachigen Texten im Online-Lingus besteht, jedoch auch, da Zwölf der Kategorien sowohl positive als auch negative Beispiele erhalten.
+Letzteres ist sehr wichtig, da RoBERTas 768-dimensionale Vektoren nicht nur die \emph{Aussage} eines Textes kodieren, sondern auch ihren \emph{Stil}, also die Art von Sprache im Text.
+Dementsprechend würde eine Metrik, die beispielweise Progressivität misst auf Basis der Winkeldistanz zu \emph{progressiven} Texten, zum größten Teil nur die stilistische Nähe zu der Sprache im Datensatz der progressiven Texte messen.
+
+Mithilfe von positiven und negativen Labels zu einzelnen Themen, kann man stattdessen eine Metrik definieren, basierend auf der Differenz der Winkeldistanz zu positiven und negativen Beispielen.
+Formaler, sei \(\lambda : V^2 \rightarrow [-1, 1], (v, w) \mapsto v \cdot w\) die Kosinus-Winkeldistanz\footnote{Da die Vektoren normalisiert wurden, also Länge 1 haben, entfällt die Division durch das Produkt der Längen der Vektoren.} zwischen Vektoren \(v, w\) im verwendeten normalisiertem Vektorraum \(V \subseteq [-1, 1]^{768}\).
+Außerdem, seien \(P_l, N_l, \Omega \subseteq V\) paarweise disjunkt.
+\(P_l\) und \(N_l\) stellen die positiven und negativen Einbettungen aus PoliTweets zu einem Thema \(l\) dar, und \(\Omega\) ist die Menge der Einbettungen aus NottDeuYTSch.
+Die \(l\)-Metrik \(\alpha_l : \Omega \rightarrow [-1, 1]\) ist definiert durch
+\[\alpha_l: v \mapsto \mu_{\{u \in P_l \mid \lambda(v, u)\}} - \mu_{\{u \in N_l \mid \lambda(v, u)\}}.\]
+In anderen Worten, \(\alpha_l(v)\) ist die Differenz zwischen der durchschnittlichen Distanz zu positiven und negativen Texten über Thema \(l\).
+Durch diesen Ansatz umgeht man das Problem, dass \(\lambda\) zwischen \(\Omega\) und \(P_l\) eben nicht nur \(l\) misst, sondern auch die stilistische Nähe zu Texten aus PoliTweets.
+
+Zu dieser Methode ist zu beachten, dass nicht einzelne Werte dieser Metrik zu interpretieren sind, sondern mehrere im Zeitlichen Verlauf.
+
+\subsection{Lemmatisierung \& Bag-of-Words}
+Eine sehr simple, konservative Methode der Computerlinguistik basiert auf der Lemmatisierung von Wörtern.
+Hierbei wird ein Wort auf eine Grundform, ein \emph{Lemma}, reduziert, welches die Bedeutung des Wortes repräsentiert.
+Beispielweise wäre das Lemma von \emph{lief} das Verb \emph{laufen}, oder jeglicher Artikel in jeglichem Kasus wird zu \emph{der} umgewandelt.
+
+Im Gegensatz zur Wortstammfindung, wo ein Lexem kontextfrei in seine Urform umgewandelt wird, behält die Lemmatisierung die Semantik aus dem Kontext.
+Beispielweise produziert das Wort \emph{Maus} ein unterschiedliches Lemma, je nachdem ob das Tier oder die Computermaus gemeint ist.
+Dementsprechend ist Lemmatisierung nicht eine triviale Aufgabe wo nach einer endlichen Menge an Regeln ein Wort auf eine Grundform reduziert wird.
+
+Mittels der Python Bibliothek \emph{spaCy} \autocite{HMVB20} können Transformer Modelle verwendet werden, um Texte zu Lemmatisieren.
+Dazu bietet spaCy das \lstinline|de_core_news_sm|\footnote{\url{https://spacy.io/models/de\#de_core_news_md}} Modell an, welches wie RoBERTa, Einbettungen von Texten produziert.
+Der relevante Unterschied ist jedoch, dass spaCy einzelne Lexeme, bzw. \emph{Tokens}, einbettet, und nicht ganze Sätze.
+Somit können einzelne Kommentare in Listen an Lemmas umgewandelt werden.
+Dabei werden einige unnötige Worttrenner, wie Leerzeichen, Ausrufezeichen, oder \lstinline|:D| aus dem Text entfernt.
+
+Die nun generierten Lemmas können mithilfe von simplen Algorithmen analysiert werden.
+Ein möglicher Algorithmus ist ein sog. \emph{bag-of-words} Algorithmus, bei dem einfach Wortzahlen gezählt werden.
+Verschiedene Wörter haben schließlich unterschiedliche Bedeutungen, und können verschiedene Werte repräsentieren.
+Zwar verschwindet der Kontext, in dem das Lemma verwendet wurde, jedoch impliziert seine Popularität die relative Relevanz des Diskurses über den Wert, den es repräsentiert.
+
+\subsection{BERTopic}
+\textcite{Gro22} stellt einen Algorithmus vor der verwendet werden kann, um die relevantesten Themen aus einer Sammlung von Texten zu finden.
+BERTopic ist modular aufgebaut und besteht aus den folgenden Schritten.
+\begin{enumerate}
+    \item Vektorielle Einbettung des Korpus \\
+        Zuerst werden mittels eines Transformers Vektoren von einzelnen Texten erstellt.
+        Dazu lässt sich RoBERTa direkt verwenden.
+
+    \item Dimensionsreduktion des Vektorraums \\
+        BERTopic verwendet verschiedene Techniken, wie beispielweise UMAP \autocite{MHM20}, um die Dimension des Vektorraums so zu reduzieren, dass so wenig wie möglich relevante Informationen verloren gehen.
+
+    \item Clustering der Vektoren \\
+        Nun werden Gruppen, sog. \emph{Cluster}, innerhalb des Vektorraums gefunden -- konzentrierte Strukturen von Vektoren, die verschiedene Themen repräsentieren.
+        Dieser Schritt erfolgt meistens mit dem HDBSCAN \autocite{MB19} Algorithmus.
+
+    \item Cluster Namen Generierung \\
+        Zuletzt werden allen Clustern Namen zugeordnet, die den jeweiligen Cluster repräsentieren -- dem \emph{Topic}.
+        BERTopic verwendet dabei einen bag-of-words Ansatz, bei dem der Name eines Clusters aus den häufigsten Wörtern generiert wird, welche selten in anderen Clustern vorkommen.
+\end{enumerate}
+Somit können mittels BERTopic ähnliche Ergebnisse wie mit dem vorherigem Ansatz erreicht werden.
+Der wichtige Unterschied ist jedoch, dass der Kontext im gesamten Kommentar wichtig ist für seine Bedeutung, wobei der Lemmatisierung nur die Bedeutung einzelner Wörter ermittelt wird.
+BERTopic ist sozusagen eine raffiniertere Version des klassischen bag-of-words Ansatzes.
+
+\section{Fazit}
+\dots
+
+% Irgendwo muss ich das hier noch hintun
+\section{Ausblick}
+\begin{description}
+    \item[Qbias] \emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Zeitschriftartikel als entweder politisch \emph{links}, \emph{gemäßigt}, und \emph{rechts} einstuft.
+        Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
+        Ähnlich wie bei PoliTweets ergibt sich das Problem, dass die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube Jugendsprache gleicht.
+        Dementsprechend sollte Qbias es jedoch nicht sich alleine auf diesen Datensatz bezogen werden für eine Analyse.
+
+\end{description}
 
 \printbibliography
 \end{document}
