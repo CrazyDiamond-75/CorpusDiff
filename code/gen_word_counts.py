@@ -9,6 +9,8 @@ def count_words(line):
 
     # Line is an array of lemmatized words
     for word in line:
+        word = word.casefold()
+
         # print(word)
         if word not in word_counts:
             word_counts[word] = 1
