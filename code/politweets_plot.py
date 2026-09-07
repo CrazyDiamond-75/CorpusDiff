@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, linregress
 import gc
 
 # Theming
@@ -60,7 +60,7 @@ gc.collect()
 dimensions = [l for l in df.columns.array if l != "publishedAt"]
 
 df_correlations = pd.DataFrame(
-    columns=["Dimension", "Correlation", "P-Value", "95% CI"]
+    columns=["Dimension", "Correlation", "P-Value", "95% CI", "Increase/Q"]
 )
 
 for i, l in enumerate(dimensions):
@@ -74,11 +74,12 @@ for i, l in enumerate(dimensions):
     Corr = res.statistic
     Pval = res.pvalue
     CInt = tuple(float(v) for v in res.confidence_interval())
-    df_correlations.loc[i] = [l, Corr, Pval, CInt]
+    IncQ = linregress(x_num, y).slope
+    df_correlations.loc[i] = [l, Corr, Pval, CInt, IncQ]
 
     plt.figure(figsize=(12, 6))
     # sns.lineplot(data=df, x="publishedAt", y=l, estimator="median", errorbar=("pi", 50))
-    # sns.scatterplot(data=df, x="publishedAt", y=l, alpha=0.01, edgecolor=None)
+
     ax = sns.boxenplot(x=x, y=y, width=1.0, showfliers=False)
 
     # print(f"{l}\tMedian trend r = {linear_fit.rvalue:.2f}")
