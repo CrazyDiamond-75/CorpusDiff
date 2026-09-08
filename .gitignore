@@ -40,9 +40,6 @@ __pycache__
 # Hugging Face Access Token
 HFTOKEN.py
 
-# Generated plots (for now)
-politweets/
-
 # For drawio
 *.bkp
 
