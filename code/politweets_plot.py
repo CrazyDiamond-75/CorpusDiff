@@ -14,7 +14,6 @@ is available at https://opensource.org/license/MIT.
 SPDX-License-Identifier: MIT
 """
 
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
