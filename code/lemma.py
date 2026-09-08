@@ -1,3 +1,19 @@
+"""
+lemma.py
+Converts NottDeuYTSch to a Dataframe which stores lists of lemmas instead of texts.
+Needs the NottDeuYTSch corpus in .pkl format ("ndy_utf8_small.pkl")
+Generates a copy of the input but with lists of lemmas ("ndy_utf8_lemma.pkl")
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
 import os
 import pandas as pd
 import spacy

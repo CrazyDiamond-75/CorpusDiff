@@ -1,3 +1,19 @@
+"""
+use_word_counts.py
+Retrives the word counts from NottDeuYTSch and plots a wordcloud from the data
+Needs the word counts ("ndy_utf8_word_counts.pkl")
+Generates a wordcloud in the "wordcloud" directory ("wordcloud/wc.png")
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt

@@ -1,3 +1,20 @@
+"""
+politweets_plot.py
+Creates boxenplots, Pearson correlation coefficients, and least-squares regressor slope values based on the l-metric between NottDeuYTSch and Politweets
+Needs cosine similarity scores of all labels in Politweets on NottDeuYTSch ("ndy_utf8_politweets.pkl")
+Generates boxenplots under "politweets" directory, and a .pkl which stores the correlations and slope values ("ndy_politweets_correlations.pkl")
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
+
 import numpy as np
 import pandas as pd
 import seaborn as sns

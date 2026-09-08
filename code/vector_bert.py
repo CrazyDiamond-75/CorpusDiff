@@ -1,4 +1,26 @@
-from header import *
+"""
+vector_bert.py
+Applies BERTopic on NottDeuYTSch
+Needs:
+- vector embeddings ("ndy_utf8_vectors.pkl")
+- texts ("ndy_utf8_small.pkl")
+Generates:
+- Topic Identifier for Sentence ("ndy_utf8_BERT_topics.pkl")
+- Topic Name for Topic Identifier ("ndy_utf8_BERT_topic_names.pkl")
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
+
+import pandas as pd
+import numpy as np
 import gc
 from bertopic import BERTopic
 from umap import UMAP

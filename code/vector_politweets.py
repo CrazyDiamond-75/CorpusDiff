@@ -1,3 +1,21 @@
+"""
+vector_politweets.py
+Calculates the average similarity scores for all NottDeuYTSch embeddings and labled Politweets embeddings
+Needs:
+- NottDeuYTSch embeddings ("ndy_utf8_vectors.pkl")
+- Politweets embeddings ("politweets_v02_vectors.pkl")
+Generates a Dataframe containing all average similarity scores for each label for each NottDeuYTSch embedding
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
 import torch
 from sentence_transformers.util.similarity import cos_sim
 from tqdm import tqdm

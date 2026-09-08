@@ -1,3 +1,19 @@
+"""
+select_and_store.py
+Removes unnecessary information from NottDeuYTSch and stores it as a .pkl
+Needs NottDeuYTSch in TSV format ("ndy_utf8.tsv")
+Generates .pkl storing the needed columns of NottDeuYTSch ("ndy_utf8_small.pkl")
+
+Copyright 2026 by
+Henri Heyden
+
+This program and the accompanying materials are made
+available under the terms of the MIT License which
+is available at https://opensource.org/license/MIT.
+
+SPDX-License-Identifier: MIT
+"""
+
 import pandas as pd
 
 df = pd.read_table("ndy_utf8.tsv", sep="\t")
