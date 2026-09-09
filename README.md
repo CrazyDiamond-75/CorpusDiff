@@ -74,7 +74,7 @@ The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex)
 If you use CorpusDiff in your own research, please cite:
 
 ```bibtex
-@misc{Hey26,
+@unpublished{Hey26,
   author      = {Henri Heyden},
   title       = {Wertewandel in Digitaler Kinder- und Jugendkultur},
   institution = {Christian-Albrechts-Universität zu Kiel},
