@@ -30,6 +30,8 @@ for word in df["Name"]:
         # Set frequency to 0 for words with length less than 3, which filters out most emojis.
         # Set frequency to 0 for German stop words.
         del frequencies[word]
+    else:
+        print(word, frequencies[word])
 
 wordcloud = WordCloud(
     width=800, height=400, background_color="white"
