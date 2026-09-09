@@ -10,7 +10,7 @@
 
 ## What is CorpusDiff?
 
-**CorpusDiff** is a computational linguistics pipeline that detects **value trends** in large text corpora over time. It was built for a research project analyzing **digital youth culture** using the [NottDeuYTSch](https://www.linguistics.rub.de/nottsch/) corpus — 3 million YouTube comments from German-speaking adolescents (2008–2018).
+**CorpusDiff** is a computational linguistics pipeline that detects **value trends** in large text corpora over time. It was built for a research project analyzing **digital youth culture** using the [NottDeuYTSch](http://hdl.handle.net/11372/LRT-4806) corpus — 3 million YouTube comments from German-speaking adolescents (2008–2018).
 
 CorpusDiff **correlates** linguistic patterns in a target corpus with **political value dimensions** extracted from a reference corpus (PoliTweets), revealing which values are rising or falling in youth discourse.
 
