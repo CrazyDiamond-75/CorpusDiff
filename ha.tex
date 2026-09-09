@@ -253,7 +253,7 @@ Die Ergebnisse der Analyse von NottDeuYTSch lassen sich in ihre drei Methoden gl
 \subsection{Lemmatisierung \& Bag-of-Words}
 Schaut man sich die Wordcloud generiert aus allen Lemmas nach \autoref{subsec:2.5} an, siehe \autoref{fig:2}, sieht man ein ernüchterndes Ergebnis:
 Man sieht direkt, dass, selbst wenn alle Stoppwörter herausgefiltert werden, der Großteil wenig mit Werten zu tun hat, sondern viel mehr die jugendliche YouTube-Kultur betont.
-\citeauthor{Sch21}s soziomaterielle Figurationen kommen wieder zum Vorschein -- die meisten Kommentare setzen sich mit dem Inhalt oder der Plattform und ihren Medienpraktiken auseinander.
+\citeauthor{Sch21}s soziomaterielle Figurationen kommen wieder zum Vorschein -- der absolute Mehrheit der Kommentare setzen sich mit dem Inhalt oder der Plattform und ihren Medienpraktiken auseinander.
 
 \begin{figure}
     \centering
@@ -263,9 +263,70 @@ Man sieht direkt, dass, selbst wenn alle Stoppwörter herausgefiltert werden, de
 \end{figure}
 
 Um etwas tiefer zu schauen, wurde eine Tabelle mit allen Wortzählungen erstellt, und sie nach Häufigkeit sortiert.
-Leider wurden in dieser Tabelle auch keine Stichwörter gefunden, mit deren temporäre Häufigkeit eine Werteanalyse weitergeführt werden hätte können.
+Leider wurden in dieser Tabelle im Vergleich zu wenig Stichwörter gefunden, mit deren temporäre Häufigkeit eine akkurate Werteanalyse weitergeführt werden hätte können.
+Um dies zu demonstrieren ist ein Teil der Wortzählung in \autoref{tab:1} zu finden.
+Das Wort \emph{woke} kommt sogar kein mal im gesamten Korpus vor.
+
+\begin{table}
+    \centering
+    \begin{tabular}[c]{l l}
+        \hline
+        Lemma & Frequenz \\
+        \hline \hline
+        Video & 280975 \\
+        Gewinnen & 128772 \\
+        Cool & 122297 \\
+        Deutschland & 13278 \\
+        Nazi & 2370 \\
+        Gleichberechtigung & 509 \\
+        Feminismus & 186 \\
+        Vielfalt & 45 \\
+        Emanzipation & 28 \\
+        Inklusion & 12 \\
+        Woke & 0 \\
+        \hline
+    \end{tabular}
+    \caption{Auszug der gesamten Wortzählung im lemmatisierten NottDeuYTSch.}
+    \label{tab:1}
+\end{table}
+
+Diese Methode wäre in einem politischem Korpus besser geeignet gewesen, jedoch wurde während der Recherche leider kein solcher Korpus gefunden.
+Andererseits muss betont werden, dass jegliche Wortzählung sich auf nur den Kontext eines Wortes bezogen werden kann.
+Dementsprechend geht Ironie verloren, wenn sie in einem Kommentar angewandt wird: \emph{diese \textquote{Wokeness...}}.
+
+Ein ähnlicher Ansatz wäre es sog. \emph{N-Gramme} zu finden, bei denen jeweils nach \(n \in \N\) langen Lexemkombinationen gesucht werden -- die klassische Wortzählung ist die Suche nach 1-Grammen.
+Jedoch verliert man Häufigkeiten je größer \(n\) ist.
+Außerdem lässt sich Ironie oder ein Widerspruch auch in einem Satz so verkapseln, dass man sie erst finden kann, wenn erst der vollständige Satz interpretiert wird: \emph{Ich bin ein Teil von jener Kraft, die stets das Böse will und stets das Gute schafft}.
 
 \subsection{BERTopic}
+Für den Ansatz mit BERTopic kamen ähnliche Ergebnisse heraus, wie mit dem klassisch-linguistischem bag-of-words Ansatz -- die meisten Themen, die von BERTopic identifiziert wurden, haben mit Videoinhalten oder dem Medium YouTube zu tun.
+Andererseits wurden nichtsdestotrotz interessante Themen gefunden, siehe \autoref{tab:2}.
+
+\begin{table}
+    \centering
+    \begin{tabular}[c]{l l}
+        \hline
+        Name des Themas & Frequenz \\
+        \hline \hline
+        \emph{Kein Thema} & 1232594 \\
+        lehrer\_lehrerin\_schüler\_unterricht & 9155 \\
+        apfelkuchen\_\dots\_äpfelkuchen & 7761 \\
+        lustig\_witzig\_humor\_funny & 7225 \\
+        pc\_gtx\_ram\_i7 & 6629 \\
+        dumm\_blöd\_dummheit\_stupid & 3789 \\
+        \hline
+    \end{tabular}
+    \caption{Auszug der Frequenz mit BERTopic gefundener Themen in NottDeuYTSch.}
+    \label{tab:2}
+\end{table}
+
+Trotzdem offenbaren sich mehrere Probleme:
+\begin{enumerate}
+    \item Es wurde kein politisches Thema gefunden.
+    \item BERTopic ordnet jedem Kommentar nur ein Thema zu.
+    \item Einer viel zu große Minderheit an Kommentaren wurde kein Thema zugeordnet.
+\end{enumerate}
+
 \subsection{CorpusDiff}
 Die Ergebnisse der \(l\)-Metriken wurden in alle Quartale von 2008 bis 2018 aufgeteilt und mit Boxenplots visualisiert.
 Außerdem wurden die Pearson-Korrelationen \autocite{Ber18} berechnet und ein linearer \emph{least-squares} Regressor \autocite{Baz21} gefittet, um die durchschnittliche Steigung, also den durchschnittlichen Zuwachs/Abfall der \(l\)-Metrik in einem Quartal zu bestimmen.
@@ -291,11 +352,11 @@ Bei der Recherche wurden jedoch zusätzlich andere Datensätze gefunden, die sic
 
 \end{description}
 
-\printbibliography
-
 \section*{Anhang}
 Die Quelldateien zu diesem Lehrforschungsprojekt ist unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
 
 Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 3700 XTX GPU, und einer Ryzen 9 5950X CPU.
+
+\printbibliography
 
 \end{document}
