@@ -1,6 +1,6 @@
 # CorpusDiff
 
-> **Uncovering value shifts in digital youth culture — one comment at a time.**
+> **Transformer-based language corpus evaluation for dummies**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
@@ -10,7 +10,7 @@
 
 ## What is CorpusDiff?
 
-**CorpusDiff** is a computational linguistics pipeline that detects **value trends** in large text corpora over time. It was built for a research project analyzing **digital youth culture** using the [NottDeuYTSch](https://www.linguistics.rub.de/nottsch/) corpus — 3 million YouTube comments from German-speaking adolescents (2008–2018).
+**CorpusDiff** is a computational linguistics pipeline that detects **value trends** in large text corpora over time. It was built for a research project analyzing **digital youth culture** using the [NottDeuYTSch](http://hdl.handle.net/11372/LRT-4806) corpus — 3 million YouTube comments from German-speaking adolescents (2008–2018).
 
 CorpusDiff **correlates** linguistic patterns in a target corpus with **political value dimensions** extracted from a reference corpus (PoliTweets), revealing which values are rising or falling in youth discourse.
 
@@ -74,7 +74,7 @@ The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex)
 If you use CorpusDiff in your own research, please cite:
 
 ```bibtex
-@misc{Hey26,
+@unpublished{Hey26,
   author      = {Henri Heyden},
   title       = {Wertewandel in Digitaler Kinder- und Jugendkultur},
   institution = {Christian-Albrechts-Universität zu Kiel},
