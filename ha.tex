@@ -300,7 +300,7 @@ Außerdem lässt sich Ironie oder ein Widerspruch auch in einem Satz so verkapse
 
 \subsection{BERTopic}
 Für den Ansatz mit BERTopic kamen ähnliche Ergebnisse heraus, wie mit dem klassisch-linguistischem bag-of-words Ansatz -- die meisten Themen, die von BERTopic identifiziert wurden, haben mit Videoinhalten oder dem Medium YouTube zu tun.
-Andererseits wurden nichtsdestotrotz interessante Themen gefunden, siehe \autoref{tab:2}.
+Andererseits wurden trotzdem interessante Themen gefunden, siehe \autoref{tab:2}.
 
 \begin{table}
     \centering
@@ -313,6 +313,7 @@ Andererseits wurden nichtsdestotrotz interessante Themen gefunden, siehe \autore
         apfelkuchen\_\dots\_äpfelkuchen & 7761 \\
         lustig\_witzig\_humor\_funny & 7225 \\
         pc\_gtx\_ram\_i7 & 6629 \\
+        freedom\_folgen\_projekt\_folge & 3862 \\
         dumm\_blöd\_dummheit\_stupid & 3789 \\
         \hline
     \end{tabular}
@@ -320,12 +321,37 @@ Andererseits wurden nichtsdestotrotz interessante Themen gefunden, siehe \autore
     \label{tab:2}
 \end{table}
 
-Trotzdem offenbaren sich mehrere Probleme:
+Aus dieser Tabelle offenbaren sich mehrere Probleme:
 \begin{enumerate}
-    \item Es wurde kein politisches Thema gefunden.
+    \item Es wurden zu wenig relevante politische Themen gefunden.
     \item BERTopic ordnet jedem Kommentar nur ein Thema zu.
-    \item Einer viel zu große Minderheit an Kommentaren wurde kein Thema zugeordnet.
+    \item Einer sehr großen Minderheit an Kommentaren wurde kein Thema zugeordnet.
 \end{enumerate}
+Das erste Problem erklärt sich dadurch, dass, wie bereits erläutert, der Korpus hauptsächlich unpolitisch ist.
+Das zweite und dritte Problem sind methodische Fehler in der Implementierung von BERTopic.
+Allerdings muss dabei bedacht werden, dass wenn ein Kommentar mehreren/mindestens einem Thema zugeordnet werden soll, sich die bereits unvorteilhafte Laufzeit bei der Menge an Daten maßgeblich verschlechtert.
+Dementsprechend ist es mit einem Ansatz wie dem von BERTopic sehr unwahrscheinlich eine sehr genau Analyse zu finden.
+
+Mit den Daten, die wir nun haben lassen sich nichtsdestotrotz Trends identifizieren.
+Um diese Analyse durchzuführen, habe ich die relevanten Themen aus \autoref{tab:2} im Zeitraum 2008 bis 2019 visualisiert, siehe \autoref{fig:3}.
+Für diese Abbildung wurden erst alle Kommentare in alle einzelnen Monate aufgeteilt und durch die Anzahl an Kommentaren in diesem Monat geteilt, um relative Häufigkeiten zu berechnen.
+Zudem wurde ein sog. \emph{rolling window} Filter benutzt, der in einem Fenster von den 2 umliegenden Jahren die oberen und unteren 25\% entfernt, und den Durchschnitt berechnet.
+Dies hatte den Grund, da bei der im Vergleich geringen Menge an Kommentaren zu einem Thema zu der Menge an einzelnen Monaten, die meisten Kommentare keinen Kommentar zu einem Thema besitzen.
+Andererseits haben die Monate, die mindestens einen Kommentar zu jenem Thema besitzen, besonders viele.
+Dies war besonders bei den Themen \emph{Apfelkuchen} und \emph{Lehrer} der Fall, da NottDeuYTSch anscheinend ein paar Videos zu genau diesen Themen gewählt hatte, die natürlich dementsprechend nur aus Kommentaren über diese Themen bestanden.
+Zuletzt gab es auch ein weiteres Problem, das sich schon in \autoref{tab:2} finden ließe:
+es gab zwischen verschiedenen Themen erhebliche Unterschiede der Größenordnungen.
+Dies wurde gelöst, indem die Y-Achse logarithmisch skaliert wurde, wodurch sowohl größere als auch kleinere Unterschiede sichtbar werden.
+Im Quellcode zu dieser Arbeit lässt sich genaueres dazu finden, siehe \autoref{sec:appendix}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{./figures/Bertopic.pdf}
+    \caption{Mittels BERTopic identifizierte Themen in NottDeuYTSch.}
+    \label{fig:3}
+\end{figure}
+
+Aus der Abbildung lässt sich interpretieren, dass es einen negativen Trend
 
 \subsection{CorpusDiff}
 Die Ergebnisse der \(l\)-Metriken wurden in alle Quartale von 2008 bis 2018 aufgeteilt und mit Boxenplots visualisiert.
@@ -352,7 +378,7 @@ Bei der Recherche wurden jedoch zusätzlich andere Datensätze gefunden, die sic
 
 \end{description}
 
-\section*{Anhang}
+\section{Anhang} \label{sec:appendix}
 Die Quelldateien zu diesem Lehrforschungsprojekt ist unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
 
 Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 3700 XTX GPU, und einer Ryzen 9 5950X CPU.
