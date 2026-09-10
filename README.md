@@ -67,7 +67,14 @@ python clean_correlations.py
 4. **Generate** Pearson correlations and linear regression slopes
 5. **Visualize** using boxenplots
 
-The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex) _(PDF TO FOLLOW)_
+The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex) _(PDF TO FOLLOW WHEN IT IS FINISHED)_
+
+---
+
+## Roadmap
+As is, the application also contains some code fragmets for lemmantisation, bag-of-words, and BERTopic methods. 
+The main goal for the future is to move this code which is not part of the CorpusDiff pipeline to another branch. 
+After that, I want to clean up everything, such that CorpusDiff has a **CLI interface**, needs **less user management**, and can be applied to **any corpus/transformer/corpus combination**.
 
 ---
 
