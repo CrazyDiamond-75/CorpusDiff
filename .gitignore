@@ -45,3 +45,6 @@ HFTOKEN.py
 
 # VsCode
 .vscode
+
+# Allow figures
+!figures/*.pdf
