@@ -15,12 +15,25 @@ SPDX-License-Identifier: MIT
 
 import pandas as pd
 
-df = pd.read_pickle("ndy_politweets_correlations.pkl")
+df: pd.DataFrame = pd.read_pickle("ndy_politweets_correlations.pkl")
 
 # Sort by strength of correlation
 df.sort_values(by="Correlation", inplace=True)
 
 df["95% CI width"] = df["95% CI"].apply(lambda x: x[1] - x[0])
 
-for line in df.iloc:
-    print(line)
+fmt = "%0.3f"
+for line in df.itertuples():
+    print(tuple(line))
+    """
+    print(
+        line[1],
+        "&",
+        fmt % line[2],
+        "&",
+        "(" + fmt % line[4][0] + ", " + fmt % line[4][1] + ")",
+        "&",
+        fmt % (line[5] * 100) + "\\%",
+        "\\\\",
+    )
+    """
