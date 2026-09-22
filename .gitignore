@@ -48,3 +48,6 @@ HFTOKEN.py
 
 # Allow figures
 !figures/*.pdf
+
+# Cached token
+code/.hf_token
