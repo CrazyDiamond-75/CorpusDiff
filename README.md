@@ -23,7 +23,7 @@ cd CorpusDiff/code
 
 # Install dependencies (you'll need Python 3.9+)
 # Hint: Install torch for CUDA or ROCm except you will suffer
-pip install pandas numpy seaborn matplotlib scipy torch torchvision
+pip install pandas numpy seaborn matplotlib scipy tqdm sentence_transformers torch torchvision
 
 # Run CorpusDiff!
 ./corpusdiff.py main_corpus diff_corpus [huggingface_model]

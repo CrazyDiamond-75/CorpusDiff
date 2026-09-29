@@ -50,4 +50,4 @@ HFTOKEN.py
 !figures/*.pdf
 
 # Cached token
-code/.hf_token
+.hf_token
