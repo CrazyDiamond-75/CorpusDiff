@@ -25,37 +25,25 @@ cd CorpusDiff/code
 # Hint: Install torch for CUDA or ROCm except you will suffer
 pip install pandas numpy seaborn matplotlib scipy torch torchvision
 
-# Extract comments from NottDeuYTSch
-python select_and_store
-
-# Generate embeddings from NottDeuYTSch and PoliTweets
-python vectors_gen_nottdeuytsch.py
-python vectors_gen_politweets.py
-
-# Compute l-metrics
-python vector_politweets.py
-
-# Generate correlations and plots
-python politweets_plot.py
-
-# View the results
-python clean_correlations.py
+# Run CorpusDiff!
+./corpusdiff.py main_corpus diff_corpus [huggingface_model]
 ```
 
-> **Note:** You'll need the actual corpus data (`ndy_utf8.tsv` and `politweets_v02.csv`) to run the pipeline. These are not included in the repo!
+> **Note:** You'll need the actual corpus data, e.g., `ndy_utf8.tsv` and `politweets_v02.csv`, to reproduce the paper results.
+> These are not included in the repo!
 
 ---
 
 ## Main Results for CorpusDiff
 
-| Dimension | Correlation | Avg. Change per Quarter |
-|-----------|-------------|-------------------------|
-| Internationalism | +0.166 | +0.044 |
-| Europe | +0.158 | +0.040 |
-| Traditional Morality | -0.083 | -0.020 |
-| Constitution | -0.083 | -0.023 |
+| Dimension            | Correlation | Avg. Change per Quarter |
+| -------------------- | ----------- | ----------------------- |
+| Internationalism     | +0.166      | +0.044                  |
+| Europe               | +0.158      | +0.040                  |
+| Traditional Morality | -0.083      | -0.020                  |
+| Constitution         | -0.083      | -0.023                  |
 
-*Values are Pearson correlation coefficients with 95% confidence intervals*.
+_Values are Pearson correlation coefficients with 95% confidence intervals_.
 
 ---
 
@@ -68,13 +56,6 @@ python clean_correlations.py
 5. **Visualize** using boxenplots
 
 The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex) _(PDF TO FOLLOW WHEN IT IS FINISHED)_
-
----
-
-## Roadmap
-As is, the application also contains some code fragmets for lemmantisation, bag-of-words, and BERTopic methods. 
-The main goal for the future is to move this code which is not part of the CorpusDiff pipeline to another branch. 
-After that, I want to clean up everything, such that CorpusDiff has a **CLI interface**, needs **less user management**, and can be applied to **any corpus/transformer/corpus combination**.
 
 ---
 

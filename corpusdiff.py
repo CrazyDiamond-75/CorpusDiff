@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 header = """The CorpusDiff application.
-Usage: corpusdiff main_corpus diff_corpus [huggingface_model]
+Usage: corpusdiff.py main_corpus diff_corpus [huggingface_model]
 
 main_corpus and diff_corpus should be in either .csv or .tsv format.
 main_corpus must have columns "Date", "Text", where each date is in "year-month-date" format.
@@ -275,6 +275,8 @@ def main():
     )
 
     print("Calculating correlations, increase per year, and plotting...")
+    # Theming
+    sns.set_theme(style="ticks", context="talk")
     palette = sns.color_palette("tab20", len(dimensions))
     fig, ax = plt.subplots(figsize=(4 * 3, 4 * 2))
 
