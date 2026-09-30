@@ -19,7 +19,7 @@ CorpusDiff **correlates** linguistic patterns in a target corpus with **politica
 ```bash
 # Clone the repo
 git clone https://github.com/CrazyDiamond-75/CorpusDiff.git
-cd CorpusDiff/code
+cd CorpusDiff
 
 # Install dependencies (you'll need Python 3.9+)
 # Hint: Install torch for CUDA or ROCm except you will suffer
@@ -29,7 +29,7 @@ pip install pandas numpy seaborn matplotlib scipy tqdm sentence_transformers tor
 ./corpusdiff.py main_corpus diff_corpus [huggingface_model]
 ```
 
-> **Note:** You'll need the actual corpus data, e.g., `ndy_utf8.tsv` and `politweets_v02.csv`, to reproduce the paper results.
+> **Note:** You'll need the actual corpus data, e.g., `ndy_utf8.tsv` and `politweets_v02.csv`, to reproduce the papers results.
 > These are not included in the repo!
 
 ---
@@ -52,15 +52,14 @@ _Values are Pearson correlation coefficients with 95% confidence intervals_.
 1. **Embedd** NottDeuYTSch and Politweets with RoBERTa
 2. **Compare** NottDeuYTSch and PoliTweets value dimensions
 3. **Calculate** _l_-metric for each positive and negative label in Politweets
-4. **Generate** Pearson correlations and linear regression slopes
-5. **Visualize** using boxenplots
+4. **Analyse** Pearson correlations and linear regression slopes
+5. **Visualize** using lineplots
 
-The full methodology is documented in the accompanying thesis [`ha.tex`](ha.tex) _(PDF TO FOLLOW WHEN IT IS FINISHED)_
+The full methodology is documented in the accompanying paper [`ha.tex`](ha.tex) _(PDF TO FOLLOW WHEN IT IS FINISHED)_
 
 ---
 
-If you use CorpusDiff in your own research, please cite:
-
+If you use CorpusDiff in your own research or want to cite its unofficial paper, please use this Bibtex entry:
 ```bibtex
 @unpublished{Hey26,
   author      = {Henri Heyden},
