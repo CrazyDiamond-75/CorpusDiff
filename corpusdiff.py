@@ -4,7 +4,7 @@ Usage: corpusdiff.py main_corpus diff_corpus [huggingface_model]
 
 main_corpus and diff_corpus should be in either .csv or .tsv format.
 main_corpus must have columns "Date", "Text", where each date is in "year-month-date" format.
-diff_corpus must have columns "Label", "Text", where all labels end with '+' or '-' and have an inverse label.
+diff_corpus must have columns "Label", "Text", where all labels end with ' +' or ' -' and have an inverse label.
 
 If no hugging face model is specified, it will use T-Systems-onsite/cross-en-de-roberta-sentence-transformer
 Note that this model is only useful for English and German texts.
@@ -26,7 +26,7 @@ def main():
     # Parse arguments
     if len(sys.argv) not in [3, 4]:
         print(header)
-        exit(1)
+        sys.exit(1)
 
     print("Loading...")
 
@@ -41,18 +41,18 @@ def main():
     from sentence_transformers import SentenceTransformer
     from sentence_transformers.util.similarity import cos_sim
     import seaborn as sns
-    import matplotlib
     import matplotlib.pyplot as plt
     import matplotlib.dates as mdates
     from matplotlib.ticker import FuncFormatter
     from scipy.stats import pearsonr, linregress, trim_mean
     from typing import Callable
+    import pickle
 
     # Helper functions
     # Attempts to read a corpus from disk
-    def read_corpus(path: str, type: bool) -> pd.DataFrame | None:
-        # If type is true, the corpus is the difference corpus
-        col1 = "Label" if type else "Date"
+    def read_corpus(path: str, is_diff_corpus: bool) -> pd.DataFrame | None:
+        # If is_diff_corpus is true, the corpus is the difference corpus
+        col1 = "Label" if is_diff_corpus else "Date"
 
         if path.endswith(".tsv"):
             return pd.read_table(path, header=0, names=[col1, "Text"], sep="\t")
@@ -61,17 +61,19 @@ def main():
         else:
             return None
 
-    # I found 512 bytes to be ideal for my amount of vram, this method is a stepwise linear function to approximate this heuristic.
-    def find_ideal_batch_size() -> int:
+    # I found 512 bytes for the vectorization to be ideal for my amount of vram, this method is a stepwise linear function to approximate this heuristic.
+    def find_ideal_batch_size(my_batch: int, min_batch: int) -> int:
         vram = torch.cuda.get_device_properties(0).total_memory
-        raw = int(512 * vram / 25753026560)
-        return 32 * math.floor(raw / 32)
+        raw = my_batch * vram / 25753026560
+        return max(min_batch, 32 * math.floor(raw / 32))
 
-    # Same idea for 1000000 byte batch size when calculating the similarity scores.
-    def find_ideal_score_batch_size() -> int:
-        vram = torch.cuda.get_device_properties(0).total_memory
-        raw = int(1000000 * vram / 25753026560)
-        return 32 * math.floor(raw / 32)
+    # Removes duplicates from a sorted list
+    def remove_duplicates(lst: list) -> list:
+        new_lst = [lst[0]]
+        for i in range(1, len(lst)):
+            if lst[i - 1] != lst[i]:
+                new_lst.append(lst[i])
+        return new_lst
 
     path_main = sys.argv[1]
     path_diff = sys.argv[2]
@@ -85,64 +87,67 @@ def main():
     # Try to read a token from a hidden file
     try:
         with open(".hf_token", "r") as f:
-            model_token = f.read()
+            model_token = f.read().strip()
+            if not model_token:
+                print(".hf_token does not contain a token")
+                model_token = None
     # If this fails because the file does not exist, let the user know and save the input token
-    except:
+    except FileNotFoundError:
         print("Please input a valid hugging face token if needed")
-        model_token = input()
-        if model_token not in ["", "\n", " "]:
+        model_token = input().strip()
+        if model_token:
             with open(".hf_token", "w") as f:
                 f.write(model_token)
             print("Saved token to .hf_token")
         else:
+            print("Using no token")
             # If no "valid" token was given, use none
             model_token = None
 
     # If the results were previously calculated, just plot them.
-    df_main: pd.DataFrame = None
+    df_main: pd.DataFrame
     try:
         df_main = pd.read_pickle("lmetrics.pkl")
-    except:
-        pass
+    except (pickle.UnpicklingError, FileNotFoundError):
+        df_main = None
 
     if df_main is None:
         # Read the main corpus
         df_main = read_corpus(path_main, False)
         if df_main is None:
             print(f"{path_main} is not a valid tsv or csv.")
-            exit(1)
+            sys.exit(1)
 
         # Read the difference corpus
         df_diff: pd.DataFrame = read_corpus(path_diff, True)
         if df_diff is None:
             print(f"{path_diff} is not a valid tsv or csv.")
-            exit(1)
+            sys.exit(1)
 
         print(f"Loaded {path_main} and {path_diff}.")
 
         # Clean up the data frames and bring everything into the right format
         try:
             # Drop missing values
-            df_main = df_main.drop(
-                df_main[(df_main.Date == "undefined") | pd.isna(df_main.Date)].index
-            )
+            df_main = df_main[~((df_main.Date == "undefined") | df_main.Date.isna())]
+            df_main = df_main[~((df_main.Text == "undefined") | df_main.Text.isna())]
+
             df_main["Date"] = pd.to_datetime(df_main["Date"], format="%Y-%m-%d")
             # Convert to period for evaluation later
             df_main["Date"] = df_main["Date"].dt.to_period("M")
-            df_main["Text"] = df_main["Text"].map(lambda x: str(x))
+            df_main["Text"] = df_main["Text"].astype(str)
             # Sort all texts in the main corpus by their date
-            df_main.sort_values(by="Date", inplace=True)
-            df_main.reset_index(drop=True, inplace=True)
-        except:
+            df_main = df_main.sort_values(by="Date").reset_index(drop=True)
+        except (pd.errors.ParserError, ValueError):
             print(f"{path_main} is not in the right format.")
-        try:
-            # Drop missing values
-            df_diff = df_diff.drop(
-                df_diff[(df_diff.Label == "undefined") | pd.isna(df_diff.Label)].index
-            )
-            df_diff["Text"] = df_diff["Text"].map(lambda x: str(x))
-        except:
-            print(f"{path_diff} is not in the right format.")
+            sys.exit(1)
+
+        # Drop missing values
+        df_diff = df_diff[~((df_diff.Label == "undefined") | df_diff.Label.isna())]
+        df_diff = df_diff[~((df_diff.Text == "undefined") | df_diff.Text.isna())]
+
+        df_diff["Text"] = df_diff["Text"].astype(str)
+        # print(f"{path_diff} is not in the right format.")
 
         print(f"Cleaned up and sorted tables")
 
@@ -169,7 +174,7 @@ def main():
         print(f"Loading {model_name}...")
         model = SentenceTransformer(model_name, device=device, token=model_token)
 
-        batch_size = find_ideal_batch_size()
+        batch_size = find_ideal_batch_size(512, 32)
         print(f"Using {batch_size} byte batchsize")
 
         print("Encoding main corpus...")
@@ -226,9 +231,9 @@ def main():
         gc.collect()
 
         print("Calculating difference scores")
-        batch_size_score = find_ideal_score_batch_size()
+        batch_size_score = find_ideal_batch_size(1000000, 512)
         print(f"Using {batch_size_score} byte batchsize")
-
+        new_cols = {}
         for l, v_l in tqdm(vs_by_label.items()):
             # Move to GPU
             vectors_label_diff_gpu = torch.tensor(v_l, device=device)
@@ -243,13 +248,17 @@ def main():
                 results[start:end] = mean_sims.cpu().numpy()
                 del sims, mean_sims
 
-            df_main[l] = results  # assign entire column at once
+            new_cols[l] = results  # assign entire column at once
             del vectors_label_diff_gpu, results
             gc.collect()
             torch.cuda.empty_cache()
 
+        # Merge new columns onto main df
+        df_main = pd.concat(
+            [df_main, pd.DataFrame(new_cols, index=df_main.index)], axis=1
+        )
         # Generate all dimensions by finding unique labels without " +"
-        dimensions = list({l[:-2] for l in vs_by_label.keys()})
+        dimensions = sorted(list({l[:-2] for l in vs_by_label.keys()}))
 
         print("Calculating l-metrics")
         for l in dimensions:
@@ -309,11 +318,14 @@ def main():
         Y = result["median"]
         X_plt = result["X"]
 
+        X_num_no_dup = remove_duplicates(X_num)
+
         # Get median slope
-        IncM = linregress(range(len(Y)), Y).slope
+        IncM = linregress(X_num_no_dup, Y).slope
         df_correlations.loc[i] = [topic, Corr, Pval, CInt, IncM * 12]
 
         # Wow! Functional programming in Python...
+        # Use a passing window filter over 2 years and remove everything outside 25th and 75th percentiles before calculating the mean
         roll_filter: Callable[[pd.Series], pd.Series] = lambda x: x.rolling(
             window=12 * 2 + 1, min_periods=1, center=True
         ).apply(lambda x: trim_mean(x, 0.25))
@@ -349,7 +361,7 @@ def main():
 
     print(df_correlations.to_string())
 
-    exit(0)
+    sys.exit(0)
 
 
 if __name__ == "__main__":
