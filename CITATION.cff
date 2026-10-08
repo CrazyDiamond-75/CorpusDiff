@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Heyden"
+  given-names: "Henri"
+  orcid: "https://orcid.org/0009-0007-9241-3425"
+title: "CorpusDiff"
+date-released: 2026-11-20
+url: "https://github.com/CrazyDiamond-75/CorpusDiff/"
+preferred-citation:
+  type: unpublished
+  authors:
+  - family-names: "Heyden"
+    given-names: "Henri"
+    orcid: "https://orcid.org/0009-0007-9241-3425"
+  title: "Wertewandel in Digitaler Kinder- und Jugendkultur"
+  year: 2026
+  month: 11
