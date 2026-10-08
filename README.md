@@ -1,6 +1,6 @@
 # CorpusDiff
 
-> **Transformer-based language corpus evaluation for dummies**
+> **Transformer-based language corpus similarity evaluation for dummies**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
