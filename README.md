@@ -59,6 +59,16 @@ The full methodology is documented in the accompanying paper [`ha.tex`](ha.tex) 
 
 ---
 
+## Roadmap
+Before the next release there are some additional functionalities I want to implement.
+- More command-line options for extended flexibility
+- Robust support for different table formats
+- Support for different date formats
+- More flexibility in calculation of *l*-metric 
+- More features in the plot generation
+
+---
+
 If you use CorpusDiff in your own research or want to cite its unofficial paper, please use this Bibtex entry:
 ```bibtex
 @unpublished{Hey26,
