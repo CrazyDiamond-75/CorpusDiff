@@ -19,79 +19,78 @@ is available at https://opensource.org/license/MIT.
 
 SPDX-License-Identifier: MIT"""
 
+print("Loading imports...")
 
-def main():
-    import sys
+import gc
+import math
+import os
+import pickle
+import sys
+from typing import Callable, List, Optional, Tuple
 
-    # Parse arguments
-    if len(sys.argv) not in [3, 4]:
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import torch
+from matplotlib.ticker import FuncFormatter
+from scipy.stats import linregress, pearsonr, trim_mean
+from sentence_transformers import SentenceTransformer
+from sentence_transformers.util.similarity import cos_sim
+from tqdm import tqdm
+
+
+def read_corpus(path: str, is_diff_corpus: bool) -> Optional[pd.DataFrame]:
+    """Attempts to read a corpus from disk."""
+    col1 = "Label" if is_diff_corpus else "Date"
+
+    if path.endswith(".tsv"):
+        return pd.read_table(path, header=0, names=[col1, "Text"], sep="\t")
+    elif path.endswith(".csv"):
+        return pd.read_csv(path, header=0, names=[col1, "Text"])
+    else:
+        return None
+
+
+def find_ideal_batch_size(my_batch: int, min_batch: int) -> int:
+    """Stepwise linear approximation of ideal batch size based on VRAM."""
+    vram = torch.cuda.get_device_properties(0).total_memory
+    raw = my_batch * vram / 25753026560
+    return max(min_batch, 32 * math.floor(raw / 32))
+
+
+def remove_duplicates(lst: list) -> list:
+    """Removes duplicates from a sorted list."""
+    new_lst = [lst[0]]
+    for i in range(1, len(lst)):
+        if lst[i - 1] != lst[i]:
+            new_lst.append(lst[i])
+    return new_lst
+
+
+def parse_args(argv: List[str]) -> Tuple[str, str, str]:
+    if len(argv) not in [3, 4]:
         print(header)
         sys.exit(1)
 
-    print("Loading...")
-
-    # Main imports here
-    import os
-    import gc
-    import math
-    import pandas as pd
-    import numpy as np
-    from tqdm import tqdm
-    import torch
-    from sentence_transformers import SentenceTransformer
-    from sentence_transformers.util.similarity import cos_sim
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-    import matplotlib.dates as mdates
-    from matplotlib.ticker import FuncFormatter
-    from scipy.stats import pearsonr, linregress, trim_mean
-    from typing import Callable
-    import pickle
-
-    # Helper functions
-    # Attempts to read a corpus from disk
-    def read_corpus(path: str, is_diff_corpus: bool) -> pd.DataFrame | None:
-        # If is_diff_corpus is true, the corpus is the difference corpus
-        col1 = "Label" if is_diff_corpus else "Date"
-
-        if path.endswith(".tsv"):
-            return pd.read_table(path, header=0, names=[col1, "Text"], sep="\t")
-        elif path.endswith(".csv"):
-            return pd.read_csv(path, header=0, names=[col1, "Text"])
-        else:
-            return None
-
-    # I found 512 bytes for the vectorization to be ideal for my amount of vram, this method is a stepwise linear function to approximate this heuristic.
-    def find_ideal_batch_size(my_batch: int, min_batch: int) -> int:
-        vram = torch.cuda.get_device_properties(0).total_memory
-        raw = my_batch * vram / 25753026560
-        return max(min_batch, 32 * math.floor(raw / 32))
-
-    # Removes duplicates from a sorted list
-    def remove_duplicates(lst: list) -> list:
-        new_lst = [lst[0]]
-        for i in range(1, len(lst)):
-            if lst[i - 1] != lst[i]:
-                new_lst.append(lst[i])
-        return new_lst
-
-    path_main = sys.argv[1]
-    path_diff = sys.argv[2]
+    path_main = argv[1]
+    path_diff = argv[2]
     model_name = "T-Systems-onsite/cross-en-de-roberta-sentence-transformer"
 
-    # Overwrite model name to use the given one
-    if len(sys.argv) == 4:
-        model_name = sys.argv[3]
+    if len(argv) == 4:
+        model_name = argv[3]
 
-    model_token: str
-    # Try to read a token from a hidden file
+    return path_main, path_diff, model_name
+
+
+def get_model_token() -> Optional[str]:
     try:
         with open(".hf_token", "r") as f:
             model_token = f.read().strip()
             if not model_token:
                 print(".hf_token does not contain a token")
                 model_token = None
-    # If this fails because the file does not exist, let the user know and save the input token
     except FileNotFoundError:
         print("Please input a valid hugging face token if needed")
         model_token = input().strip()
@@ -101,190 +100,206 @@ def main():
             print("Saved token to .hf_token")
         else:
             print("Using no token")
-            # If no "valid" token was given, use none
             model_token = None
 
-    # If the results were previously calculated, just plot them.
-    df_main: pd.DataFrame
+    return model_token
+
+
+def clean_main_corpus(df_main: pd.DataFrame, path_main: str) -> pd.DataFrame:
+    try:
+        df_main = df_main[~((df_main.Date == "undefined") | df_main.Date.isna())]
+        df_main = df_main[~((df_main.Text == "undefined") | df_main.Text.isna())]
+
+        df_main["Date"] = pd.to_datetime(df_main["Date"], format="%Y-%m-%d")
+        df_main["Date"] = df_main["Date"].dt.to_period("M")
+        df_main["Text"] = df_main["Text"].astype(str)
+        df_main = df_main.sort_values(by="Date").reset_index(drop=True)
+    except (pd.errors.ParserError, ValueError):
+        print(
+            f"Dates in {path_main} are not in the right format, they should be in \"%Y-%m-%d\"."
+        )
+        sys.exit(1)
+
+    return df_main
+
+
+def clean_diff_corpus(df_diff: pd.DataFrame) -> pd.DataFrame:
+    df_diff = df_diff[~((df_diff.Label == "undefined") | df_diff.Label.isna())]
+    df_diff = df_diff[~((df_diff.Text == "undefined") | df_diff.Text.isna())]
+    df_diff["Text"] = df_diff["Text"].astype(str)
+    return df_diff
+
+
+def setup_device() -> str:
+    torch.set_num_threads(os.cpu_count())
+    device = "cuda"
+
+    if torch.cuda.is_available():
+        print(f"Using {torch.cuda.get_device_name(0)} as CUDA/ROCm device.")
+    else:
+        print(
+            "No CUDA/ROCm device available. Maybe torch was installed wrong.\n"
+            "Falling back to the CPU, which is not advised."
+        )
+        device = "cpu"
+
+    return device
+
+
+def compute_lmetrics(
+    path_main: str,
+    path_diff: str,
+    model_name: str,
+    model_token: Optional[str],
+) -> Tuple[pd.DataFrame, List[str]]:
+    # Read the main corpus
+    df_main = read_corpus(path_main, False)
+    if df_main is None:
+        print(f"{path_main} is not a valid tsv or csv.")
+        sys.exit(1)
+
+    # Read the difference corpus
+    df_diff = read_corpus(path_diff, True)
+    if df_diff is None:
+        print(f"{path_diff} is not a valid tsv or csv.")
+        sys.exit(1)
+
+    print(f"Loaded {path_main} and {path_diff}.")
+
+    df_main = clean_main_corpus(df_main, path_main)
+    df_diff = clean_diff_corpus(df_diff)
+
+    print("Cleaned up and sorted tables")
+
+    main_texts = df_main["Text"].to_numpy(str)
+    del df_main["Text"]
+    gc.collect()
+
+    diff_texts = df_diff["Text"].to_numpy(str)
+    del df_diff["Text"]
+    gc.collect()
+
+    device = setup_device()
+
+    print(f"Loading {model_name}...")
+    model = SentenceTransformer(model_name, device=device, token=model_token)
+
+    batch_size = find_ideal_batch_size(512, 32)
+    print(f"Using {batch_size} byte batchsize")
+
+    print("Encoding main corpus...")
+    vectors_main = model.encode(
+        main_texts,
+        batch_size=batch_size,
+        show_progress_bar=True,
+        normalize_embeddings=True,
+    )
+    vectors_main = np.stack(vectors_main).astype(np.float32, copy=False)
+
+    torch.cuda.empty_cache()
+    gc.collect()
+
+    print("Encoding difference corpus...")
+    vectors_diff = model.encode(
+        diff_texts,
+        batch_size=batch_size,
+        show_progress_bar=True,
+        normalize_embeddings=True,
+    )
+
+    torch.cuda.empty_cache()
+    gc.collect()
+
+    print("Preprocessing labels")
+    vs_by_label = {}
+    for label, vector in zip(df_diff["Label"], vectors_diff):
+        vs_by_label.setdefault(label, []).append(vector)
+
+    # Convert from lists of vectors to vector matrices
+    vs_by_label = {
+        label: np.stack(vectors).astype(np.float32, copy=False)
+        for label, vectors in vs_by_label.items()
+    }
+
+    del vectors_diff, df_diff
+    gc.collect()
+
+    print("Moving main vectors to GPU")
+    vectors_main_gpu = torch.tensor(vectors_main, dtype=torch.float32, device=device)
+    total_rows = vectors_main_gpu.shape[0]
+
+    del vectors_main
+    gc.collect()
+
+    print("Calculating difference scores")
+    batch_size_score = find_ideal_batch_size(1000000, 512)
+    print(f"Using {batch_size_score} byte batchsize")
+
+    new_cols = {}
+    for l, v_l in tqdm(vs_by_label.items()):
+        vectors_label_diff_gpu = torch.tensor(v_l, device=device)
+        results = np.empty(total_rows, dtype=np.float32)
+
+        for start in range(0, total_rows, batch_size_score):
+            end = min(start + batch_size_score, total_rows)
+            v_nd_batch = vectors_main_gpu[start:end]
+            with torch.inference_mode():
+                sims = cos_sim(v_nd_batch, vectors_label_diff_gpu)
+                mean_sims = torch.mean(sims, dim=1)
+            results[start:end] = mean_sims.cpu().numpy()
+            del sims, mean_sims
+
+        new_cols[l] = results
+        del vectors_label_diff_gpu, results
+        gc.collect()
+        torch.cuda.empty_cache()
+
+    df_main = pd.concat([df_main, pd.DataFrame(new_cols, index=df_main.index)], axis=1)
+
+    dimensions = sorted(list({l[:-2] for l in vs_by_label.keys()}))
+
+    print("Calculating l-metrics")
+    for l in dimensions:
+        P = df_main[l + " +"]
+        M = df_main[l + " -"]
+        df_main[l] = 0.5 * (P - M)
+
+        del P, M
+        gc.collect()
+
+    df_main = df_main[["Date"] + dimensions]
+    gc.collect()
+
+    print("Saving calculated l-metrics to disk")
+    df_main.to_pickle("lmetrics.pkl")
+
+    return df_main, dimensions
+
+
+def load_or_compute_lmetrics(
+    path_main: str,
+    path_diff: str,
+    model_name: str,
+    model_token: Optional[str],
+) -> Tuple[pd.DataFrame, List[str]]:
     try:
         df_main = pd.read_pickle("lmetrics.pkl")
-    except (pickle.UnpicklingError, FileNotFoundError):
-        df_main = None
-
-    if df_main is None:
-        # Read the main corpus
-        df_main = read_corpus(path_main, False)
-        if df_main is None:
-            print(f"{path_main} is not a valid tsv or csv.")
-            sys.exit(1)
-
-        # Read the difference corpus
-        df_diff: pd.DataFrame = read_corpus(path_diff, True)
-        if df_diff is None:
-            print(f"{path_diff} is not a valid tsv or csv.")
-            sys.exit(1)
-
-        print(f"Loaded {path_main} and {path_diff}.")
-
-        # Clean up the data frames and bring everything into the right format
-        try:
-            # Drop missing values
-            df_main = df_main[~((df_main.Date == "undefined") | df_main.Date.isna())]
-            df_main = df_main[~((df_main.Text == "undefined") | df_main.Text.isna())]
-
-            df_main["Date"] = pd.to_datetime(df_main["Date"], format="%Y-%m-%d")
-            # Convert to period for evaluation later
-            df_main["Date"] = df_main["Date"].dt.to_period("M")
-            df_main["Text"] = df_main["Text"].astype(str)
-            # Sort all texts in the main corpus by their date
-            df_main = df_main.sort_values(by="Date").reset_index(drop=True)
-        except (pd.errors.ParserError, ValueError):
-            print(f"{path_main} is not in the right format.")
-            sys.exit(1)
-
-        # Drop missing values
-        df_diff = df_diff[~((df_diff.Label == "undefined") | df_diff.Label.isna())]
-        df_diff = df_diff[~((df_diff.Text == "undefined") | df_diff.Text.isna())]
-
-        df_diff["Text"] = df_diff["Text"].astype(str)
-        # print(f"{path_diff} is not in the right format.")
-
-        print(f"Cleaned up and sorted tables")
-
-        # Convert to numpy arrays for later and force gc
-        main_texts = df_main["Text"].to_numpy(str)
-        del df_main["Text"]
-        gc.collect()
-
-        diff_texts = df_diff["Text"].to_numpy(str)
-        del df_diff["Text"]
-        gc.collect()
-
-        # Set performance options and select cuda device if possible
-        torch.set_num_threads(os.cpu_count())
-        device = "cuda"
-        if torch.cuda.is_available():
-            print(f"Using {torch.cuda.get_device_name(0)} as CUDA/ROCm device.")
-        else:
-            print(
-                "No CUDA/ROCm device available. Maybe torch was installed wrong.\nFalling back to the CPU, which is not advised."
-            )
-            device = "cpu"
-
-        print(f"Loading {model_name}...")
-        model = SentenceTransformer(model_name, device=device, token=model_token)
-
-        batch_size = find_ideal_batch_size(512, 32)
-        print(f"Using {batch_size} byte batchsize")
-
-        print("Encoding main corpus...")
-        vectors_main = model.encode(
-            main_texts,
-            batch_size=batch_size,
-            show_progress_bar=True,
-            normalize_embeddings=True,
-        )
-
-        # Convert to matrix form
-        vectors_main = np.stack(vectors_main).astype(np.float32, copy=False)
-
-        # Force gc
-        torch.cuda.empty_cache()
-        gc.collect()
-
-        print("Encoding difference corpus...")
-        vectors_diff = model.encode(
-            diff_texts,
-            batch_size=batch_size,
-            show_progress_bar=True,
-            normalize_embeddings=True,
-        )
-
-        # ...
-        torch.cuda.empty_cache()
-        gc.collect()
-
-        print("Preprocessing labels")
-        vs_by_label = {}
-        for label, vector in zip(df_diff["Label"], vectors_diff):
-            vs_by_label.setdefault(label, []).append(vector)
-
-        # Convert to numerical numpy matrix
-        vs_by_label = {
-            label: np.stack(vectors).astype(np.float32, copy=False)
-            for label, vectors in vs_by_label.items()
-        }
-
-        # Remove stuff we don't need anymore
-        del vectors_diff, df_diff
-        gc.collect()
-
-        print("Moving main vectors to GPU")
-        vectors_main_gpu = torch.tensor(
-            vectors_main, dtype=torch.float32, device=device
-        )
-        # Get count of vectors (do this rather at the beginning)
-        total_rows = vectors_main_gpu.shape[0]
-
-        # Remove main vectors from memory
-        del vectors_main
-        gc.collect()
-
-        print("Calculating difference scores")
-        batch_size_score = find_ideal_batch_size(1000000, 512)
-        print(f"Using {batch_size_score} byte batchsize")
-        new_cols = {}
-        for l, v_l in tqdm(vs_by_label.items()):
-            # Move to GPU
-            vectors_label_diff_gpu = torch.tensor(v_l, device=device)
-            results = np.empty(total_rows, dtype=np.float32)
-
-            for start in range(0, total_rows, batch_size_score):
-                end = min(start + batch_size_score, total_rows)
-                v_nd_batch = vectors_main_gpu[start:end]
-                with torch.inference_mode():
-                    sims = cos_sim(v_nd_batch, vectors_label_diff_gpu)
-                    mean_sims = torch.mean(sims, dim=1)
-                results[start:end] = mean_sims.cpu().numpy()
-                del sims, mean_sims
-
-            new_cols[l] = results  # assign entire column at once
-            del vectors_label_diff_gpu, results
-            gc.collect()
-            torch.cuda.empty_cache()
-
-        # Merge new columns onto main df
-        df_main = pd.concat(
-            [df_main, pd.DataFrame(new_cols, index=df_main.index)], axis=1
-        )
-        # Generate all dimensions by finding unique labels without " +"
-        dimensions = sorted(list({l[:-2] for l in vs_by_label.keys()}))
-
-        print("Calculating l-metrics")
-        for l in dimensions:
-            P = df_main[l + " +"]
-            M = df_main[l + " -"]
-            df_main[l] = 0.5 * (P - M)
-
-            del P, M
-            gc.collect()
-
-        # Remove remaining unwanted stuff (if there is any)
-        df_main = df_main[["Date"] + dimensions]
-        gc.collect()
-
-        print("Saving calculated l-metrics to disk")
-        df_main.to_pickle("lmetrics.pkl")
-    else:
-        # Has not been calculated in this path, thus recalculate it.
         dimensions = df_main.columns[1:]  # Remove "Date"
+    except (pickle.UnpicklingError, FileNotFoundError):
+        df_main, dimensions = compute_lmetrics(
+            path_main, path_diff, model_name, model_token
+        )
 
+    return df_main, dimensions
+
+
+def plot_and_correlate(df_main: pd.DataFrame, dimensions: List[str]) -> None:
     df_correlations = pd.DataFrame(
         columns=["Dimension", "Correlation", "P-Value", "95% CI", "Increase/Y"]
     )
 
     print("Calculating correlations, increase per year, and plotting...")
-    # Theming
+
     sns.set_theme(style="ticks", context="talk")
     palette = sns.color_palette("tab20", len(dimensions))
     fig, ax = plt.subplots(figsize=(4 * 3, 4 * 2))
@@ -295,7 +310,6 @@ def main():
         Y = df_main[topic]
         X_num = (X.month - 1) + 12 * X.year
 
-        # Get correlation and p-values
         res = pearsonr(X_num, Y)
         Corr = res.statistic
         Pval = res.pvalue
@@ -320,12 +334,9 @@ def main():
 
         X_num_no_dup = remove_duplicates(X_num)
 
-        # Get median slope
         IncM = linregress(X_num_no_dup, Y).slope
         df_correlations.loc[i] = [topic, Corr, Pval, CInt, IncM * 12]
 
-        # Wow! Functional programming in Python...
-        # Use a passing window filter over 2 years and remove everything outside 25th and 75th percentiles before calculating the mean
         roll_filter: Callable[[pd.Series], pd.Series] = lambda x: x.rolling(
             window=12 * 2 + 1, min_periods=1, center=True
         ).apply(lambda x: trim_mean(x, 0.25))
@@ -341,12 +352,9 @@ def main():
             label=topic,
         )
 
-        # Mean of trimmed quantiles
         ax.fill_between(x=X_plt, y1=lo, y2=hi, color=color, alpha=0.15, linewidth=0.1)
 
-    # Use percentages for y-ticks
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{x * 100:g}%"))
-    # Convert timestamp back to valid year format
     ax.xaxis.set_major_locator(mdates.YearLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     ax.set_xlabel("Year")
@@ -360,6 +368,16 @@ def main():
     plt.close()
 
     print(df_correlations.to_string())
+
+
+def main() -> None:
+    path_main, path_diff, model_name = parse_args(sys.argv)
+
+    model_token = get_model_token()
+    df_main, dimensions = load_or_compute_lmetrics(
+        path_main, path_diff, model_name, model_token
+    )
+    plot_and_correlate(df_main, dimensions)
 
     sys.exit(0)
 
