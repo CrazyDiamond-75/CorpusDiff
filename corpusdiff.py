@@ -19,6 +19,8 @@ is available at https://opensource.org/license/MIT.
 
 SPDX-License-Identifier: MIT"""
 
+print("Loading imports...")
+
 import gc
 import math
 import os
@@ -113,7 +115,9 @@ def clean_main_corpus(df_main: pd.DataFrame, path_main: str) -> pd.DataFrame:
         df_main["Text"] = df_main["Text"].astype(str)
         df_main = df_main.sort_values(by="Date").reset_index(drop=True)
     except (pd.errors.ParserError, ValueError):
-        print(f"{path_main} is not in the right format.")
+        print(
+            f"Dates in {path_main} are not in the right format, they should be in \"%Y-%m-%d\"."
+        )
         sys.exit(1)
 
     return df_main
@@ -211,6 +215,7 @@ def compute_lmetrics(
     for label, vector in zip(df_diff["Label"], vectors_diff):
         vs_by_label.setdefault(label, []).append(vector)
 
+    # Convert from lists of vectors to vector matrices
     vs_by_label = {
         label: np.stack(vectors).astype(np.float32, copy=False)
         for label, vectors in vs_by_label.items()
@@ -367,7 +372,6 @@ def plot_and_correlate(df_main: pd.DataFrame, dimensions: List[str]) -> None:
 
 def main() -> None:
     path_main, path_diff, model_name = parse_args(sys.argv)
-    print("Loading...")
 
     model_token = get_model_token()
     df_main, dimensions = load_or_compute_lmetrics(
