@@ -1,7 +1,11 @@
 \input{preamble}
 
+\makeatletter
+\newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
+\makeatother
+
 \title{Wertewandel in Digitaler Kinder- und Jugendkultur \\ \large Lehrforschungsprojekt Medienpädagogik}
-\date{22. September 2026}
+\date{20. November 2026}
 \author{Henri Heyden \\%
     \small stu240825 \\%
     \small Christian-Albrechts-Universität zu Kiel%
@@ -42,7 +46,7 @@
 
 \pagestyle{fancy}
 \fancyhead[L]{Wertewandel in Digitaler Kinder- und Jugendkultur \\ Lehrforschungsprojekt Medienpädagogik}
-\fancyhead[R]{Henri Heyden \\ 22. September 2026}
+\fancyhead[R]{Henri Heyden \\ 20. November 2026}
 
 \section{Einleitung}
 Jegliche Kultur, somit auch die Kulturen, die von Kindern und Jugendlichen praktiziert werden, lässt sich zeitlich beobachten -- sie sind stets im Wandel \autocite{KWV21}.
@@ -119,6 +123,7 @@ Andererseits fokussieren sich die Tools eher auf traditionelle Computerlinguisti
 Die generierten 768-dimensionalen Vektoren können mittels Winkelähnlichkeit abgeglichen werden, um eine semantische Nähe zwischen Texten zu finden.
 Somit kann die Bedeutung eines Textes maschinell herausgefunden werden, indem zu verschiedenen Texten verglichen wird, bei denen eine Semantik bereits definiert ist.
 Der Vorteil dieses RoBERTa Modells ist es, dass wie erwähnt sowohl englischer und deutscher Text eingebettet und verglichen werden kann -- und das mit hoher Genauigkeit \autocite{RG19}.
+Solch ein bilinguales Modell ist außerdem praktisch, da ein großer Teil der deutschen Jugendsprache aus englischen Wörtern und Phrasen besteht \autocite{Po24}.
 
 Für diese Arbeit ist ein Transformer Modell wie RoBERTa sehr nützlich, da die händische Auswertung eines großen Datensatzes wie NottDeuYTSch nahezu unmöglich ist, vollständig zu vollziehen, oder ungenau wäre, wenn man sich auf eine evaluierbare Teilmenge beziehen würde.
 
@@ -126,7 +131,7 @@ Für diese Arbeit ist ein Transformer Modell wie RoBERTa sehr nützlich, da die 
 In Python kann die \emph{sentence transformers} Bibliothek \autocite{RG19} verwendet werden, um Modelle wie RoBERTa von der \emph{Hugging Face}\footnote{\url{https://huggingface.co/}} Plattform herunterzuladen und einzubinden.
 Ein weiteres Feature dieser Bibliothek ist es, dass Modelle auf der Grafikkarte ausgeführt werden können, was die Berechnungen erheblich beschleunigt, da somit viele Berechnungen parallel ausgeführt werden können.
 
-Nichtsdestotrotz war die vollständige Einbettung von NottDeuYTSch sehr aufwändig und erforderte 30 Minuten Rechenzeit auf meiner RX 7900 XTX Grafikkarte.
+Nichtsdestotrotz war die vollständige Einbettung von NottDeuYTSch sehr aufwändig und erforderte 30 Minuten Rechenzeit.
 Die 768-dimensionalen Vektoren wurden als Felder vom Typ \lstinline|float32| gespeichert, was bei der Menge an 3 Millionen Vektoren in ungefähr 9,2 Gigabyte Speicherverbrauch resultierte.
 Aus diesem Grund habe ich die Schritte der folgenden Pipeline vollständig modular implementiert, sodass Zwischenergebnisse gespeichert werden, bevor der nächste Schritt ausgeführt wird.
 
@@ -145,7 +150,7 @@ Formaler, sei \(\lambda : V^2 \rightarrow [-1, 1], (v, w) \mapsto \frac{v \cdot 
 Außerdem, seien \(P_l, N_l, \Omega \subseteq V\) paarweise disjunkt.
 \(P_l\) und \(N_l\) stellen die positiven und negativen Einbettungen aus PoliTweets zu einem Thema \(l\) dar, während \(\Omega\) die Menge der Einbettungen aus NottDeuYTSch ist.
 Die \(l\)-Metrik \(\alpha_l : \Omega \rightarrow [-1, 1]\) ist definiert durch
-\[\alpha_l: v \mapsto \frac{1}{2}\sum_{u \in P_l} \frac{\lambda(v, u)}{|P_l|} - \frac{1}{2}\sum_{u \in N_l} \frac{\lambda(v, u)}{|N_l|}.\]
+\[\alpha_l: v \mapsto \frac{1}{2}\left(\sum_{u \in P_l} \frac{\lambda(v, u)}{|P_l|} - \sum_{u \in N_l} \frac{\lambda(v, u)}{|N_l|}\right).\]
 In anderen Worten, \(\alpha_l(v)\) ist die Differenz zwischen der durchschnittlichen Ähnlichkeit zu positiven und negativen Texten über Thema \(l\).
 Durch diesen Ansatz umgeht man das Problem, dass \(\lambda\) zwischen \(\Omega\) und \(P_l\) eben nicht nur \(l\) misst, sondern auch die stilistische Nähe zu Texten aus PoliTweets.
 
@@ -204,7 +209,7 @@ Für die Wordcloud wurden des Weiteren alle Lemmas mit Länge eins nicht beachte
 Das Zählen selber ist recht leicht zu implementieren, und braucht nicht viel Laufzeit.
 
 \subsection{BERTopic}
-\textcite{Gro22} stellt einen Algorithmus vor der verwendet werden kann, um die relevantesten Themen aus einer Sammlung von Texten zu finden.
+BERTopic \textcite{Gro22} ist ein sog. \emph{neural topic modeling} (NTM) \autocite{Wu24} Ansatz der verwendet werden kann, um die relevantesten Themen aus einer Sammlung von Texten zu finden.
 BERTopic ist modular aufgebaut und besteht aus den folgenden Schritten.
 \begin{enumerate}
     \item Vektorielle Einbettung des Korpus: \\
@@ -334,7 +339,7 @@ Allerdings muss dabei bedacht werden, dass wenn ein Kommentar mehreren/mindesten
 Dementsprechend ist es mit einem Ansatz wie dem von BERTopic sehr unwahrscheinlich eine sehr genau Analyse zu finden.
 
 Mit den Daten, die wir nun haben lassen sich nichtsdestotrotz Trends identifizieren.
-Um diese Analyse durchzuführen, habe ich die relevanten Themen aus \autoref{tab:2} im Zeitraum 2008 bis 2019 visualisiert, siehe \autoref{fig:3}.
+Um diese Analyse durchzuführen, habe ich die relevanten Themen aus \autoref{tab:2} im Zeitraum 2008 bis Ende 2018 visualisiert, siehe \autoref{fig:3}.
 Für diese Abbildung wurden erst alle Kommentare in alle einzelnen Monate aufgeteilt und durch die Anzahl an Kommentaren in diesem Monat geteilt, um relative Häufigkeiten zu berechnen.
 Zudem wurde ein sog. \emph{rolling window} Filter benutzt, der in einem Fenster von den 2 umliegenden Jahren die oberen und unteren 25\% entfernt, und den Durchschnitt berechnet.
 Dies hatte den Grund, da bei der im Vergleich geringen Menge an Kommentaren zu einem Thema zu der Menge an einzelnen Monaten, die meisten Kommentare keinen Kommentar zu einem Thema besitzen.
@@ -343,7 +348,7 @@ Dies war besonders bei den Themen \emph{Apfelkuchen} und \emph{Lehrer} der Fall,
 Zuletzt gab es auch ein weiteres Problem, das sich schon in \autoref{tab:2} finden ließe:
 es gab zwischen verschiedenen Themen erhebliche Unterschiede der Größenordnungen.
 Dies wurde gelöst, indem die Y-Achse logarithmisch skaliert wurde, wodurch sowohl größere als auch kleinere Unterschiede sichtbar werden.
-Im Quellcode zu dieser Arbeit lässt sich genaueres dazu finden, siehe \autoref{sec:appendix}.
+Im Quellcode zu dieser Arbeit lässt sich genaueres dazu finden, siehe Anhang.
 
 \begin{figure}
     \centering
@@ -358,14 +363,14 @@ Es ließe sich vermuten, dass diese sich Trends durch eine Veränderung des Main
 Ein Indiz dafür wäre die Entwicklung der Meme-Kultur, die besonders 2008 sehr durch \emph{rage comics} wie dem sog. \emph{Trollface} oder absurden Kurzvideos wie \emph{ASDFMovie}\footnote{\url{https://youtu.be/meR20w6MiUc}} gesättigt war.
 
 \subsection{CorpusDiff}
-Die um die Ergebnisse der \(l\)-Metriken auszuwerten, wurden Pearson-Korrelation-Koeffizienten \autocite{Ber18} berechnet und ein linearer \emph{least-squares} Regressor \autocite{Baz21} gefittet, um die durchschnittliche Steigung, also den durchschnittlichen Zuwachs/Abfall der \(l\)-Metrik in einem Quartal zu bestimmen.
+Die um die Ergebnisse der \(l\)-Metriken auszuwerten, wurden Pearson-Korrelation-Koeffizienten \autocite{Ber18} berechnet und ein linearer \emph{least-squares} Regressor \autocite{Baz21} gefittet, um die durchschnittliche Steigung, also den durchschnittlichen Zuwachs/Abfall der \(l\)-Metrik in einem Jahr zu bestimmen.
 Diese Daten sind in \autoref{tab:3} zu finden.
 
 \begin{table*}
     \centering
     \begin{tabular}[c]{lrrr}
         \hline
-        \(l\)-Metrik & Korrelation & 95\%-Konfidenzintervall & Anstieg/Jahr \\
+        \(l\)-Metrik & Korrelation & 95\%-Konfidenzintervall & Durch. Jahresanstieg \\
         \hline
         \hline
         traditional morality & -0.092 & (-0.093, -0.091) & -0.034\% \\
@@ -387,9 +392,9 @@ Diese Daten sind in \autoref{tab:3} zu finden.
 \end{table*}
 
 Des Weiteren wurden zwei Visualisierungen erstellt, die jeweils den zeitlichen Verlauf aller \(l\)-Metriken direkt, siehe \autoref{fig:4}, sowie Z-standardisiert \autocite{BD07}, siehe \autoref{fig:5}, abbilden.
-Da für jeden Kommentar alle \(l\)-Metriken berechnet werden, existieren für einzelne Monate offenbar sehr viele Datenpunkte.
-Somit wurden für den ersten Plot eine obere und untere Schranke nahe der 25\%- und 75\%-Quartile durch \emph{getrimmte Mittelwerte} als Kompromiss zwischen Median und Mittelwert eingefügt, um die starke Varianz abzubilden.
-Ähnlich wie für BERTopic wurde wieder ein rolling window Filter verwendet, um Rauschen zu verhindern, und die einzelnen Metriken besser vergleichbar zu machen.
+Da für jeden Kommentar alle \(l\)-Metriken berechnet werden, existieren für einzelne Monate offenbar sehr viele Datenpunkte, was eine Visualisierung erschwert.
+Wie in der Visualisierung für BERTopic wurde deshalb der gleiche rolling window Filter angewendet, um Rauschen zu verhindern, und die einzelnen Metriken besser vergleichbar zu machen.
+Des Weiteren wurden für \autoref{fig:4} eine obere und untere Schranke nahe der 25\%- und 75\%-Quartile eingefügt, um die starke Varianz abzubilden.
 
 \begin{figure*}
     \centering
@@ -408,13 +413,28 @@ Somit wurden für den ersten Plot eine obere und untere Schranke nahe der 25\%- 
     \end{subfigure}
 \end{figure*}
 
+Aus \autoref{tab:3} und \autoref{fig:4} geht hervor, dass \(\l\)-Metriken in der Praxis sehr variante und größenteils kleine Werte produzieren.
+Da NottDeuYTSch kein politisches Korpus ist, war dies zu erwarten -- nichtsdestotrotz lassen sich trotzdem statistisch relevante aber kleine positive und negative Korrelationen nachweisen.
+Bei \(n \approx 3000000\) sind die ergebenen Korrelationen sehr präzise und ihre 95\%-Konfidenzintervalle klein.
+Somit sind die Ergebnisse dieses Ansatz keine hinreichenden Belege, dass sich in der Sprache und Jugendkultur viel verändert hat, jedoch Indizien dafür, dass es tatsächlich leichte Wertetrends gab.
+
+Beispielweise sind die Themen \emph{Europa} und \emph{Internationalismus} populärer geworden, während Themen wie \emph{traditionelle Moral}, \emph{Verfassung}, und \emph{Bildung} unbeliebter wurden.
+Daraus lässt sich interpretieren, dass die deutsche Jugendkultur im Zuge der Digitalisierung auch internationalisiert wurde.
+Dies wird außerdem dadurch belegt, dass der Englischanteil der deutschen Jugendsprache von 2008 bis 2020 signifikant anstieg \autocite{Po24}.
+
+Des Weiteren deuten die leichten negativen Trends zu \emph{traditionelle Moral}, \emph{Verfassung}, \emph{Bildung}, \emph{Protektionismus} auf eine libertäre und kapitalisierende Entwicklung.
+Dies lässt sich erklären dadurch, dass von 2008 bis 2018 sich neue Berufe wie YouTuber und Influencer etabliert hatten, sowie Gewinnspiele populärer wurden.
+Die allgemeine Präsenz von Gewinnspielen wurde außerdem in \autoref{tab:1} festgestellt.
+
 \section{Fazit}
 In diesem Lehrforschungsprojekt wurden drei Techniken definiert und vorgestellt, um das NottDeuYTSch-Korpus zu analysieren im Blick des Wertewandels in der deutschen digitalen Kinder- und Jugendkultur.
+Während ein bag-of-words-Ansatz wenig Ergebnisse lieferte, ließen sich mittels eines NTM-Ansatzes und eines neu entwickelten Korpus-Vergleichs-Tools namens CorpusDiff Entwicklungen feststellen.
+Es ging ein leichter, statistisch relevanter Trend zu einer digitalisierten, kapitalisierten und internationalisierten online-Jugendkultur hervor.
 
 % Irgendwo muss ich das hier noch hintun
-\section{Ausblick}
-In dieser Arbeit wurde PoliTweets verwendet, um die Werte aus NottDeuYTSch zu analysieren.
-Bei der Recherche wurden jedoch zusätzlich andere Datensätze gefunden, die sich eignen im Kontext dieser Arbeit mit CorpusDiff.
+\subsection{Ausblick}
+Die Ergebnisse dieser Arbeit basieren größenteils auf NottDeuYTSch und PoliTweets, jedoch sollten weitere Korpus-Kombinationen mittels ausgewertet werden, sowie andere Methoden verwendet werden, um die Ergebnisse zu reproduzieren.
+Weitere, nicht in dieser Arbeit verwendete Methoden sind in der folgenden Liste zu finden.
 \begin{description}
     \item[Qbias] \emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Zeitschriftartikel als entweder politisch \emph{links}, \emph{mittig}, und \emph{rechts} einstuft.
         Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
@@ -427,13 +447,22 @@ Bei der Recherche wurden jedoch zusätzlich andere Datensätze gefunden, die sic
         Leider wurde der Datensatz niemals veröffentlicht, weswegen er nicht verwendet wurde.
         Trotzdem könnte die Methodik der Arbeit angewendet werden, um weitere Daten zu Sammeln und mithilfe von CorpusDiff auszuwerten.
 
+    \item[LLM-basiert Analyse] Eine weitere Methode, die verwendet werden kann um massive Korpora auszuwerten, ist die Analyse mithilfe von \emph{large language models} LLM wie \emph{ChatGPT}\footnote{\url{https://chatgpt.com/}} oder einer lokalen Alternative wie \emph{Qwen3.8} \autocite{Qi26}.
+        LLMs können beispielweise für NTM verwendet werden wie in \emph{TopicGPT} \autocite{Pham24}.
+
+        Ein ähnlicher Ansatz wäre es ein LLM zu verwenden, um jedem Kommentar einen numerischen Wert für verschiedene Werte zuzuordnen.
+        Dies wäre mit \emph{pplx-decider}\footnote{\url{https://ollama.com/library/pplx-decider}}, einer Variante von Qwen3.8, vergleichsweise leicht zu implementieren.
+
+        Ein Nachteil einer LLM-gestützten Methode wäre, dass sie weitaus viel mehr Rechenzeit und Energie benötigen würde, als alle anderen vorgestellten Methoden.
+
 \end{description}
 
-\section{Anhang} \label{sec:appendix}
+\printbibliography[heading=bibintoc]
+
+\section*{Anhang}\addcontentsline{toc}{section}{Anhang}
 Die Quelldateien zu diesem Lehrforschungsprojekt ist unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
 
 Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 3700 XTX GPU, und einer Ryzen 9 5950X CPU.
 
-\printbibliography
-
+Beim Erstellen dieser Hausarbeit wurde generative KI nur im Zuge des Probelesens des Textes und der Überarbeitung des Quellcodes verwendet.
 \end{document}
