@@ -150,7 +150,9 @@ Formaler, sei \(\lambda : V^2 \rightarrow [-1, 1], (v, w) \mapsto \frac{v \cdot 
 Außerdem, seien \(P_l, N_l, \Omega \subseteq V\) paarweise disjunkt.
 \(P_l\) und \(N_l\) stellen die positiven und negativen Einbettungen aus PoliTweets zu einem Thema \(l\) dar, während \(\Omega\) die Menge der Einbettungen aus NottDeuYTSch ist.
 Die \(l\)-Metrik \(\alpha_l : \Omega \rightarrow [-1, 1]\) ist definiert durch
-\[\alpha_l: v \mapsto \frac{1}{2}\left(\sum_{u \in P_l} \frac{\lambda(v, u)}{|P_l|} - \sum_{u \in N_l} \frac{\lambda(v, u)}{|N_l|}\right).\]
+\begin{IEEEeqnarray*}{c}
+    \alpha_l: v \mapsto \frac{\sum_{u \in P_l} \lambda(v, u)}{2|P_l|} - \frac{\sum_{u \in N_l} \lambda(v, u)}{2|N_l|}.
+\end{IEEEeqnarray*}
 In anderen Worten, \(\alpha_l(v)\) ist die Differenz zwischen der durchschnittlichen Ähnlichkeit zu positiven und negativen Texten über Thema \(l\).
 Durch diesen Ansatz umgeht man das Problem, dass \(\lambda\) zwischen \(\Omega\) und \(P_l\) eben nicht nur \(l\) misst, sondern auch die stilistische Nähe zu Texten aus PoliTweets.
 
@@ -426,15 +428,40 @@ Des Weiteren deuten die leichten negativen Trends zu \emph{traditionelle Moral},
 Dies lässt sich erklären dadurch, dass von 2008 bis 2018 sich neue Berufe wie YouTuber und Influencer etabliert hatten, sowie Gewinnspiele populärer wurden.
 Die allgemeine Präsenz von Gewinnspielen wurde außerdem in \autoref{tab:1} festgestellt.
 
+\subsection{Kritik} \label{subsec:3.4}
+Die nur kleinen durch CorpusDiff Korrelationen ließen sich möglicherweise durch den folgenden Sachverhalt erklären.
+Derzeit wird die \(l\)-Metrik als Differenz zwischen durchschnittlichen Ähnlichkeiten definiert.
+Jedoch ist es möglich, dass die Einbettungen aus dem Vergleichsdatensatz, die ein gleiches Label positiv/negativ repräsentieren nicht einen konzentrierten und kreisförmigen Cluster ergeben.
+Des weiteren ist es auch möglich, dass einzelne sog. \emph{Outlier}, fern von anderen Einbettungen des gleichen Labels liegen.
+Wenn beides auftritt, werden nach der aktuellen Definition der \(l\)-Metrik kleine Werte produziert auch wenn eine starke relative Nähe zum jeweiligen Cluster vorliegt.
+
+Um den zweiten Effekt zu reduzieren, sollten vorerst die Outlier gefunden und entfernt werden.
+Hierfür existieren verschiedene Methoden die u.a. auch in hochdimensionalen Vektorräumen mit Winkelähnlichkeit angewendet werden können, wie \emph{angle-based outlier detection} \autocite{KSZ08}.
+Alternativ berechnet HDBSCAN \autocite{MB19} auch einen sog. \emph{outlier factor} der verwendet werden kann, um Outlier zu entfernen, oder sie weniger zu gewichten in der Berechnung der \(l\)-Metrik.
+
+Um beide Effekte zu reduzieren, könnte \(l\)-Metrik so angepasst werden, dass nicht die durchschnittlich Winkelähnlichkeit zu allen Einbettungen eines Labels berechnet wird, sondern davor das untere 25\% Quartil entfernt wird.
+Das führt dazu, dass der berechnete Durchschnitt ferne Outlier eines Labels entfernt, und eher die Nähe eines nahen Teils eines Clusters berechnet.
+Somit werden also entfernte Regionen eines Clusters weniger Relevant und können den Durchschnitt nicht fälschlicherweise reduzieren, wenn eine allgemeine Nähe zum Cluster vorliegt.
+
+Eine Alternative um mit dem ersten Effekt umzugehen, wäre es nähere Einbettungen stärker im Durchschnitt zu gewichten als entferntere ohne jene vollständig aus der Berechnung zu entfernen.
+Das könnte implementiert werden, indem beispielweise eine ungerade Zahl \(1 < f \in \N\) gewählt wird und die resultierende Winkelähnlichkeiten potenziert durch \(f\) werden, \(\lambda(v, u)^f\).
+Um zu garantieren, dass \(\alpha_l\) zwischen \(-1\) und \(1\) liegt würde die Formel angepasst werden zu
+\begin{IEEEeqnarray*}{c}
+    \alpha_l: v \mapsto F\left(\frac{\sum_{u \in P_l} \lambda(v, u)^f}{2^f|P_l|}\right) - F\left(\frac{\sum_{u \in N_l} \lambda(v, u)^f}{2^f|N_l|}\right).
+\end{IEEEeqnarray*}
+wobei das Hinzufügen von\footnote{\(\text{sgn} : \R \rightarrow \R, x \mapsto \text{Vorzeichen von } x\).} \(F : \R \rightarrow \R, x \mapsto \text{sgn}(x) \cdot \sqrt{|x|}\) und \(2^f\) wieder \(\alpha_l\) zu \([-1, 1]\) normalisiert.
+
+Da diese methodischen Optimierungen erst während des Schreibprozesses gefunden wurden, konnten sie nicht zeitlich implementiert werden, jedoch wären sie wichtige Chancen, um CorpusDiff in der Zukunft zu verbessern.
+Weitere Ideen und Ansätze sind in \autoref{subsec:4.1} zu finden.
+
 \section{Fazit}
 In diesem Lehrforschungsprojekt wurden drei Techniken definiert und vorgestellt, um das NottDeuYTSch-Korpus zu analysieren im Blick des Wertewandels in der deutschen digitalen Kinder- und Jugendkultur.
 Während ein bag-of-words-Ansatz wenig Ergebnisse lieferte, ließen sich mittels eines NTM-Ansatzes und eines neu entwickelten Korpus-Vergleichs-Tools namens CorpusDiff Entwicklungen feststellen.
 Es ging ein leichter, statistisch relevanter Trend zu einer digitalisierten, kapitalisierten und internationalisierten online-Jugendkultur hervor.
 
-% Irgendwo muss ich das hier noch hintun
-\subsection{Ausblick}
+\subsection{Ausblick} \label{subsec:4.1}
 Die Ergebnisse dieser Arbeit basieren größenteils auf NottDeuYTSch und PoliTweets, jedoch sollten weitere Korpus-Kombinationen mittels ausgewertet werden, sowie andere Methoden verwendet werden, um die Ergebnisse zu reproduzieren.
-Weitere, nicht in dieser Arbeit verwendete Methoden sind in der folgenden Liste zu finden.
+Weitere, nicht in dieser Arbeit verwendete Datensätze und Ansätze sind in der folgenden Liste zu finden.
 \begin{description}
     \item[Qbias] \emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Zeitschriftartikel als entweder politisch \emph{links}, \emph{mittig}, und \emph{rechts} einstuft.
         Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
@@ -454,6 +481,8 @@ Weitere, nicht in dieser Arbeit verwendete Methoden sind in der folgenden Liste 
         Dies wäre mit \emph{pplx-decider}\footnote{\url{https://ollama.com/library/pplx-decider}}, einer Variante von Qwen3.8, vergleichsweise leicht zu implementieren.
 
         Ein Nachteil einer LLM-gestützten Methode wäre, dass sie weitaus viel mehr Rechenzeit und Energie benötigen würde, als alle anderen vorgestellten Methoden.
+
+    \item[Anpassung der \(l\)-Metrik] Siehe \autoref{subsec:3.4}.
 
 \end{description}
 
