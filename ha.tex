@@ -23,7 +23,7 @@
     Aus medienpädagogischer Perspektive werden diese YouTube Kommentare als Orte von soziomateriellen Figurationen, Mikrokulturen und Peer-Kulturen verstanden.
 
     Die Analyse wurde empirisch und quantitativ durchgeführt, indem verschiedene computerlinguistische Algorithmen verwendet wurden, um Werte aus dem Korpus zu rekonstruieren.
-    Verglichen werden drei Zugänge: Lemmatisierung und Bag-of-Words mit spaCy, BERTopic sowie das neu entwickelte CorpusDiff, das RoBERTa-Einbettungen nutzt, um eine Differenz der durchschnittlichen Ähnlichkeit zu positiven und negativen Vergleichstexten zu berechnen.
+    Verglichen werden drei Zugänge: Lemmatisierung und Bag-of-Words mit spaCy, BERTopic sowie das neu entwickelte \emph{CorpusDiff}, das RoBERTa-Einbettungen nutzt, um eine Differenz der durchschnittlichen Ähnlichkeit zu positiven und negativen Vergleichstexten zu berechnen.
     Dabei wurden Werte nicht direkt gemessen, sondern über sprachliche Nähe zu politisch gelabelten Texten aus PoliTweets als Proxy operationalisiert.
 
     Während Lemmatisierung und BERTopic in dem überwiegend unpolitischen Datensatz kaum wertbehaftete Ergebnisse liefern konnten, wurden mit CorpusDiff kleine, aber nachweisbare positive und negative Korrelationen festgestellt.
@@ -58,20 +58,23 @@ Diese Arbeit beschäftigt sich mit einem immer relevanteren Phänomen der Jugend
 
 \subsection{Digitale Jugendkultur}
 Seit der Digitalisierung findet viel Jugendkultur in digitalen Räumen statt.
-Die Medienpädagogik beschäftigt sich außerdem viel mit Medienpraktiken und digitalen Kulturen.
+Kinder und Jugendliche wachsen heute in einer mediatisierten Lebenswelt auf, in der digitale Plattformen selbstverständlich alltäglich sind.
+85\% der Zwölf- bis 19-Jährigen sehen regelmäßig Videos auf Plattformen wie \emph{YouTube} \autocite{JIM24}. % MISSING
+Die Medienpädagogik beschäftigt sich viel mit Medienpraktiken und digitalen Kulturen -- insbesondere den auf YouTube ausgeführten.
 Darüber hinaus werden Kind-Medien-Interaktionen aus verschiedenen Blickwinkeln betrachtet.
 Sie werden nicht nur im Zuge der \emph{Enkulturation} verwendet, bei der eine gewollte \emph{Erwachsenenkultur} angelernt wird.
 Stattdessen erschaffen Kind-Medien-Interaktionen zusätzlich sogenannte unabhängige \emph{Mikrokulturen}, die in ihren digitalen Räumen praktiziert werden.
+\textcite{CE90} spricht außerdem in diesem Zusammenhang von sog. \emph{Peer-Kulturen}, die Kinder und Jugendliche in der Auseinandersetzung innerhalb der Erwachsenenwelt hervorbringen, und ihre Werte wie Normen aushandeln sowie ausdrücken.
 \textcite{Sch21} beschreibt dieses Phänomen als \emph{soziomaterielle Figurationen}, die sich innerhalb der Medienpraktiken offenbaren.
 Schließlich prägen diese Mikrokulturen die Erwachsenenkultur, da letztendlich Jugendliche mit Erwachsenen interagieren und aufwachsen.
 Die moderne Pädagogik beobachtet somit in Kind-Medien-Interaktionen also nicht nur eine hierarchische \emph{Erwachsenen-Kind}-Beziehung, sondern einen flexiblen Austausch innerhalb und zwischen Generationen.
-Das Phänomen, das diese Arbeit beobachtet, ist diese digitale Jugendkultur.
+Aus sozialisationstheoretischer Sicht sind also Heranwachsende keine passiven Empfänger, sondern gestalten ihre Entwicklung aktiv mit \autocite{Hu02}. % MISSING
+Erzieher sollten dementsprechend nicht nur aus Erwachsenenperspektive bewerten.
 
+Das Phänomen, das diese Arbeit beobachtet, ist diese digitale Jugendkultur.
 Kind-Medien-Interaktionen lassen sich unter anderem direkt in ihren digitalen Räumen beobachten, um auf die Werte und Normen ihrer Mikrokulturen und dementsprechend einen Teil der digitalen Jugendkultur zu schließen.
 Das Ziel dieser Arbeit ist es, genau diesen Schritt zu vollziehen -- eine Analyse der digitalen Jugendkultur und ihrer Werte auf Grundlage von Nutzerinhalten eines digitalen Raumes.
-
-Theoretisch lässt sich das Projekt an Konzepte der Medienaneignung \autocite{Wa13} und der Peer-Kultur \autocite{CE90} anschließen.
-Kinder und Jugendliche eignen sich Medien nicht einfach passiv an, sondern produzieren in digitalen Räumen eigene Mikrokulturen. Diese Mikrokulturen sind pädagogisch relevant, weil in ihnen Normen und Werte ausgehandelt werden – etwa durch Abwertung, Ironie, Zustimmung oder Distinktion. Die Analyse von Kommentaren erfasst dabei nur sprachliche Oberflächenphänomene; für die Rekonstruktion von Sinn und Bedeutung sind ergänzend qualitative Verfahren nötig.
+Dazu fehlt derzeit ein Verfahren, um große zeitlich indizierte Datensätze pädagogisch auszuwerten, weswegen diese Arbeit ein neues computerlinguistisches Verfahren namens \emph{CorpusDiff} erprobt und prüft wo seine Grenzen liegen.
 
 Somit definieren sich die Forschungsfragen dieser Arbeit.
 
@@ -100,15 +103,18 @@ Hierbei offenbart sich ein methodologischer Nachteil der direkten qualitativen A
 Werden nur einzelne Posts und Kommentare analysiert, kann zwar für sie festgestellt werden, welche Werte sie vertreten, wie sie bei der Jugend ankommen, oder ob sie pädagogisch wertvoll sind, jedoch existiert ein Risiko, dass jene Inhalte eine unfaire Stichprobe repräsentieren, die nicht für das Gesamtbild sprechen.
 Rein wissenschaftlich gesehen, könnte der Pädagoge oder die Pädagogin sogar unterbewusst Inhalte wählen, sodass seine/ihre persönliche Wertvorstellung der Jugendkultur die Analyse färbt.
 Für eine Analyse der digitalen Jugendkultur ist es wichtig, ein breites Bild von Nutzerinhalten anzuschauen.
+Quantitative, algorithmische Verfahren erlauben dagegen Aussagen über große Datenmengen und Zeiträume, sind aber ebenfalls nicht neutral: Auswahl des Korpus, Wahl der Kategorien und Verzerrungen in den Sprachmodellen können die Ergebnisse prägen.
 
-Ein Nachteil der quantitativen Analyse ist, dass sie nicht unmittelbar menschlich ausgeführt werden kann.
+Ein Nachteil der quantitativen Analyse ist, dass sie bei großen Datenmengen nicht unmittelbar menschlich ausgeführt werden kann.
 Wenn ein breiter Überblick der digitalen Jugendkultur gesucht wird, ist es nötig sehr viele Daten auszuwerten -- was somit nur hauptsächlich maschinell möglich ist.
 Das erschwert sich dazu, dass viele digitale Plattformen heutzutage so funktionieren, dass es nur langsam möglich ist direkt Nutzerinhalte von ihrer Plattform herunterzuladen.
-Die maschinelle Auswertung von Text, in diesem Fall eine Extraktion von Werten, ist zudem nicht leicht zu implementieren -- ein Computer kann zwar leicht die Syntax einer Sprache erkennen, jedoch ist es schwerer als für den Sprecher ihre Semantik zu deuten.
+Die maschinelle Auswertung von Text, in diesem Fall eine Extraktion von Bedeutungen, ist zudem nicht leicht zu implementieren -- ein Computer kann zwar leicht die Syntax einer Sprache erkennen, jedoch ist es schwerer als für den Sprecher ihre Semantik zu deuten.
+Diese Arbeit verfolgt daher dem \emph{mixed-methods} Ansatz, qualitative Ergebnisse nur als Hinweise zu verstehen, die in einem nächsten Schritt durch Vergleichsstudien überprüft und analysiert werden sollten.
 
-Ein Medium, welches von vielen Jugendlichen weltweit verwendet wird, ist die digitale Videohosting Plattform \emph{YouTube}.
+Wie bereits erwähnt ist die digitale Videohosting Plattform YouTube ein Medium, das von vielen Jugendlichen verwendet wird.
 Nutzer können dort unter den meisten Inhalten, u.a. Videos, eigene Kommentare hinzufügen.
-Somit ermöglicht YouTube verschiedene Kind-Medien Interaktionen, insbesondere einen Austausch von Jugendkulturen, sowie die Praktizierung von digitalen Jugendkulturen und Mikrokulturen.
+Somit ermöglicht YouTube verschiedene Kind-Medien Interaktionen, insbesondere einen Austausch von Jugendkulturen, sowie die Praktizierung von digitalen Peer- und Mikrokulturen.
+Verhandlungen und Austausch jener werden u.a., in Interaktionen durch Kommentare unter Nutzerbeiträgen sichtbar.
 
 \subsection{NottDeuYTSch} \label{subsec:2.1}
 \emph{NottDeuYTSch} \autocite{Cot18, Cot23} ist eine Sammlung von drei Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
@@ -118,7 +124,12 @@ Da jeder Kommentar zeitlich indiziert wurde, können Sprach- und Wertewandel dur
 NottDeuYTSch eignet sich somit hervorragend als Datenquelle, um die digitale YouTube Jugendkultur im Wandel zwischen 2008 und 2018 zu analysieren.
 
 Der folgende Beitrag untersucht schwerpunktmäßig die digitale Jugendkultur im YouTube-Kontext.
-Dementsprechend sind Aussagen über die Jugendkultur im engeren Sinne eingeschränkt möglich, da das Korpus nur eine Stichprobe aus digitalen Beiträgen von Kindern und Jugendlichen enthält.
+Dementsprechend sind Aussagen über die Jugendkultur im engeren Sinne eingeschränkt möglich, da das Korpus nur eine Stichprobe aus digitalen Beiträgen von Kindern und Jugendlichen enthält, sowie hauptsächlich aus unpolitischen Kommentaren besteht.
+
+Des Weiteren muss berücksichtigt werden, dass in den Zehn Jahren, aus denen die Sammlung besteht, mehrere Veränderungen bezüglich der Kommentierenden auftraten.
+Beispielweise wurden einzelne Nutzer älter, sowie neue Nutzer kamen dazu.
+Außerdem veränderte sich die Plattform und Kommentarfunktion selbst.
+Somit sollten aus dem Korpus interpretierte Veränderungen nicht als alleinige Evidenz berücksichtigt werden.
 
 \subsubsection{Implementierung}
 NottDeuYTSch ist in verschiedenen Formaten verfügbar unter \textcite{Cot18}.
@@ -279,7 +290,7 @@ Dementsprechend hatte ich beschlossen in den Ansätzen Nutzernamen nicht zu ziti
 
 Im Folgenden werden die Ergebnisse dieser drei Ansätze präsentiert.
 
-\section{Ergebnisse}
+\section{Ergebnisse \& Interpretation}
 Die Ergebnisse der Analyse von NottDeuYTSch lassen sich in ihre drei Methoden gliedern.
 
 \subsection{Lemmatisierung \& Bag-of-Words}
@@ -298,6 +309,11 @@ Um etwas tiefer zu schauen, wurde eine Tabelle mit allen Wortzählungen erstellt
 Leider wurden in dieser Tabelle im Vergleich zu wenig Stichwörter gefunden, mit deren temporäre Häufigkeit eine akkurate Werteanalyse weitergeführt werden hätte können.
 Um dies zu demonstrieren ist ein Teil der Wortzählung in \autoref{tab:1} zu finden.
 Das Wort \emph{woke} kommt sogar kein mal im gesamten Korpus vor.
+In der Kommentarkultur werden vor allem der Inhalt einzelner Beiträge, der Community und der Plattformpraktiken verhandelt.
+Für die Medienpädagogik ist dies ein Hinweis darauf, dass Werte, wie bereits vermutet, im Alltag selten explizit ausgesprochen werden.
+Stattdessen laufen sie implizit in Form von Humor, Memes, Lob oder Zugehörigkeit mit.
+
+Dass das Lemma \emph{Nazi} häufiger vorkommt als \emph{Gleichberechtigung} und \emph{Feminismus}, kann als Hinweis auf abwertenden Sprachgebrauch gelesen werden, sagt aber ohne Kontextanalyse nichts darüber aus, ob das Wort als Beleidigung, Kritik an Rechtsextremismus oder ironisch verwendet wurde.
 
 \begin{table}
     \centering
@@ -328,7 +344,7 @@ Dementsprechend geht Ironie verloren, wenn sie in einem Kommentar angewandt wird
 
 Ein ähnlicher Ansatz wäre es sog. \emph{N-Gramme} zu finden, bei denen jeweils nach \(n \in \N\) langen Lexemkombinationen gesucht werden -- die klassische Wortzählung ist die Suche nach 1-Grammen.
 Jedoch verliert man Häufigkeiten je größer \(n\) ist.
-Außerdem lässt sich Ironie oder ein Widerspruch auch in einem Satz so verkapseln, dass man sie erst finden kann, wenn erst der vollständige Satz interpretiert wird: \emph{Ich bin ein Teil von jener Kraft, die stets das Böse will und stets das Gute schafft}.
+Außerdem lässt sich ein Widerspruch als bsp. Oxymoron auch in einem Satz so verkapseln, dass man sie erst finden kann, wenn erst der vollständige Satz interpretiert wird: \emph{Ich bin ein Teil von jener Kraft, die stets das Böse will und stets das Gute schafft}.
 
 \subsection{BERTopic}
 Für den Ansatz mit BERTopic kamen ähnliche Ergebnisse heraus, wie mit dem klassisch-linguistischem bag-of-words Ansatz -- die meisten Themen, die von BERTopic identifiziert wurden, haben mit Videoinhalten oder dem Medium YouTube zu tun.
@@ -440,18 +456,20 @@ Des Weiteren wurden für \autoref{fig:4} eine obere und untere Schranke nahe der
 \end{figure*}
 
 Aus \autoref{tab:3} und \autoref{fig:4} geht hervor, dass \(\l\)-Metriken in der Praxis sehr variante und größenteils kleine Werte produzieren.
-Da NottDeuYTSch kein politisches Korpus ist, war dies zu erwarten -- nichtsdestotrotz lassen sich trotzdem statistisch relevante aber kleine positive und negative Korrelationen nachweisen.
+Nach \autoref{subsec:2.1} war dies zu erwarten -- nichtsdestotrotz lassen sich trotzdem statistisch relevante aber kleine positive und negative Korrelationen nachweisen.
 Die berichteten Korrelationen sind aufgrund der großen Datenmenge (\(n \approx 3000000\)) sehr präzise, aber durch ihre Werte in ihrer Effektstärke klein.
 Die Konfidenzintervalle sind daher eher als untere Grenze der Unsicherheit zu lesen.
 Somit sind die Ergebnisse dieses Ansatz keine hinreichenden Belege, dass sich in der Sprache und Jugendkultur viel verändert hat, jedoch Indizien dafür, dass es tatsächlich leichte Trends gab.
 
 Beispielweise sind die Themen \emph{Europa} und \emph{Internationalismus} leicht populärer und positiv gelesen geworden.
 Daraus lässt sich interpretieren, dass die deutsche Jugendkultur im Zuge der Digitalisierung auch internationalisiert wurde.
-Dies wird außerdem dadurch belegt, dass der Englischanteil der deutschen Jugendsprache von 2008 bis 2020 signifikant anstieg \autocite{Po24}.
+Dies wird außerdem dadurch gestützt, dass der Englischanteil der deutschen Jugendsprache von 2008 bis 2020 signifikant anstieg \autocite{Po24}.
 
 Des Weiteren deuten die leichten negativen Trends zu \emph{traditionelle Moral}, \emph{Verfassung}, \emph{Bildung}, \emph{Protektionismus} auf eine leichte libertäre Entwicklung.
-Dies lässt sich erklären dadurch, dass von 2008 bis 2018 sich neue Berufe wie YouTuber und Influencer etabliert hatten, sowie Gewinnspiele populärer wurden.
-Die allgemeine Präsenz von Gewinnspielen im Korpus wurde außerdem in \autoref{tab:1} festgestellt.
+Es ist ebenso denkbar, dass, wie erwähnt, sich die Zusammensetzung der Kommentierenden oder der Videos verändert hat, dass dieselben Personen mit dem Älterwerden andere Themen aufgreifen oder dass Plattformänderungen eine Rolle spielen.
+Aus pädagogischer Sicht ist zudem relevant, dass sich zwischen 2008 und 2018 die Rolle kommerzieller Akteure auf YouTube verändert hat in Form von Influencern, Gewinnspielen und Produktplatzierungen.
+Die Präsenz von Gewinnspielen wurde außerdem in \autoref{tab:1} festgestellt.
+Ob sich dies in den Wertorientierungen der Nutzer niederschlägt, kann diese Arbeit nicht entscheiden, jedoch suggeriert sie dies.
 
 Die leichte Zunahme internationaler Themen kann außerdem medienpädagogisch als Hinweis auf eine stärker transnational orientierte Peer-Kultur gelesen werden.
 Sie ist jedoch nicht mit einer bewussten politischen Wertorientierung gleichzusetzen.
@@ -474,12 +492,12 @@ Das führt dazu, dass der berechnete Durchschnitt ferne Outlier eines Labels ent
 Somit werden also entfernte Regionen eines Clusters weniger Relevant und können den Durchschnitt nicht fälschlicherweise reduzieren, wenn eine allgemeine Nähe zum Cluster vorliegt.
 
 Eine Alternative um mit dem ersten Effekt umzugehen, wäre es nähere Einbettungen stärker im Durchschnitt zu gewichten als entferntere ohne jene vollständig aus der Berechnung zu entfernen.
-Das könnte implementiert werden, indem beispielweise eine ungerade Zahl \(1 < f \in \N\) gewählt wird und die resultierende Winkelähnlichkeiten potenziert durch \(f\) werden, \(\lambda(v, u)^f\).
-Um zu garantieren, dass \(\alpha_l\) zwischen \(-1\) und \(1\) liegt würde die Formel angepasst werden zu
+Das könnte implementiert werden, indem beispielweise ein \(p \ge 1\) gewählt wird und die resultierende Winkelähnlichkeiten potenziert durch \(p\) werden, \(\lambda(v, u)^p\).
+Um zu garantieren, dass \(\alpha_l\) zwischen \(-1\) und \(1\) liegt könnte die Formel angepasst werden zu \(\alpha_l: v \mapsto \)
 \begin{IEEEeqnarray*}{c}
-    \alpha_l: v \mapsto F\left(\frac{\sum_{u \in P_l} \lambda(v, u)^f}{2^f|P_l|}\right) - F\left(\frac{\sum_{u \in N_l} \lambda(v, u)^f}{2^f|N_l|}\right).
+    \frac{\sum_{u \in P_l} \lambda(v, u)|\lambda(v, u)|^p}{2 \sum_{u \in P_l} |\lambda(v, u)|^p} - \frac{\sum_{u \in N_l} \lambda(v, u)|\lambda(v, u)|^p}{2 \sum_{u \in N_l} |\lambda(v, u)|^p}.
 \end{IEEEeqnarray*}
-wobei das Hinzufügen von\footnote{\(\text{sgn} : \R \rightarrow \R, x \mapsto \text{Vorzeichen von } x\).} \(F : \R \rightarrow \R, x \mapsto \text{sgn}(x) \cdot \sqrt{|x|}\) und \(2^f\) wieder \(\alpha_l\) zu \([-1, 1]\) normalisiert.
+Im Vergleich zu der originalen Version wurde hier ein sog. \emph{Lehmer-Mittel} \autocite{Bu03} verwendet, wobei dieses Variante auch für negative \(\lambda\) funktioniert.
 
 Da diese methodischen Optimierungen erst während des Schreibprozesses gefunden wurden, konnten sie nicht zeitlich implementiert werden, jedoch wären sie wichtige Chancen, um CorpusDiff in der Zukunft zu verbessern.
 Weitere Ideen und Ansätze sind in \autoref{subsec:4.1} zu finden.
@@ -488,17 +506,18 @@ Ein anderes identifiziertes Problem lag in NottDeuYTSch direkt vor.
 Kommentare sind nicht unabhängig voneinander, da sie sich auf Videos, Kanäle und Zeitpunkte clustern.
 In anderen Worten: Bei der Sammlung von NottDeuYTSch wurden viele Kommentare unter den gleichen Videos gesammelt, also oft zu den gleichen Themen.
 Dies erklärt das plötzliche Auftreten der Themen \emph{apfelkuchen\_\dots\_äpfelkuchen} und \emph{freedom\_folgen\_projekt\_folge} in \autoref{fig:3}.
-Für zukünftige Analysen sollten monatliche Aggregate, cluster-robuste Verfahren oder Zeitreihenmodelle geprüft werden.
+Für zukünftige Analysen sollten monatliche Aggregate, Cluster-robuste Verfahren oder Zeitreihenmodelle geprüft werden.
 
 \section{Fazit}
 In diesem Lehrforschungsprojekt wurden drei Techniken definiert und vorgestellt, um das NottDeuYTSch-Korpus zu analysieren im Blick des Wertewandels in der deutschen digitalen Kinder- und Jugendkultur.
 Während ein bag-of-words-Ansatz wenig Ergebnisse lieferte, ließen sich mittels eines NTM-Ansatzes und eines neu entwickelten Korpus-Vergleichs-Tools namens CorpusDiff leichte Entwicklungen feststellen.
-%Es zeigte sich ein leichter, statistisch relevanter Trend zu einer digitalisierten, kapitalisierten und internationalisierten Online-Jugendkultur hervor.
 
 Medienpädagogisch zeigt die Arbeit, dass Wertewandel in digitalen Jugendkulturen nicht top-down als Vermittlung von Erwachsenenwerten verstanden werden sollte.
 Jugendliche handeln Werte in Peer- und Mikrokulturen aus.
 Eine pädagogische Begleitung sollte daher auf reflexive Auseinandersetzung, Medienkritik, Teilhabe und die Förderung von Ambiguitätstoleranz zielen.
 Die Ergebnisse liefern hierfür erste computerlinguistische Indizien, keine abschließenden Belege.
+
+% PÄDAGOGISCHE IMPLIKATIONEN!
 
 \subsection{Ausblick} \label{subsec:4.1}
 Die Ergebnisse dieser Arbeit basieren größenteils auf NottDeuYTSch und PoliTweets, jedoch sollten weitere Korpus-Kombinationen mittels ausgewertet werden, sowie andere Methoden verwendet werden, um die Ergebnisse zu reproduzieren.
@@ -532,7 +551,7 @@ Weitere, nicht in dieser Arbeit verwendete Datensätze und Ansätze sind in der 
 \section*{Anhang}\addcontentsline{toc}{section}{Anhang}
 Die Quelldateien zu diesem Lehrforschungsprojekt sind unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
 
-Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 3900 XTX GPU, und einer Ryzen 9 5950X CPU.
+Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 7900 XTX GPU, und einer Ryzen 9 5950X CPU.
 
 Beim Erstellen dieser Hausarbeit wurde generative KI nur im Zuge des Probelesens des Textes und der Überarbeitung des Quellcodes verwendet.
 \end{document}
