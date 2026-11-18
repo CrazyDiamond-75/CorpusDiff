@@ -47,7 +47,7 @@
 \fancyhead[L]{\titletext \\ Lehrforschungsprojekt Medienpädagogik}
 \fancyhead[R]{Henri Heyden \\ 20. November 2026}
 
-\section{Einleitung}
+\section{Einleitung} \label{sec:1}
 Jegliche Kultur, somit auch die Kulturen, die von Kindern und Jugendlichen praktiziert werden, lässt sich zeitlich beobachten -- sie sind stets im Wandel \autocite{KWV21}.
 Die Werte und Normen der \emph{Jugendkulturen} fungieren mit ihren Praktiken als konstitutive Merkmale der Kultur.
 Sie definieren, \emph{welche} Praktiken \emph{wie} ausgeführt werden.
@@ -58,7 +58,7 @@ Diese Arbeit beschäftigt sich mit einem immer relevanteren Phänomen der Jugend
 \subsection{Digitale Jugendkultur}
 Seit der Digitalisierung findet viel, und ansteigend mehr Jugendkultur in digitalen Räumen statt.
 Kinder und Jugendliche wachsen heute in einer mediatisierten Lebenswelt auf, in der digitale Plattformen selbstverständlich alltäglich sind.
-85 \% der Zwölf- bis 19-Jährigen sehen regelmäßig Videos auf Plattformen wie \emph{YouTube} \autocite{JIM24}.
+85~\% der Zwölf- bis 19-Jährigen sehen regelmäßig Videos auf Plattformen wie \emph{YouTube} \autocite{JIM24}.
 Die Medienpädagogik beschäftigt sich viel mit Medienpraktiken und digitalen Kulturen -- insbesondere den auf YouTube ausgeführten.
 Darüber hinaus werden Kind-Medien-Interaktionen aus verschiedenen Blickwinkeln betrachtet.
 Sie werden nicht nur im Zuge einer \emph{Enkulturation} verwendet und interpretiert, bei der eine leitende vom Pädagogen empfohlene \emph{Erwachsenenkultur} angelernt wird.
@@ -88,6 +88,49 @@ In dieser Arbeit werden verschiedene Techniken vorgestellt, um die Forschungsfra
 Für die Medienpädagogik sind die Forschungsfragen nicht nur deskriptiv, sondern auch praktisch relevant.
 Digitale Jugendkulturen sind Orte informeller Bildung, in denen junge Menschen Zugehörigkeit, Identität und Wertorientierungen aushandeln.
 Wertewandel zeigt sich dabei selten in expliziten Wertebekenntnissen, sondern häufig in alltäglichen Medienpraktiken: in Sprache, Humor, Memes und der Art, wie über Themen gesprochen wird -- eine computergestützte Analyse kann diese Spuren sichtbar machen.
+
+\section{Theoretischer Rahmen und Forschungsstand}
+Bevor die Methoden und Zugänge dieser Arbeit vorgestellt werden, werden die theoretischen Grundlagen erörtert und der derzeitige Forschungsstand eingeordnet.
+Hierzu wird genau definiert, was unter Werten und Wertewandel zu verstehen ist, wie die Jugendforschung bei der Untersuchung von Wertorientierungen agiert, und welche computergestützten Verfahren zur Werteanalyse in Korpora bereits existieren.
+
+\subsection{Werte und Wertewandel} \label{subsec:werte}
+Unter Werten werden nach \textcite{Ro73} dauerhafte persönliche oder gesellschaftliche Überzeugungen definiert, die eine bestimmte Verhaltensweise oder einen gewollten Endzustand implizieren.
+Sie sind damit abstrakte orientierende Leitvorstellungen, die von konkreten Normen als Handlungsregeln und von medienbezogenen Einstellungen zu unterscheiden sind.
+Unter Wertewandel wird die langfristige Verschiebung und Repriorisierung dieser Überzeugungen verstanden.
+
+Aus der Forschung eignen sich zwei Ergebnisse als Leittheorie für diese Arbeit:
+\textcite{Ing77} argumentiert, dass seit dem zweiten Weltkrieg (materielle) Sicherheit an Bedeutung verliert, und stattdessen die persönliche Selbstentfaltung an Bedeutung gewinnt -- zunächst innerhalb der Jugend, weswegen dieser Wertewandel generationell überträgt.
+\textcite{Kl84} unterstreicht dies indem am den 1960er Jahren ein Wandel von sog. \emph{Pflicht- und Akzeptanzwerten} wie Gehorsam, Ordnung und Fleiß, zu \emph{Selbstentfaltungswerten}, wie Autonomie und Selbstverwirklichung, gefunden wird.
+Des Weiteren wird betont, dass eine sog. \emph{Wertsynthese} stattfindet, in der Jugendliche \emph{klassische} und \emph{moderne} Werte miteinander kombinieren.
+
+Für diese Arbeit ergeben sich daraus zwei Konsequenzen:
+Erstens ist Wertewandel als \emph{langsame} Verschiebung von Prioritäten, nicht als plötzliche Ablösung von alten durch neue Werte zu verstehen, sodass statistisch kleine Trends in einer empirischen Studie zu erwarten sind, jedoch trotzdem interpretierbar sind.
+Zweitens sind Werte selbst nicht direkt messbar, jedoch lassen sich in der Ausführung der Praktiken, insbesondere in der Sprache zeigen.
+Dieser sprachbasierte Ansatz wird in \autoref{subsec:2.3} weiter diskutiert.
+
+\subsection[Die Jugend als Trägerin des Wertewandels]{Die Jugend als Trägerin\\ des Wertewandels}
+Wie bereits in \autoref{subsec:werte} aufgegriffen, kann die Jugendkultur als ein maßgebender Einfluss auf den Wertewandel verstanden werden, da veränderte Wertprioritäten zunächst in nachwachsenden Kohorten sichtbar werden \autocite{Ing77}.
+Hierdurch befürwortet es sich, durch Jugendstudien auf den allgemeinen Wertewandel zu schließen.
+
+Eine solche Studie ist die \emph{Shell Jugendstudie}\footnote{Anmerkung: Die Shell Jugendstudie wird vom Shell-Privatkonzern durchgeführt und herausgegeben, und ist somit nicht primär eine neutrale Quelle.}, die seit 1953 regelmäßig persönliche Wertorientierungen und das Lebensgefühl 12- bis 25-Jährigen in Deutschland dokumentiert \autocite{Al24}.
+In der Studie von 2024 ging hervor, dass 91~\% der Jugendlichen einen sicheren Arbeitsplatz wichtig finden, während Ängste über Politik, Gesellschaft und Klimawandel zunehmen.
+Allerdings wird erwähnt, dass von einer allgemeinen Resignation oder Distanz zu Demokratie nicht zu sprechen sei, sondern Zukunftsvertrauen und Hoffnung dominieren.
+Gleichzeitig bleiben Toleranz, progressive Einordnung, Freundschaft, Familie und eine partnerschaftliche Aufteilung zentrale Lebensziele wichtig \autocite{Al24}.
+Hieraus bestätigt sich empirisch die von \textcite{Kl84} beschriebene Wertsynthese, dass Jugendliche klassische Sicherungs- und Gemeinschaftswerte mit Selbstentfaltungswerten kombinieren.
+
+Befragungen wie in der Shell Studie erfassen Werte durch explizite Selbstauskunft.
+Jedoch, wie in \autoref{sec:1} und \autoref{subsec:werte} erwähnt, verhandeln Jugendliche Werte im Alltag selten als Bekenntnisse zum jeweiligen Wert, sondern implizit durch ihre Praktiken durch Sprache, Humor, Memes und der Art, wie über Themen gesprochen wird.
+Durch diesen Zusammenhang könnte vermutet werden, dass eine Studie basierend auf Selbstauskunft inhärent ein Ergebnis färbt.
+Digitale Räume eignen sich dementsprechend als andere Quelle, um Wertorientierungen indirekt zu beobachten.
+
+Methodisch gesehen erforscht diese Arbeit genau diese Lücke -- Werteerfassung ohne explizite Befragung oder Selbstauskunft, sondern durch implizite Beobachtung eines hauptsächlich unpolitischen Korpus.
+
+\subsection{Natural Language Processing}
+In den letzten Jahren haben neuronale Verfahren die computergestützte Textanalyse erweitert.
+Einbettungsmodelle erlauben, semantische Nähe zwischen Texten maschinell zu messen \autocite{RG19}, und neuronale Themenmodelle finden Strukturen in großen Textmengen \autocite{Gro22, Wu24}.
+Anwendungen reichen von der Messung politischer Präferenzen in sozialen Medien \autocite{Bie22} bis zur automatisierten Einordnung politischer Texte auf Links-Rechts-Skalen \autocite{Aks21, HS23}.
+
+Diese Arbeit behandelt, u. a. eine Implementierung eines solchen konzeptuell vorgestellten Methode.
 
 \section{Methoden und Zugänge} \label{sec:2}
 Wie bereits erläutert, kann eine Kultur- bzw. Werteanalyse der digitalen Jugendkultur durchgeführt werden, indem Inhalte, die von Jugendlichen im Internet geteilt werden, beobachtet und analysiert werden.
@@ -166,6 +209,8 @@ Aus diesem Grund wurden die Schritte der folgenden Pipeline vollständig modular
 \subsection{PoliTweets} \label{subsec:2.3}
 \textcite{Bie22} präsentiert \emph{PoliTweets} -- einen Datensatz aus 10.561 deutschen Posts der Social-Media-Plattform \emph{Twitter} (heute \emph{X}).
 Die gesammelten \emph{Tweets} wurden dabei mit verschiedenen Labels ausgezeichnet, die eine politische Gesinnung zu einem bestimmten Thema darlegen.
+Diese Zuordnung stützt sich auf eine Grundlage der quantitativen Inhaltsanalyse -- dem \emph{Manifesto Projekt}, das seit 1949 Wahlprogramme systematisch nach politischen Themen kategorisiert und als öffentlichen Datensatz verfügbar macht \autocite{Vol23}.
+\textcite{Bie22} verwendet die in \textcite{Vol23} etablierten Labels.
 
 PoliTweets eignet sich aus vielen Gründen sehr gut für diese Arbeit.
 Erstens, da es ausschließlich aus deutschsprachigen Tweets besteht, jedoch auch, da zwölf der Kategorien sowohl positive als auch negative Beispiele erhalten.
@@ -188,7 +233,7 @@ Zu dieser Methode ist zu beachten, dass nicht einzelne Werte dieser Metrik zu in
 Außerdem ist sie nur so akkurat, wie der Vergleichskorpus genau ist, und möglichst viele positive und negative Beispiele für \(l\) enthält.
 
 Somit kann \(\alpha_l\) in einem großen Korpus verwendet werden, um einen Score für einen Wert bzw. einem Thema, das \(l\) repräsentiert, zu generieren.
-Jene Werte werden hier als abstrakte Leitvorstellungen verstanden, ihre impliziten Normen als konkrete Handlungsregeln und Wertorientierungen als in Praktiken beobachtbare Präferenzen.
+Jene Werte werden, wie in \autoref{subsec:werte}, als abstrakte Leitvorstellungen verstanden, ihre impliziten Normen als konkrete Handlungsregeln und Wertorientierungen als in Praktiken beobachtbare Präferenzen.
 Da Werte nicht direkt messbar sind, werden sie in dieser Methode über sprachliche Spuren operationalisiert.
 Die Nähe von Kommentaren zu politisch gelabelten Texten aus PoliTweets dient als Proxy für Themennähe, nicht als direkte Messung innerer Werte.
 
@@ -297,7 +342,7 @@ Dementsprechend wurde beschlossen, in den Ansätzen Nutzernamen nicht zu zitiere
 
 Im Folgenden werden die Ergebnisse dieser drei Ansätze präsentiert.
 
-\section{Ergebnisse \& Analyse}
+\section{Ergebnisse und Analyse}
 Die Ergebnisse der Analyse von NottDeuYTSch lassen sich in ihre drei Methoden gliedern.
 
 \subsection{Lemmatisierung \& Bag-of-Words}
@@ -378,7 +423,7 @@ Aus dieser Tabelle offenbaren sich mehrere Probleme:
 \begin{enumerate}
     \item Es wurden zu wenig relevante politische Themen gefunden.
     \item BERTopic ordnet jedem Kommentar nur ein Thema zu.
-    \item Einem großen Anteil an Kommentaren (\(\approx 41\) \%) wurde kein Thema zugeordnet.
+    \item Einem großen Anteil an Kommentaren (\(\approx\) 41~\%) wurde kein Thema zugeordnet.
 \end{enumerate}
 Das erste Problem erklärt sich dadurch, dass, wie bereits erläutert, das Korpus hauptsächlich unpolitisch ist.
 Das zweite und dritte Problem sind methodische Fehler in der Implementierung von BERTopic.
@@ -388,7 +433,7 @@ Dementsprechend ist es mit einem Ansatz wie dem von BERTopic sehr unwahrscheinli
 Mit diesen Daten lassen sich nichtsdestotrotz Trends identifizieren.
 Um diese Analyse durchzuführen, wurden die relevanten Themen aus \autoref{tab:2} im Zeitraum 2008 bis Ende 2018 visualisiert, siehe \autoref{fig:3}.
 Für diese Abbildung wurden erst alle Kommentare in alle einzelnen Monate aufgeteilt und durch die Anzahl an Kommentaren in diesem Monat geteilt, um relative Häufigkeiten zu berechnen.
-Zudem wurde ein sog. \emph{getrimmtes Mittel} benutzt, das in einem Fenster von zwei umliegenden Jahren die oberen und unteren 25 \% entfernt, und den Durchschnitt berechnet.
+Zudem wurde ein sog. \emph{getrimmtes Mittel} benutzt, das in einem Fenster von zwei umliegenden Jahren die oberen und unteren 25~\% entfernt, und den Durchschnitt berechnet.
 Der Grund dafür war, dass bei der vergleichsweise geringen Menge an Kommentaren zu einem Thema bei einigen Monaten kein Kommentar zu einzelnen Themen gefunden wurde.
 Andererseits haben die Monate, die mindestens einen Kommentar zu jenem Thema besitzen, besonders viele.
 Dies war besonders bei den Themen \emph{Apfelkuchen} und \emph{Lehrer} der Fall, da NottDeuYTSch anscheinend ein paar Videos zu genau diesen Themen gewählt hatte, die natürlich nur aus Kommentaren über diese Themen bestanden.
@@ -421,21 +466,21 @@ Diese Daten sind in \autoref{tab:3} zu finden.
         \(l\)-Metrik & Korrelation & 95-\%-Konfidenzintervall & \o-Veränderung/Jahr\footnotemark \\
         \hline
         \hline
-        traditional morality & -0,092 & (-0,093, -0,091) & -0,034 \% \\
-        constitution & -0,069 & (-0,070, -0,067) & -0,053 \% \\
-        education & -0,060 & (-0,061, -0,059) & -0,062 \% \\
-        protectionism & -0,060 & (-0,061, -0,059) & -0,031 \% \\
-        foreign special & -0,039 & (-0,040, -0,038) & -0,066 \% \\
-        welfare & -0,035 & (-0,036, -0,034) & -0,005 \% \\
-        multiculturalism & -0,001 & (-0,002, 0,000) & -0,031 \% \\
-        labour & 0,077 & (0,076, 0,078) & 0,081 \% \\
-        military & 0,116 & (0,115, 0,117) & 0,018 \% \\
-        national way of life & 0,147 & (0,146, 0,148) & 0,036 \% \\
-        europe & 0,160 & (0,159, 0,162) & 0,100 \% \\
-        internationalism & 0,169 & (0,168, 0,170) & 0,080 \% \\
+        Traditionelle Moral & -0,092 & (-0,093, -0,091) & -0,034~\% \\
+        Verfassung & -0,069 & (-0,070, -0,067) & -0,053~\% \\
+        Bildung & -0,060 & (-0,061, -0,059) & -0,062~\% \\
+        Protektionismus & -0,060 & (-0,061, -0,059) & -0,031~\% \\
+        Außenpolitisch Spezial & -0,039 & (-0,040, -0,038) & -0,066~\% \\
+        Sozialhilfe & -0,035 & (-0,036, -0,034) & -0,005~\% \\
+        Multikulturalismus & -0,001 & (-0,002, 0,000) & -0,031~\% \\
+        Arbeit & 0,077 & (0,076, 0,078) & 0,081~\% \\
+        Militär & 0,116 & (0,115, 0,117) & 0,018~\% \\
+        Staatliche Lebensart & 0,147 & (0,146, 0,148) & 0,036~\% \\
+        Europa & 0,160 & (0,159, 0,162) & 0,100~\% \\
+        Internationalismus & 0,169 & (0,168, 0,170) & 0,080~\% \\
         \hline
     \end{tabular}
-    \caption{Pearson-Korrelationskoeffizienten und durchschnittliche Steigung aller \(l\)-Metriken.}
+    \caption{Pearson-Korrelationskoeffizienten und durchschnittliche Steigung aller \(l\)-Metriken. Anmerkung: Die Label wurden aus dem Englischen ins Deutsche übersetzt.}
     \label{tab:3}
 \end{table*}
 
@@ -560,10 +605,12 @@ Weitere, nicht in dieser Arbeit verwendete Datensätze und Ansätze sind in der 
 
 \printbibliography[heading=bibintoc]
 
+\vfill
+
 \section*{Anhang}\addcontentsline{toc}{section}{Anhang}
-Die zugehörigen Quelldateien dieser Hausarbeit sowie ihr Text und ihre gewünschte Zitation sind unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
+Die zugehörigen Quelldateien dieser Hausarbeit sowie ihr Text, ihre vollständigen Referenzen (\lstinline|bibliography.bib|) und ihre gewünschte Zitation sind unter \url{https://github.com/CrazyDiamond-75/CorpusDiff} zu finden.
 
 Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 7900 XTX GPU, und einer Ryzen 9 5950X CPU.
 
-Beim Erstellen dieser Hausarbeit wurde generative KI im Zuge des Probelesens, der Quellfindung, der Recherche nach pädagogischen Leittheorien und der Überarbeitung des Quellcodes verwendet.
+Beim Erstellen dieser Hausarbeit wurde generative KI im Zuge des Probelesens, der Quellfindung, der Recherche nach pädagogischen/soziologischen Leittheorien und der Überarbeitung des Quellcodes verwendet.
 \end{document}
