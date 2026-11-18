@@ -38,6 +38,7 @@ pip install pandas numpy seaborn matplotlib scipy tqdm sentence_transformers tor
 5. **Visualize** using lineplots
 
 The full methodology is documented in the accompanying paper, see `paper` branch.
+
 ---
 
 ## Roadmap
