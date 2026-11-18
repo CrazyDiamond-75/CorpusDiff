@@ -25,7 +25,8 @@
 *.tdo
 *.synctex.gz
 
-*.pdf
+# Readded for submission
+#*.pdf
 
 # The dataset(s)
 *.tsv
