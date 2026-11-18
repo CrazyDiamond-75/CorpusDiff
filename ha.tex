@@ -1,10 +1,6 @@
 \input{preamble}
 
-\makeatletter
-\newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
-\makeatother
-
-\newcommand{\titletext}{Eine Analyse der Digitalen Jugendkultur}
+\newcommand{\titletext}{Eine Analyse der digitalen Jugendkultur}
 
 \title{\titletext \\ \large Lehrforschungsprojekt Medienpädagogik}
 \date{20. November 2026}
@@ -20,18 +16,19 @@
     \thispagestyle{empty}
 
     \section*{Abstract}
-    In diesem Lehrforschungsprojekt wird untersucht, wie die Wertorientierungen der deutschsprachige digitale Jugendkultur im Zeitraum von 2008 bis 2018 sprachbasiert analysiert und rekonstruiert werden können.
+    In diesem Lehrforschungsprojekt wird untersucht, wie die Wertorientierungen der deutschsprachigen digitalen Jugendkultur im Zeitraum von 2008 bis 2018 sprachbasiert analysiert und rekonstruiert werden können.
     Dafür wird das Sprachkorpus \emph{NottDeuYTSch} verwendet, das 3 Millionen zeitlich indizierte Kommentare von hauptsächlich Jugendlichen beinhaltet.
-    Aus medienpädagogischer Perspektive werden diese YouTube Kommentare als Orte von soziomateriellen Figurationen, Mikrokulturen und Peer-Kulturen verstanden.
+    Aus medienpädagogischer Perspektive werden diese YouTube-Kommentare als Orte von soziomateriellen Figurationen, Mikrokulturen und Peer-Kulturen verstanden.
 
     Die Analyse wurde empirisch und quantitativ durchgeführt, indem verschiedene computerlinguistische Algorithmen verwendet wurden, um Werte aus dem Korpus zu rekonstruieren.
     Verglichen werden drei Zugänge: Lemmatisierung und Bag-of-Words mit spaCy, BERTopic sowie das neu entwickelte \emph{CorpusDiff}, das RoBERTa-Einbettungen nutzt, um eine Differenz der durchschnittlichen Ähnlichkeit zu positiven und negativen Vergleichstexten zu berechnen.
     Dabei wurden Werte nicht direkt gemessen, sondern über sprachliche Nähe zu politisch gelabelten Texten aus PoliTweets als Proxy operationalisiert.
 
     Während Lemmatisierung und BERTopic in dem überwiegend unpolitischen Datensatz kaum wertbehaftete Ergebnisse liefern konnten, wurden mit CorpusDiff kleine, aber nachweisbare positive und negative Korrelationen festgestellt.
-    Beispielsweise ergaben sich leichte positive Korrelationen zu den Themen \emph{Internationalismus} (\(r = 0,167\)) mit \(0,08\) \% durchschnittlichem Anstieg pro Jahr und \emph{Europa} (\(r = 0,158\)) mit \(0,1\) \% \dots, sowie negative Korrelationen zu \emph{traditionelle Moral} (\(r = -0,092\)) mit \(-0,034\) \% durchschnittlichem Abstieg pro Jahr und \emph{Verfassung} (\(r = -0,069\)) mit \(-0,053\) \%.
+    Beispielsweise ergaben sich leichte positive Korrelationen zu den Themen \emph{Internationalismus} (\(r = 0,169\)) und \emph{Europa} (\(r = 0,16\)), sowie negative Korrelationen zu \emph{traditionelle Moral} (\(r = -0,092\)) und \emph{Verfassung} (\(r = -0,069\)).
     Die Effekte sind klein und als Indizien, nicht als Belege eines eindeutigen Wertewandels zu lesen.
     Für die Medienpädagogik zeigt die Arbeit, dass Wertewandel in digitalen Jugendkulturen vor allem in alltäglichen Sprach- und Medienpraktiken sichtbar wird und reflexive Zugänge erfordert.
+
     \subsection*{Schlüsselwörter}
     \scshape
     \hfill Digitale Jugendkultur \hfill Wertewandel \hfill NottDeuYTSch \hfill RoBERTa \hfill NLP \hfill \hfill
@@ -66,16 +63,16 @@ Die Medienpädagogik beschäftigt sich viel mit Medienpraktiken und digitalen Ku
 Darüber hinaus werden Kind-Medien-Interaktionen aus verschiedenen Blickwinkeln betrachtet.
 Sie werden nicht nur im Zuge einer \emph{Enkulturation} verwendet und interpretiert, bei der eine leitende vom Pädagogen empfohlene \emph{Erwachsenenkultur} angelernt wird.
 Stattdessen erschaffen Kind-Medien-Interaktionen zusätzlich sogenannte \emph{Mikrokulturen}, die in ihren digitalen Räumen praktiziert werden.
-\textcite{CE90} spricht außerdem in diesem Zusammenhang von sog. \emph{Peer-Kulturen}, die Kinder und Jugendliche in der Auseinandersetzung innerhalb der Erwachsenenwelt hervorbringen, und ihre Werte wie Normen aushandeln sowie ausdrücken.
+\textcite{CE90} sprechen außerdem in diesem Zusammenhang von sog. \emph{Peer-Kulturen}, die Kinder und Jugendliche in der Auseinandersetzung innerhalb der Erwachsenenwelt hervorbringen, und ihre Werte wie Normen aushandeln sowie ausdrücken.
 \textcite{Sch21} beschreibt dieses Phänomen als \emph{soziomaterielle Figurationen}, die sich innerhalb der Medienpraktiken offenbaren.
 Schließlich prägen die Jugendkulturen die Erwachsenenkultur, da letztendlich Jugendliche mit Erwachsenen interagieren und Kultur austauschen, sowie selbst aufwachsen.
 Aus sozialisationstheoretischer Sicht sind Heranwachsende keine passiven Empfänger, sondern gestalten ihre Entwicklung aktiv mit \autocite{BH21}.
-In Kind-Medien-Interaktionen kann also nicht nur eine hierarchische \emph{Erwachsenen-Kind}-Beziehung gefunden werden, sondern auch einen flexiblen Austausch innerhalb und zwischen Generationen.
+In Kind-Medien-Interaktionen kann also nicht nur eine hierarchische \emph{Erwachsenen-Kind}-Beziehung gefunden werden, sondern auch ein flexiblen Austausch innerhalb und zwischen Generationen.
 Erzieher sollten dementsprechend nicht nur aus Erwachsenenperspektive bewerten.
 
-Kind-Medien-Interaktionen lassen sich unter anderem direkt in ihren digitalen Räumen beobachten, um auf die Werte und Normen ihrer Mikrokulturen und dementsprechend einen Teil der digitalen Jugendkultur zu schließen.
+Kind-Medien-Interaktionen lassen sich unter anderem direkt in ihren digitalen Räumen beobachten, um auf die Werte und Normen ihrer Mikrokulturen und hierdurch einen Teil der digitalen Jugendkultur zu schließen.
 Das Ziel dieser Arbeit ist es, genau diesen Schritt zu vollziehen -- eine Analyse der digitalen Jugendkultur und ihrer Werte auf Grundlage von Nutzerinhalten eines digitalen Raumes.
-Dazu fehlt derzeit ein Verfahren, um große zeitlich indizierte Datensätze pädagogisch auszuwerten, weswegen diese Arbeit ein neues computerlinguistisches Verfahren namens \emph{CorpusDiff} erprobt und prüft wo seine Grenzen liegen.
+Dazu fehlt derzeit ein Verfahren, um große zeitlich indizierte Datensätze pädagogisch auszuwerten, weswegen diese Arbeit ein neues computerlinguistisches Verfahren namens \emph{CorpusDiff} erprobt und prüft, wo seine Grenzen liegen.
 
 Somit definieren sich die Forschungsfragen dieser Arbeit.
 
@@ -93,7 +90,7 @@ Digitale Jugendkulturen sind Orte informeller Bildung, in denen junge Menschen Z
 Wertewandel zeigt sich dabei selten in expliziten Wertebekenntnissen, sondern häufig in alltäglichen Medienpraktiken: in Sprache, Humor, Memes und der Art, wie über Themen gesprochen wird -- eine computergestützte Analyse kann diese Spuren sichtbar machen.
 
 \section{Methoden und Zugänge} \label{sec:2}
-Wie bereits erläutert, kann eine Kultur- bzw. Werteanalyse der digitalen Jugendkultur durchgeführt werden, indem man Inhalte, die von Jugendlichen im Internet geteilt werden, beobachtet und analysiert.
+Wie bereits erläutert, kann eine Kultur- bzw. Werteanalyse der digitalen Jugendkultur durchgeführt werden, indem Inhalte, die von Jugendlichen im Internet geteilt werden, beobachtet und analysiert werden.
 Eine andere Methode wäre auch, die Inhalte, welche Jugendliche im Internet sehen, direkt zu analysieren.
 Dies funktioniert, da die Interaktionen der Nutzer, also \emph{Likes}, \emph{Dislikes}, oder Kommentare, definieren, wie sie sich mit dem Inhalt auseinandersetzen -- stimmt der Nutzer den Inhalten/Werten eines Posts zu, oder kritisiert er/sie ihn; welche Posts mit welchen Inhalten/Werten werden öfter angesehen als andere?
 Eine solche Analyse ist zum Beispiel nötig, wenn es um Plattformen geht, bei denen außer der Anzahl an \emph{Views}, keine nachweisliche Interaktion beim Post offengelegt werden kann -- in diesem Fall müssen die Inhalte selbst analysiert werden.
@@ -108,11 +105,11 @@ Quantitative, algorithmische Verfahren erlauben dagegen Aussagen über große Da
 
 Ein Nachteil der quantitativen Analyse ist, dass sie bei großen Datenmengen nicht unmittelbar menschlich ausgeführt werden kann.
 Wenn ein breiter Überblick der digitalen Jugendkultur gesucht wird, ist es nötig sehr viele Daten auszuwerten -- was nur maschinell möglich ist.
-Das erschwert sich dazu, dass viele digitale Plattformen durch Zugangsbeschränkungen so funktionieren, dass es vergleichsweise nur langsam möglich ist Nutzerinhalte herunterzuladen.
+Erschwerend kommt hinzu, dass viele digitale Plattformen durch Zugangsbeschränkungen so funktionieren, dass es vergleichsweise nur langsam möglich ist Nutzerinhalte herunterzuladen.
 Diese Mechanismen existieren, um aus der Perspektive des Betreibers \emph{unnötigen} nicht-nutzerbedingten Datenaustausch zu verhindern.
 
 Die maschinelle Auswertung von Text, in diesem Fall eine Extraktion von Bedeutungen, ist zudem nicht leicht zu implementieren -- ein Computer kann zwar leicht die Syntax einer Sprache erkennen, jedoch ist es für ihn schwerer als für Menschen ihre Semantik zu deuten.
-Diese Arbeit verfolgt daher dem \emph{mixed-methods} Ansatz, qualitative Ergebnisse nur als Hinweise zu verstehen, die in einem nächsten Schritt durch Vergleichsstudien überprüft und analysiert werden sollten.
+Diese Arbeit verfolgt daher dem Ansatz, qualitative Ergebnisse nur als Hinweise zu verstehen, die in einem nächsten Schritt durch Vergleichsstudien überprüft und analysiert werden sollten.
 
 Wie bereits erwähnt ist die digitale Videohosting Plattform YouTube ein Medium, das von vielen Jugendlichen verwendet wird.
 Nutzer können dort unter den meisten Inhalten, u. a. Videos, eigene Kommentare hinzufügen.
@@ -120,23 +117,23 @@ Somit ermöglicht YouTube verschiedene Kind-Medien-Interaktionen, insbesondere e
 Verhandlungen und Austausch jener werden u. a., in Interaktionen durch Kommentare unter Nutzerbeiträgen sichtbar.
 
 \subsection{NottDeuYTSch} \label{subsec:2.1}
-\emph{NottDeuYTSch} \autocite{Cot18, Cot23} ist eine Sammlung von drei Millionen YouTube Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
-Die Daten wurden gezielt gesammelt, um sowohl ein repräsentatives Gesamtbild der deutschen Jugendlichen YouTube Sprache darzustellen, als auch um ein Korpus zu erstellen, das vergleichbar mit anderen ist \autocite{Cot23}.
+\emph{NottDeuYTSch} \autocite{Cot18, Cot23} ist eine Sammlung von drei Millionen YouTube-Kommentaren unter Videos mit einer hauptsächlich deutschen und Jugendlichen Zuschauerschaft, zwischen 2008 und 2018.
+Die Daten wurden gezielt gesammelt, um sowohl ein repräsentatives Gesamtbild der deutschen Jugendlichen YouTube-Sprache darzustellen, als auch um ein Korpus zu erstellen, das vergleichbar mit anderen ist \autocite{Cot23}.
 
 Da jeder Kommentar zeitlich indiziert wurde, können Sprach- und Wertewandel durch den Kontrast im Laufe der Zeit dargestellt werden.
-NottDeuYTSch eignet sich somit als Datenquelle, um die digitale YouTube Jugendkultur im Wandel zwischen 2008 und 2018 zu analysieren.
+NottDeuYTSch eignet sich somit als Datenquelle, um die digitale YouTube-Jugendkultur im Wandel zwischen 2008 und 2018 zu analysieren.
 
 Der folgende Beitrag untersucht schwerpunktmäßig die digitale Jugendkultur im YouTube-Kontext.
-Dementsprechend sind Aussagen über die Jugendkultur im engeren Sinne eingeschränkt möglich, da das Korpus nur eine Stichprobe aus digitalen Beiträgen von Kindern und Jugendlichen enthält, sowie hauptsächlich aus unpolitischen Kommentaren besteht.
+Dementsprechend sind Aussagen über die Jugendkultur im engeren Sinne eingeschränkt möglich, da das Korpus nur eine Stichprobe aus digitalen Beiträgen von Jugendlichen enthält, sowie hauptsächlich aus unpolitischen Kommentaren besteht.
 
-Des Weiteren muss berücksichtigt werden, dass in den Zehn Jahren, aus denen die Sammlung besteht, mehrere Veränderungen bezüglich der Kommentierenden auftraten.
+Des Weiteren muss berücksichtigt werden, dass in den zehn Jahren, aus denen die Sammlung besteht, mehrere Veränderungen bezüglich der Kommentierenden auftraten.
 Beispielsweise wurden einzelne Nutzer älter, sowie neue Nutzer kamen dazu.
 Außerdem veränderte sich die Plattform und Kommentarfunktion selbst.
 Somit sollten aus dem Korpus interpretierte Veränderungen nicht als alleinige Evidenz berücksichtigt werden.
 
 \subsubsection{Implementierung}
 NottDeuYTSch ist in verschiedenen Formaten verfügbar unter \textcite{Cot18}.
-Diese Arbeit verwendet die Version im \emph{TSV}-Format, da sie im Vergleich zu der \emph{JSON}-Variante viel kleiner ist, und somit schneller und leichter gelesen werden kann.
+Diese Arbeit verwendet die Version im \emph{TSV}-Format, da sie im Vergleich zu der \emph{JSON}-Variante viel kleiner ist, und schneller bzw. leichter gelesen werden kann.
 Für dieses Projekt wurde die Programmiersprache \emph{Python} mit der Bibliothek \emph{Pandas} verwendet, um den Umgang mit diesen großen Datensätzen zu erleichtern.
 
 Alternativ zum TSV-Format existieren auch Formate für verschiedene linguistische Werkzeuge, wie \emph{Corpus Explorer} \autocite{Rüd22}, \emph{IMS Open Corpus Workbench} \footnote{\url{https://cwb.sourceforge.io/}}, oder \emph{Sketch Engine}\footnote{\url{https://www.sketchengine.eu/}}.
@@ -144,7 +141,7 @@ Diese Tools wurden nicht verwendet, da es für die folgenden Ansätze leichter, 
 Außerdem fokussieren sich die Tools eher auf traditionelle Computerlinguistik, als auf NLP, wie es für den folgenden Ansatz der Fall ist.
 
 \subsection{RoBERTa} \label{subsec:2.2}
-\emph{Cross English and German RoBERTa} \autocite{May20, RG19} ist ein KI-basiertes Transformer Sprachmodell, welches verwendet werden kann, um aus englischem und deutschem Text vektorielle Einbettungen zu generieren.
+\emph{Cross English and German RoBERTa} \autocite{May20, RG19} ist ein KI-basiertes Transformer-Sprachmodell, welches verwendet werden kann, um aus englischem und deutschem Text vektorielle Einbettungen zu generieren.
 Die generierten 768-dimensionalen Zahlenlisten (Vektoren) können abgeglichen werden, um eine semantische Nähe zwischen Texten zu finden.
 Zwei Texte sind dabei genau dann ähnlich, wenn ihre Vektoren ähnlich sind.
 Somit kann die Bedeutung eines Textes maschinell herausgefunden werden, indem zu verschiedenen Texten verglichen wird, bei denen eine Semantik bereits definiert ist.
@@ -156,27 +153,27 @@ Vergleichsweise produzieren \emph{Ich liebe diesen Film} und \emph{Ich hasse die
 Der Vorteil dieses RoBERTa Modells ist es, dass wie erwähnt sowohl englischer und deutscher Text eingebettet und verglichen werden kann -- und das mit hoher Genauigkeit \autocite{RG19}.
 Solch ein bilinguales Modell ist außerdem praktisch, da ein großer Teil der deutschen Jugendsprache aus englischen Wörtern und Phrasen besteht \autocite{Po24}.
 
-Für diese Arbeit ist ein Transformer Modell wie RoBERTa sehr nützlich, es nahezu unmöglich ist einen großen Datensatze wie NottDeuYTSch vollständig händische auszuwerten, oder es ungenau wäre, wenn man sich auf eine evaluierbare Teilmenge beziehen würde.
+Für diese Arbeit ist ein Transformer-Sprachmodell wie RoBERTa sehr nützlich, da es nahezu unmöglich ist einen großen Datensatz wie NottDeuYTSch vollständig händisch auszuwerten, oder es ungenau wäre, sich auf eine evaluierbare Teilmenge zu beziehen.
 
 \subsubsection{Implementierung}
 In Python kann die \emph{sentence transformers} Bibliothek \autocite{RG19} verwendet werden, um Modelle wie RoBERTa von der \emph{Hugging Face}\footnote{\url{https://huggingface.co/}} Plattform herunterzuladen und einzubinden.
-Ein weiteres Feature dieser Bibliothek ist es, dass Modelle auf der Grafikkarte ausgeführt werden können, was die Berechnungen erheblich beschleunigt, da somit viele Berechnungen parallel ausgeführt werden können.
+Ein weiteres Feature dieser Bibliothek ist es, dass Modelle auf der Grafikkarte ausgeführt werden können, was die Berechnungen erheblich beschleunigt, da auf der Grafikkarte viele Berechnungen parallel ausgeführt werden können.
 
 Nichtsdestotrotz war die vollständige Einbettung von NottDeuYTSch sehr aufwändig und erforderte 30 Minuten Rechenzeit.
 Die 768-dimensionalen Vektoren wurden als Felder vom Typ \lstinline|float32| gespeichert, was bei der Menge an 3 Millionen Vektoren in ungefähr 9,2 Gigabyte Speicherverbrauch resultierte.
 Aus diesem Grund wurden die Schritte der folgenden Pipeline vollständig modular implementiert, sodass Zwischenergebnisse gespeichert werden, bevor der nächste Schritt ausgeführt wird.
 
 \subsection{PoliTweets} \label{subsec:2.3}
-\textcite{Bie22} präsentiert \emph{PoliTweets} -- einen Datensatz aus 10561 deutschen Posts der Social-Media-Plattform \emph{Twitter} (heute \emph{X}).
+\textcite{Bie22} präsentiert \emph{PoliTweets} -- einen Datensatz aus 10.561 deutschen Posts der Social-Media-Plattform \emph{Twitter} (heute \emph{X}).
 Die gesammelten \emph{Tweets} wurden dabei mit verschiedenen Labels ausgezeichnet, die eine politische Gesinnung zu einem bestimmten Thema darlegen.
 
 PoliTweets eignet sich aus vielen Gründen sehr gut für diese Arbeit.
 Erstens, da es ausschließlich aus deutschsprachigen Tweets besteht, jedoch auch, da zwölf der Kategorien sowohl positive als auch negative Beispiele erhalten.
 Letzteres ist sehr wichtig, da RoBERTas 768-dimensionale Vektoren nicht nur die \emph{Aussage} eines Textes kodieren, sondern auch ihren \emph{Stil}, also die Art von Sprache im Text.
 Dementsprechend würde eine Metrik, die beispielsweise Progressivität misst auf Basis der Winkelähnlichkeit zu \emph{progressiven} Texten, zum größten Teil nur die stilistische Nähe zu der Sprache im Datensatz der progressiven Texte messen.
-Dieses Phänomen nennt man auch Störfaktor (engl. \emph{Confounder}).
+Dieses Phänomen nennt wird auch Störfaktor (engl. \emph{Confounder}) genannt.
 
-Mithilfe von positiven und negativen Labels zu einzelnen Themen, kann man stattdessen eine Metrik definieren, basierend auf der Differenz der Winkelähnlichkeit zu positiven und negativen Beispielen.
+Mithilfe von positiven und negativen Labels zu einzelnen Themen, kann stattdessen eine Metrik definiert werden, basierend auf der Differenz der Winkelähnlichkeit zu positiven und negativen Beispielen.
 Formaler sei \(\lambda : V^2 \rightarrow [-1, 1], (v, w) \mapsto \frac{v \cdot w}{||v|| \cdot ||w||}\) die Kosinus-Winkelähnlichkeit zwischen Vektoren \(v, w\) im verwendeten Vektorraum\footnote{Ist der Vektorraum \(V\) normalisiert, also haben alle Vektoren Länge eins, kürzt sich die Division durch das Produkt der Längen, was erheblich die Berechnung effizienter macht.} \(V \subseteq [-1, 1]^{768}\).
 Außerdem, seien \(P_l, N_l, \Omega \subseteq V\) paarweise disjunkt.
 \(P_l\) und \(N_l\) stellen die positiven und negativen Einbettungen aus PoliTweets zu einem Thema \(l\) dar, während \(\Omega\) die Menge der Einbettungen aus NottDeuYTSch ist.
@@ -184,8 +181,8 @@ Die \(l\)-Metrik \(\alpha_l : \Omega \rightarrow [-1, 1]\) ist definiert durch
 \begin{IEEEeqnarray*}{c}
     \alpha_l: v \mapsto \frac{\sum_{u \in P_l} \lambda(v, u)}{2|P_l|} - \frac{\sum_{u \in N_l} \lambda(v, u)}{2|N_l|}.
 \end{IEEEeqnarray*}
-In anderen Worten, \(\alpha_l(v)\) ist die Differenz zwischen der durchschnittlichen Ähnlichkeit zu positiven und negativen Texten über Thema \(l\).
-Durch diesen Ansatz umgeht man das Problem, dass \(\lambda\) zwischen \(\Omega\) und \(P_l\) eben nicht nur \(l\) misst, sondern auch die stilistische Nähe zu Texten aus PoliTweets.
+In anderen Worten, \(\alpha_l(v)\) ist die halbe Differenz zwischen der durchschnittlichen Ähnlichkeit zu positiven und negativen Texten über Thema \(l\).
+Durch diesen Ansatz das Problem umgeht, dass \(\lambda\) zwischen \(\Omega\) und \(P_l\) eben nicht nur \(l\) misst, sondern auch die stilistische Nähe zu Texten aus PoliTweets.
 
 Zu dieser Methode ist zu beachten, dass nicht einzelne Werte dieser Metrik zu interpretieren sind, sondern ein Durchschnitt vieler im zeitlichen Verlauf.
 Außerdem ist sie nur so akkurat, wie der Vergleichskorpus genau ist, und möglichst viele positive und negative Beispiele für \(l\) enthält.
@@ -196,12 +193,12 @@ Da Werte nicht direkt messbar sind, werden sie in dieser Methode über sprachlic
 Die Nähe von Kommentaren zu politisch gelabelten Texten aus PoliTweets dient als Proxy für Themennähe, nicht als direkte Messung innerer Werte.
 
 \subsubsection{Implementierung}
-Die Implementierung der \(l\)-Metrik bestand daraus Einbettungen für alle Texte aus PoliTweets zu erstellen, bei denen das Label eines der zwölf Kategorien gleicht, die sowohl positive als auch negative Beispiele enthalten.
+Die Implementierung der \(l\)-Metrik bestand darin Einbettungen für alle Texte aus PoliTweets zu erstellen, bei denen das Label eines der zwölf Kategorien gleicht, die sowohl positive als auch negative Beispiele enthalten.
 Bei der eigentlichen Berechnung ergab sich ein weiterer Vorteil der sentence transformers Bibliothek, da auch die Winkelähnlichkeit zwischen Vektoren effizient auf der Grafikkarte parallelisiert berechnet werden kann.
-An Rechenzeit erforderte die Berechnung der Winkelähnlichkeiten somit nur eine Minute.
+An Rechenzeit erforderte die Berechnung der Winkelähnlichkeiten vergleichsweise schnell nur eine Minute.
 
 \subsection{CorpusDiff}
-Die kombinierte neue Methode, die in \cref{subsec:2.1,subsec:2.2,subsec:2.3} beschrieben wurde, wird \emph{CorpusDiff} genannt.
+Die kombinierte neue Methode, die in den Abschnitten \ref{subsec:2.1} bis \ref{subsec:2.3} beschrieben wurde, wird \emph{CorpusDiff} genannt.
 Siehe \autoref{fig:1} für eine Illustration der Pipeline.
 Ein Vorteil dieser Methode ist es, dass sie auf alle möglichen Kombinationen von Sprachkorpus, gelabelten positiven/negativen Vergleichskorpus und Transformer anwendbar ist -- sie lässt sich also verwenden, um nach Trends und Wandel in verschiedenen Korpora zu suchen.
 
@@ -219,13 +216,13 @@ Zum Beispiel wäre das Lemma von \emph{lief} das Verb \emph{laufen}, oder jeglic
 
 Im Gegensatz zur Wortstammfindung (engl. \emph{Stemming}), wo ein Lexem kontextfrei in seine Urform umgewandelt wird, behält die Lemmatisierung die Semantik aus dem Kontext.
 Beispielsweise produziert das Wort \emph{Maus} eine unterschiedliche Bedeutung, je nachdem ob das Tier oder die Computermaus gemeint ist, auch wenn das Lemma gleich ist.
-Oftmals wird deswegen das Lemma mit ihrer ursprünglichen Bedeutung annotiert, bsp.: \emph{Maus (Tier)} und \emph{Maus (Computer)}.
-Dementsprechend ist Lemmatisierung nicht eine triviale Aufgabe wo nach einer endlichen Menge an Regeln ein Wort auf eine Grundform reduziert wird.
+Oftmals wird deswegen das Lemma mit seiner ursprünglichen Bedeutung annotiert, bsp.: \emph{Maus (Tier)} und \emph{Maus (Computer)}.
+Dementsprechend ist Lemmatisierung keine triviale Aufgabe, bei der nach einer endlichen Menge an Regeln ein Wort auf eine Grundform reduziert wird.
 
 Durch Lemmatisierung können einzelne Kommentare in Listen an Lemmas umgewandelt werden.
 Dabei werden einige unnötige Fragmente, wie Leerzeichen, Ausrufezeichen, oder Emoticons wie \lstinline|:D| aus dem Text entfernt.
 Die nun generierten Lemmas können mithilfe von simplen Algorithmen analysiert werden.
-Ein möglicher Algorithmus ist ein sog. \emph{bag-of-words} Algorithmus, bei dem einfach Wortzahlen gezählt werden.
+Ein möglicher Ansatz ist ein sog. \emph{bag-of-words}-Algorithmus, bei dem einfach Wortzahlen gezählt werden.
 Davor kann es außerdem zum Vorteil sein, allgemeine unwichtige Wörter hinauszufiltern.
 Eine Methode dies zu tun ist es, eine Menge an sog. \emph{Stoppwörtern} aus den Listen von Lemmas zu entfernen.
 
@@ -248,7 +245,7 @@ Für die Wordcloud wurden des Weiteren alle Lemmas mit Länge eins nicht beachte
 Das Zählen selber ist recht leicht zu implementieren, und braucht nicht viel Laufzeit.
 
 \subsection{BERTopic}
-BERTopic \autocite{Gro22} ist ein Ansatz nach sog. \emph{neural topic modeling} (NTM) nach \textcite{Wu24}, der verwendet werden kann, um die relevantesten Themen aus einer Sammlung von Texten zu finden.
+BERTopic \autocite{Gro22} ist ein Ansatz nach sog. \emph{neural topic modeling} (NTM; \textcite{Wu24}), der verwendet werden kann, um die relevantesten Themen aus einer Sammlung von Texten zu finden.
 BERTopic ist modular aufgebaut und besteht aus den folgenden Schritten.
 \begin{enumerate}
     \item Vektorielle Einbettung des Korpus: \\
@@ -264,11 +261,11 @@ BERTopic ist modular aufgebaut und besteht aus den folgenden Schritten.
 
     \item Cluster Namen Generierung: \\
         Zuletzt werden allen Clustern Namen zugeordnet, die den jeweiligen Cluster repräsentieren -- dem \emph{Topic}.
-        BERTopic verwendet dabei einen bag-of-words Ansatz, bei dem der Name eines Clusters aus den häufigsten Wörtern generiert wird, welche selten in anderen Clustern vorkommen.
+        BERTopic verwendet dabei einen bag-of-words-Ansatz, bei dem der Name eines Clusters aus den häufigsten Wörtern generiert wird, welche selten in anderen Clustern vorkommen.
 \end{enumerate}
 Somit können mittels BERTopic ähnliche Ergebnisse wie mit dem vorherigen Ansatz erreicht werden.
 Der wichtige Unterschied ist jedoch, dass der Kontext im gesamten Kommentar wichtig ist für seine Bedeutung, wohingegen die Lemmatisierung nur die Bedeutung einzelner Wörter ermittelt.
-BERTopic ist abstrahiert gesehen eine raffiniertere Version des klassischen bag-of-words Ansatzes.
+BERTopic ist abstrahiert gesehen eine raffiniertere Version des klassischen bag-of-words-Ansatzes.
 
 \subsubsection{Implementierung}
 BERTopic kann über die \emph{bertopic}\footnote{\url{https://pypi.org/project/bertopic/}} Python Bibliothek eingebunden werden.
@@ -282,7 +279,7 @@ Konkret musste in meiner Implementierung auf \emph{Swapping} zurückgegriffen we
 Somit konnten die Wahrscheinlichkeiten nicht berechnet werden, was in ungefähr zwei Stunden Rechenzeit resultierte.
 
 \subsection{Zusammenfassung}
-Generell lassen sich somit die in \autoref{sec:2} erwähnten Ansätze in drei Methoden aufteilen:
+Generell lassen sich die in \autoref{sec:2} erwähnten Ansätze in drei Methoden aufteilen:
 \begin{enumerate}
     \item Lemmatisierung mit spaCy \lstinline|de_core_news_sm| Modell, und dann Worte zählen, gegebenenfalls eine Wordcloud erstellen und zuletzt händisch populäre Wörter durchgehen, um Werte(-Trends) nachzuweisen.
 
@@ -293,19 +290,19 @@ Generell lassen sich somit die in \autoref{sec:2} erwähnten Ansätze in drei Me
 
 \subsection{Forschungsethische Reflexion}
 Da die analysierten Kommentare mutmaßlich von Minderjährigen stammen, sind Anonymisierung, Datenminimierung und der Verzicht auf Reidentifikation zentral.
-Die Daten liegen nicht anonymisiert im NottDeuYTSch Korpus vor.
+Die Daten liegen nicht anonymisiert im NottDeuYTSch-Korpus vor.
 Stattdessen lassen sich einzelne Nutzer bei ihrem Nutzernamen identifizieren was bei der Datenmenge Techniken ermöglicht, um auf die tatsächliche Person zu schließen.
-Zudem ist zu reflektieren, dass öffentlich zugängliche Kommentare nicht automatisch als einwilligungsfähige Forschungsdaten gelten.
-Dementsprechend wurde beschlossen in den Ansätzen Nutzernamen nicht zu zitieren und Kommentare nur nach den definierten Methoden aggregiert und nicht im einzelnen auszuwerten.
+Zudem ist zu reflektieren, dass öffentlich zugängliche Kommentare nicht automatisch als ohne Einwilligung nutzbare Forschungsdaten gelten.
+Dementsprechend wurde beschlossen, in den Ansätzen Nutzernamen nicht zu zitieren und Kommentare nur nach den definierten Methoden aggregiert und nicht im Einzelnen auszuwerten.
 
 Im Folgenden werden die Ergebnisse dieser drei Ansätze präsentiert.
 
-\section{Ergebnisse \& Interpretation}
+\section{Ergebnisse \& Analyse}
 Die Ergebnisse der Analyse von NottDeuYTSch lassen sich in ihre drei Methoden gliedern.
 
 \subsection{Lemmatisierung \& Bag-of-Words}
 Schaut man sich die Wordcloud generiert aus allen Lemmas nach \autoref{subsec:2.5} an, siehe \autoref{fig:2}, sieht man folgendes Ergebnis:
-Selbst wenn alle Stoppwörter herausgefiltert werden hat der Großteil wenig mit Werten zu tun hat, sondern viel mehr die jugendliche YouTube-Kultur selbst betont.
+Selbst wenn alle Stoppwörter herausgefiltert werden, hat der Großteil wenig mit Werten zu tun hat, sondern viel mehr die jugendliche YouTube-Kultur selbst betont.
 \citeauthor{Sch21}s soziomaterielle Figurationen sowie \citeauthor{CE90}s Peer-Kulturen kommen wieder zum Vorschein -- die absolute Mehrheit der Kommentare setzen sich mit dem Inhalt oder der Plattform und ihren Medienpraktiken auseinander.
 
 \begin{figure}
@@ -316,7 +313,7 @@ Selbst wenn alle Stoppwörter herausgefiltert werden hat der Großteil wenig mit
 \end{figure}
 
 Um etwas tiefer zu schauen, wurde eine Tabelle mit allen Wortzählungen erstellt, und sie nach Häufigkeit sortiert.
-Leider wurden in dieser Tabelle im Vergleich zu wenig Stichwörter gefunden, mit deren zeitlichem Verlauf eine Werteanalyse hätte weitergeführt werden können.
+Leider wurden in dieser Tabelle zu wenig Stichwörter gefunden, mit deren zeitlichem Verlauf eine Werteanalyse hätte weitergeführt werden können.
 Um dies zu demonstrieren ist ein Teil der Wortzählung in \autoref{tab:1} zu finden.
 In der Kommentarkultur werden vor allem der Inhalt einzelner Beiträge, der Community und der Plattformpraktiken verhandelt.
 Für die Medienpädagogik ist dies ein Hinweis darauf, dass Werte, wie bereits vermutet, im Alltag selten explizit ausgesprochen werden.
@@ -326,51 +323,51 @@ Dass das Lemma \emph{Nazi} häufiger vorkommt als \emph{Gleichberechtigung} und 
 
 \begin{table}
     \centering
-    \begin{tabular}[c]{l l}
+    \begin{tabular}[c]{l r}
         \hline
         Lemma & Frequenz \\
         \hline \hline
-        Video & 280975 \\
-        Gewinnen & 128772 \\
-        Cool & 122297 \\
-        Deutschland & 13278 \\
-        Nazi & 2370 \\
-        Gleichberechtigung & 509 \\
-        Feminismus & 186 \\
-        Vielfalt & 45 \\
-        Emanzipation & 28 \\
-        Inklusion & 12 \\
+        video & 280.975 \\
+        gewinnen & 128.772 \\
+        cool & 122.297 \\
+        deutschland & 13.278 \\
+        nazi & 2.370 \\
+        gleichberechtigung & 509 \\
+        feminismus & 186 \\
+        vielfalt & 45 \\
+        emanzipation & 28 \\
+        inklusion & 12 \\
         \hline
     \end{tabular}
     \caption{Teilmenge der gesamten Wortzählung im lemmatisierten NottDeuYTSch.}
     \label{tab:1}
 \end{table}
 
-Diese Methode wäre in einem politischem Korpus besser geeignet gewesen, jedoch wurde während der Recherche leider kein solcher Korpus gefunden.
+Diese Methode wäre in einem politischen Korpus besser geeignet gewesen, jedoch wurde während der Recherche leider kein solches Korpus gefunden.
 Andererseits muss betont werden, dass eine Interpretation einer Wortzählung sich nur auf die Bedeutung eines einzelnen Wortes oder Lemmas stützt.
-Dementsprechend geht Ironie verloren, wenn sie in einem Kommentar angewandt wird: \emph{Das war lustig....nicht. sry} -- ein Zitat aus dem NottDeuYTSch Korpus.
+Dementsprechend geht Ironie verloren, wenn sie in einem Kommentar angewandt wird: \emph{Das war lustig....nicht. sry} -- ein Zitat aus dem NottDeuYTSch-Korpus.
 
 Ein ähnlicher Ansatz wäre es sog. \emph{N-Gramme} zu finden, bei denen jeweils nach \(n \in \N\) langen Lexemkombinationen gesucht werden -- die klassische Wortzählung ist die Suche nach 1-Grammen.
-Jedoch verliert man Häufigkeiten je größer \(n\) ist.
-Außerdem lässt sich ein Widerspruch als bsp. Oxymoron auch in einem Satz so verkapseln, dass man sie erst finden kann, wenn erst der vollständige Satz interpretiert wird: \emph{Ich bin ein Teil von jener Kraft, die stets das Böse will und stets das Gute schafft} -- Johann Wolfgang von Goethe, \emph{Faust 1}.
+Jedoch werden geringere Häufigkeiten gefunden je größer \(n\) ist.
+Außerdem lässt sich ein Widerspruch als bsp. Oxymoron auch in einem Satz so verkapseln, dass er erst gefunden werden kann, wenn der vollständige Satz interpretiert wird: \emph{Ich bin ein Teil von jener Kraft, die stets das Böse will und stets das Gute schafft} -- Johann Wolfgang von Goethe, \emph{Faust 1}.
 
 \subsection{BERTopic}
-Für den Ansatz mit BERTopic kamen ähnliche Ergebnisse heraus, wie mit dem klassisch-linguistischem bag-of-words Ansatz -- die meisten Themen, die von BERTopic identifiziert wurden, haben mit Videoinhalten oder dem Medium YouTube zu tun.
+Für den Ansatz mit BERTopic kamen ähnliche Ergebnisse heraus wie mit dem klassisch-linguistischen bag-of-words-Ansatz -- die meisten Themen, die von BERTopic identifiziert wurden, haben mit Videoinhalten oder dem Medium YouTube zu tun.
 Andererseits wurden trotzdem interessante Themen gefunden, siehe \autoref{tab:2}.
 
 \begin{table}
     \centering
-    \begin{tabular}[c]{l l}
+    \begin{tabular}[c]{l r}
         \hline
         Name des Themas & Frequenz \\
         \hline \hline
-        \emph{Kein Thema} & 1232594 \\
-        lehrer\_lehrerin\_schüler\_unterricht & 9155 \\
-        apfelkuchen\_\dots\_äpfelkuchen & 7761 \\
-        lustig\_witzig\_humor\_funny & 7225 \\
-        pc\_gtx\_ram\_i7 & 6629 \\
-        freedom\_folgen\_projekt\_folge & 3862 \\
-        dumm\_blöd\_dummheit\_stupid & 3789 \\
+        \emph{Kein Thema} & 1.232.594 \\
+        lehrer\_lehrerin\_schüler\_unterricht & 9.155 \\
+        apfelkuchen\_\dots\_äpfelkuchen & 7.761 \\
+        lustig\_witzig\_humor\_funny & 7.225 \\
+        pc\_gtx\_ram\_i7 & 6.629 \\
+        freedom\_folgen\_projekt\_folge & 3.862 \\
+        dumm\_blöd\_dummheit\_stupid & 3.789 \\
         \hline
     \end{tabular}
     \caption{Auszug der Frequenz mit BERTopic gefundener Themen in NottDeuYTSch.}
@@ -383,10 +380,10 @@ Aus dieser Tabelle offenbaren sich mehrere Probleme:
     \item BERTopic ordnet jedem Kommentar nur ein Thema zu.
     \item Einem großen Anteil an Kommentaren (\(\approx 41\) \%) wurde kein Thema zugeordnet.
 \end{enumerate}
-Das erste Problem erklärt sich dadurch, dass, wie bereits erläutert, der Korpus hauptsächlich unpolitisch ist.
+Das erste Problem erklärt sich dadurch, dass, wie bereits erläutert, das Korpus hauptsächlich unpolitisch ist.
 Das zweite und dritte Problem sind methodische Fehler in der Implementierung von BERTopic.
 Allerdings muss dabei bedacht werden, dass wenn ein Kommentar mehr als ein oder zwingend mindestens ein Thema zugeordnet wird, sich die bereits unvorteilhafte Laufzeit bei der Menge an Daten maßgeblich verschlechtert.
-Dementsprechend ist es mit einem Ansatz wie dem von BERTopic sehr unwahrscheinlich eine genau Analyse bei einem großen Korpus wie NottDeuYTSch zu finden.
+Dementsprechend ist es mit einem Ansatz wie dem von BERTopic sehr unwahrscheinlich eine genaue Analyse bei einem großen Korpus wie NottDeuYTSch zu finden.
 
 Mit diesen Daten lassen sich nichtsdestotrotz Trends identifizieren.
 Um diese Analyse durchzuführen, wurden die relevanten Themen aus \autoref{tab:2} im Zeitraum 2008 bis Ende 2018 visualisiert, siehe \autoref{fig:3}.
@@ -394,7 +391,7 @@ Für diese Abbildung wurden erst alle Kommentare in alle einzelnen Monate aufget
 Zudem wurde ein sog. \emph{getrimmtes Mittel} benutzt, das in einem Fenster von zwei umliegenden Jahren die oberen und unteren 25 \% entfernt, und den Durchschnitt berechnet.
 Der Grund dafür war, dass bei der vergleichsweise geringen Menge an Kommentaren zu einem Thema bei einigen Monaten kein Kommentar zu einzelnen Themen gefunden wurde.
 Andererseits haben die Monate, die mindestens einen Kommentar zu jenem Thema besitzen, besonders viele.
-Dies war besonders bei den Themen \emph{Apfelkuchen} und \emph{Lehrer} der Fall, da NottDeuYTSch anscheinend ein paar Videos zu genau diesen Themen gewählt hatte, die natürlich dementsprechend nur aus Kommentaren über diese Themen bestanden.
+Dies war besonders bei den Themen \emph{Apfelkuchen} und \emph{Lehrer} der Fall, da NottDeuYTSch anscheinend ein paar Videos zu genau diesen Themen gewählt hatte, die natürlich nur aus Kommentaren über diese Themen bestanden.
 
 Zuletzt gab es auch ein weiteres Problem, das sich schon in \autoref{tab:2} finden ließe:
 es gab zwischen verschiedenen Themen erhebliche Unterschiede der Größenordnungen.
@@ -467,8 +464,8 @@ Des Weiteren wurden für \autoref{fig:4} eine obere und untere Schranke nahe der
     \end{subfigure}
 \end{figure*}
 
-Aus \autoref{tab:3} und \autoref{fig:4} geht hervor, dass \(l\)-Metriken in der Praxis sehr variante und größtenteils kleine Werte produzieren.
-Nach \autoref{subsec:2.1} war dies zu erwarten -- nichtsdestotrotz lassen sich trotzdem statistisch signifikante aber kleine positive und negative Korrelationen nachweisen.
+Aus \autoref{tab:3} und \autoref{fig:4} geht hervor, dass \(l\)-Metriken in der Praxis sehr streuende und größtenteils kleine Werte produzieren.
+Nach \autoref{subsec:2.1} war dies zu erwarten -- nichtsdestotrotz lassen sich statistisch signifikante aber kleine positive und negative Korrelationen nachweisen.
 Die berichteten Korrelationen sind aufgrund der großen Datenmenge (\(n \approx 3\) Mio.) sehr präzise, aber durch ihre Werte in ihrer Effektstärke klein.
 Die Konfidenzintervalle sind daher eher als untere Grenze der Unsicherheit zu lesen.
 Somit sind die Ergebnisse dieses Ansatzes keine hinreichenden Belege, dass sich in der Sprache und Jugendkultur viel verändert hat, jedoch Indizien dafür, dass es tatsächlich leichte Trends gab.
@@ -477,7 +474,7 @@ Beispielsweise sind die Themen \emph{Europa} und \emph{Internationalismus} leich
 Daraus lässt sich interpretieren, dass die deutsche Jugendkultur im Zuge der Digitalisierung auch internationalisiert wurde.
 Dies wird außerdem dadurch gestützt, dass der Englischanteil der deutschen Jugendsprache von 2008 bis 2020 signifikant anstieg \autocite{Po24}.
 
-Des Weiteren deuten die leichten negativen Trends zu \emph{traditionelle Moral}, \emph{Verfassung}, \emph{Bildung}, \emph{Protektionismus} auf eine leichte libertäre Entwicklung.
+Des Weiteren deuten die leichten negativen Trends zu \emph{traditionelle Moral}, \emph{Verfassung}, \emph{Bildung} und \emph{Protektionismus} auf eine leichte libertäre Entwicklung.
 Es ist ebenso denkbar, dass, wie erwähnt, sich die Zusammensetzung der Kommentierenden oder der Videos verändert hat, dass dieselben Personen mit dem Älterwerden andere Themen aufgreifen oder dass Plattformänderungen eine Rolle spielen.
 Aus pädagogischer Sicht ist zudem relevant, dass sich zwischen 2008 und 2018 die Rolle kommerzieller Akteure auf YouTube verändert hat in Form von Influencern, Gewinnspielen und Produktplatzierungen.
 Die Präsenz von Gewinnspielen wurde außerdem in \autoref{tab:1} festgestellt.
@@ -485,33 +482,33 @@ Ob sich dies in den Wertorientierungen der Nutzer niederschlägt, kann diese Arb
 
 Die leichte Zunahme internationaler Themen kann außerdem medienpädagogisch als Hinweis auf eine stärker transnational orientierte Peer-Kultur gelesen werden.
 Sie ist jedoch nicht mit einer bewussten politischen Wertorientierung gleichzusetzen.
-Ebenso kann die Abnahme traditionell-moralbezogener Themen sowohl auf Pluralisierung und Emanzipation als auch auf Sprachwandel, Meme-Kultur und veränderte Plattformpraktiken zurückgehen.
+Ebenso kann die Abnahme traditionell-moral-bezogener Themen sowohl auf Pluralisierung und Emanzipation als auch auf Sprachwandel, Meme-Kultur und veränderte Plattformpraktiken zurückgehen.
 Für die Medienpädagogik ist gerade diese Mehrdeutigkeit relevant: Wertebildung muss Ambiguität aushalten und reflexive Medienkritik \autocite{Ba99} fördern, statt Jugendkulturen vorschnell normativ zu bewerten.
 
 \subsection{Kritik} \label{subsec:3.4}
-Die nur kleinen durch CorpusDiff Korrelationen ließen sich möglicherweise durch den folgenden Sachverhalt erklären.
+Die nur kleinen, mit CorpusDiff ermittelten Korrelationen ließen sich möglicherweise durch den folgenden Sachverhalt erklären.
 Derzeit wird die \(l\)-Metrik als Differenz zwischen durchschnittlichen Ähnlichkeiten definiert.
 Jedoch ist es möglich, dass die Einbettungen aus dem Vergleichsdatensatz, die ein gleiches Label positiv/negativ repräsentieren nicht einen konzentrierten und sphärischen Cluster ergeben.
 Des weiteren ist es auch möglich, dass einzelne sog. \emph{Outlier}, fern von anderen Einbettungen des gleichen Labels liegen.
-Wenn beides auftritt, werden nach der aktuellen Definition der \(l\)-Metrik kleine Werte produziert auch wenn eine starke relative Nähe zum jeweiligen Cluster vorliegt.
+Wenn beides auftritt, werden nach der aktuellen Definition der \(l\)-Metrik kleine Werte produziert, auch wenn eine starke relative Nähe zum jeweiligen Cluster vorliegt.
 
 Um den letzteren Effekt zu reduzieren, sollten vorerst die Outlier gefunden und entfernt werden.
 Hierfür existieren verschiedene Methoden, die u. a. auch in hochdimensionalen Vektorräumen mit Winkelähnlichkeit angewendet werden können, wie \emph{angle-based outlier detection} \autocite{KSZ08}.
-Alternativ berechnet HDBSCAN \autocite{MB19} auch einen sog. \emph{outlier factor} der verwendet werden kann, um Outlier zu entfernen, oder sie weniger zu gewichten in der Berechnung der \(l\)-Metrik.
+Alternativ berechnet HDBSCAN \autocite{MB19} auch einen sog. \emph{outlier factor}, der verwendet werden kann, um Outlier zu entfernen, oder sie weniger zu gewichten in der Berechnung der \(l\)-Metrik.
 
-Um beide Effekte zu reduzieren, könnte \(l\)-Metrik so angepasst werden, dass nicht die durchschnittlich Winkelähnlichkeit zu allen Einbettungen eines Labels berechnet wird, sondern davor das untere 25-\%-Quartil entfernt wird.
-Das führt dazu, dass der berechnete Durchschnitt ferne Outlier eines Labels entfernt, und eher die Nähe eines nahen Teils eines Clusters berechnet.
-Somit werden also entfernte Regionen eines Clusters weniger Relevant und können den Durchschnitt nicht fälschlicherweise reduzieren, wenn eine allgemeine Nähe zum Cluster vorliegt.
+Um beide Effekte zu reduzieren, könnte die \(l\)-Metrik so angepasst werden, dass nicht die durchschnittliche Winkelähnlichkeit zu allen Einbettungen eines Labels berechnet wird, sondern davor das untere 25-\%-Quartil entfernt wird.
+Das führt dazu, dass ferne Outlier eines Labels aus dem Durchschnitt entfernt werden, und stattdessen die Nähe zum nahen Teil des Clusters gemessen wird.
+Somit werden entfernte Regionen eines Clusters weniger relevant und können den Durchschnitt nicht fälschlicherweise reduzieren, wenn eine allgemeine Nähe zum Cluster vorliegt.
 
 Eine Alternative um mit dem ersten Effekt umzugehen, wäre es nähere Einbettungen stärker im Durchschnitt zu gewichten als entferntere ohne jene vollständig aus der Berechnung zu entfernen.
-Das könnte implementiert werden, indem beispielsweise ein \(p \ge 1\) gewählt wird und die resultierende Winkelähnlichkeiten potenziert durch \(p\) werden, \(\lambda(v, u)^p\).
-Um zu garantieren, dass \(\alpha_l\) zwischen \(-1\) und \(1\) liegt könnte die Formel angepasst werden zu \(\alpha_l: v \mapsto \)
+Das könnte implementiert werden, indem beispielsweise ein \(p \ge 1\) gewählt wird und die resultierenden Winkelähnlichkeiten durch \(p\) potenziert werden, \(\lambda(v, u)^p\).
+Um zu garantieren, dass \(\alpha_l\) zwischen \(-1\) und \(1\) liegt, könnte die Formel angepasst werden zu \(\alpha_l: v \mapsto \)
 \begin{IEEEeqnarray*}{c}
     \frac{\sum_{u \in P_l} \lambda(v, u)|\lambda(v, u)|^p}{2 \sum_{u \in P_l} |\lambda(v, u)|^p} - \frac{\sum_{u \in N_l} \lambda(v, u)|\lambda(v, u)|^p}{2 \sum_{u \in N_l} |\lambda(v, u)|^p}.
 \end{IEEEeqnarray*}
-Im Vergleich zu der originalen Version wurde hier ein sog. \emph{Lehmer-Mittel} \autocite{Bu03} verwendet, wobei dieses Variante auch für negative \(\lambda\) funktioniert.
+Im Vergleich zu der originalen Version wurde hier ein sog. \emph{Lehmer-Mittel} \autocite{Bu03} verwendet, wobei diese Variante auch für negative \(\lambda\) funktioniert.
 
-Da diese methodischen Optimierungen erst während des Schreibprozesses gefunden wurden, konnten sie nicht zeitlich implementiert werden, jedoch wären sie wichtige Chancen, um CorpusDiff in der Zukunft zu verbessern.
+Da diese methodischen Optimierungen erst während des Schreibprozesses gefunden wurden, konnten sie nicht rechtzeitig implementiert werden, jedoch wären sie wichtige Chancen, um CorpusDiff in der Zukunft zu verbessern.
 Weitere Ideen und Ansätze sind in \autoref{subsec:4.1} zu finden.
 
 Ein anderes identifiziertes Problem lag in NottDeuYTSch direkt vor.
@@ -521,12 +518,12 @@ Dies erklärt das plötzliche Auftreten der Themen \emph{apfelkuchen\_\dots\_äp
 Für zukünftige Analysen sollten monatliche Aggregate, Cluster-robuste Verfahren oder Zeitreihenmodelle geprüft werden.
 
 \section{Fazit}
-In diesem Lehrforschungsprojekt wurden drei Techniken definiert und vorgestellt, um das NottDeuYTSch-Korpus zu analysieren im Blick des Wertewandels in der deutschen digitalen Kinder- und Jugendkultur.
-Während ein bag-of-words-Ansatz wenig Ergebnisse lieferte, ließen sich mittels eines NTM-Ansatzes und eines neu entwickelten Korpus-Vergleichs-Tools namens CorpusDiff leichte Entwicklungen der jugendlichen YouTube Kultur finden.
-Um auf die allgemeine Jugendkultur zu schließen suggerieren diese Ergebnisse leichte Wertewandel.
+In diesem Lehrforschungsprojekt wurden drei Techniken definiert und vorgestellt, um das NottDeuYTSch-Korpus im Hinblick auf den Wertewandel in der deutschen digitalen Jugendkultur zu analysieren (\textbf{F1}).
+Während mittels einem bag-of-words-Ansatz und BERTopic nur ein plattformbezogener Einblick in jugendliche YouTube-Kultur gefunden werden konnte, ließen sich mittels eines neu entwickelten Korpus-Vergleichs-Verfahren namens CorpusDiff statistisch messbare Entwicklungen finden.
+Um auf die allgemeine Jugendkultur zu schließen, suggerieren diese Ergebnisse einen leichten Wertewandel (\textbf{F2}).
 Durch die geringen Korrelationen sollten die Ergebnisse durch qualitative und quantitative Folgestudien, siehe \autoref{subsec:4.1}, validiert werden, um ein genaueres Bild der Werteentwicklung der Jugendkultur zu finden.
 
-Medienpädagogisch zeigt die Arbeit, dass Wertewandel in digitalen Jugendkulturen nicht top-down als Vermittlung von Erwachsenenwerten verstanden werden sollte.
+Medienpädagogisch zeigt die Arbeit (\textbf{F3}), dass Wertewandel in digitalen Jugendkulturen nicht top-down als Vermittlung von Erwachsenenwerten verstanden werden sollte.
 Jugendliche agieren in Peer- und Mikrokulturen digitaler Räume, fokussieren sich aber hauptsächlich auf eine Peer-Kultur in der Werte, wenn dann, nur sekundär oder unterbewusst ausgehandelt werden.
 Stattdessen herrscht eine Dominanz von plattformbezogenen Themen, welche die Peer-Kultur definieren.
 Eine pädagogische Begleitung sollte daher auf reflexive Auseinandersetzung, Medienkritik, Teilhabe und die Förderung von Ambiguitätstoleranz zielen.
@@ -540,9 +537,9 @@ Weitere, nicht in dieser Arbeit verwendete Datensätze und Ansätze sind in der 
 \begin{description}
     \item[Qbias] \emph{Qbias} \autocite{HS23} besteht aus zwei Datensätzen, von denen der erste jeweils 21 tausend US-amerikanische Nachrichtenartikel als entweder politisch \emph{links}, \emph{mittig}, und \emph{rechts} einstuft.
         Für diese Arbeit hilft dieser Datensatz, da er mittels RoBERTa in vektorielle Form gebracht werden kann, um eine Skala zu definieren, die Texte aus NottDeuYTSch politisch einordnen kann.
-        Ähnlich wie bei PoliTweets ergibt sich das Problem, dass die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube Jugendsprache gleicht.
+        Ähnlich wie bei PoliTweets ergibt sich das Problem, dass die Sprache von US-amerikanischen Journalisten nicht der deutschen YouTube-Jugendsprache gleicht.
 
-    \item[Aksenov et. al.] \textcite{Aks21} verwendet einen ähnlichen Datensatz wie Qbias, nur, dass stattdessen deutsche Nachrichtenartikel gesammelt wurden.
+    \item[Aksenov et al.] \textcite{Aks21} verwendet einen ähnlichen Datensatz wie Qbias, nur, dass stattdessen deutsche Nachrichtenartikel gesammelt wurden.
         Ähnlich wie Qbias wurden die einzelnen Texte auf eine politische Skala gesetzt.
         Bei \textcite{Aks21} sind diese Labels \emph{links-extrem}, \emph{links}, \emph{mittig}, \emph{rechts}, \emph{rechts-extrem}.
         Somit eignet sich dieser Datensatz als ein weiterer Vergleichskorpus.
@@ -568,5 +565,5 @@ Die zugehörigen Quelldateien dieser Hausarbeit sowie ihr Text und ihre gewünsc
 
 Der Programmcode wurde auf einem Arch Linux System getestet mit 32 Gigabyte RAM, 100 Gigabyte Swapspace, einer RX 7900 XTX GPU, und einer Ryzen 9 5950X CPU.
 
-Beim Erstellen dieser Hausarbeit wurde generative KI im Zuge des Probelesens, der Quellfindung, der Recherche nach Pädagogischen Leittheorien, und der Überarbeitung des Quellcodes verwendet.
+Beim Erstellen dieser Hausarbeit wurde generative KI im Zuge des Probelesens, der Quellfindung, der Recherche nach pädagogischen Leittheorien und der Überarbeitung des Quellcodes verwendet.
 \end{document}
