@@ -29,24 +29,6 @@ pip install pandas numpy seaborn matplotlib scipy tqdm sentence_transformers tor
 ./corpusdiff.py main_corpus diff_corpus [huggingface_model]
 ```
 
-> **Note:** You'll need the actual corpus data, e.g., `ndy_utf8.tsv` and `politweets_v02.csv`, to reproduce the papers results.
-> These are not included in the repo!
-
----
-
-## Main Results for CorpusDiff
-
-| Dimension            | Correlation | Avg. Change per Quarter |
-| -------------------- | ----------- | ----------------------- |
-| Internationalism     | +0.166      | +0.044                  |
-| Europe               | +0.158      | +0.040                  |
-| Traditional Morality | -0.083      | -0.020                  |
-| Constitution         | -0.083      | -0.023                  |
-
-_Values are Pearson correlation coefficients with 95% confidence intervals_.
-
----
-
 ## CorpusDiff Pipeline
 
 1. **Embedd** NottDeuYTSch and Politweets with RoBERTa
@@ -55,8 +37,7 @@ _Values are Pearson correlation coefficients with 95% confidence intervals_.
 4. **Analyse** Pearson correlations and linear regression slopes
 5. **Visualize** using lineplots
 
-The full methodology is documented in the accompanying paper [`ha.tex`](ha.tex) _(PDF TO FOLLOW WHEN IT IS FINISHED)_
-
+The full methodology is documented in the accompanying paper, see `paper` branch.
 ---
 
 ## Roadmap
@@ -73,7 +54,7 @@ If you use CorpusDiff in your own research or want to cite its unofficial paper,
 ```bibtex
 @unpublished{Hey26,
   author      = {Henri Heyden},
-  title       = {Wertewandel in Digitaler Kinder- und Jugendkultur},
+  title       = {Eine Analyse der digitalen Jugendkultur},
   institution = {Christian-Albrechts-Universität zu Kiel},
   year        = {2026},
   url         = {https://github.com/CrazyDiamond-75/CorpusDiff}
